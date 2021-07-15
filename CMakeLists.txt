@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # Note: update this to your new project's name and version
 project(
-  Greeter
+  NetOptimCpp
   VERSION 1.0
   LANGUAGES CXX
 )
@@ -26,36 +26,56 @@ include(cmake/CPM.cmake)
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
 
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 7.1.3
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES" # create an installable target
-)
+find_package(fmt QUIET)
+if (fmt_FOUND)
+  message(STATUS "Found fmt: ${fmt_INCLUDE_DIR}")
+else()
+  CPMAddPackage(
+    NAME fmt
+    GIT_TAG 7.1.3
+    GITHUB_REPOSITORY fmtlib/fmt
+    OPTIONS "FMT_INSTALL YES" # create an installable target
+  )
+endif (fmt_FOUND)
+
+# CPMAddPackage("gh:luk036/xn-cpp@1.0.1")
+
+find_package(XNCpp REQUIRED)
+# if (XNCpp_FOUND)
+#   message(STATUS "Found XNCpp: ${XNCpp_INCLUDE_DIR}")
+# else()
+#   CPMAddPackage("gh:luk036/xn-cpp@1.0.1")
+# endif (XNCpp_FOUND)
+
+find_package (Boost REQUIRED COMPONENTS coroutine context system)
+if (Boost_FOUND)
+    message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
+    include_directories(${Boost_INCLUDE_DIRS})
+endif (Boost_FOUND)
 
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files
 # automatically. Keep that in mind when changing files, or explicitly mention them here.
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface
-# target: add_library(Greeter INTERFACE)
-add_library(Greeter ${headers} ${sources})
+# target: add_library(NetOptimCpp INTERFACE)
+add_library(NetOptimCpp ${headers} ${sources})
 
-set_target_properties(Greeter PROPERTIES CXX_STANDARD 17)
+set_target_properties(NetOptimCpp PROPERTIES CXX_STANDARD 17)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
-target_compile_options(Greeter PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
+target_compile_options(NetOptimCpp PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(Greeter PRIVATE fmt::fmt)
+target_link_libraries(NetOptimCpp PRIVATE XNCpp::XNCpp ${Boost_LIBRARIES} fmt::fmt)
 
 target_include_directories(
-  Greeter PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  NetOptimCpp PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                  $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 

@@ -1,21 +1,21 @@
 #include <doctest/doctest.h>
-#include <greeter/greeter.h>
-#include <greeter/version.h>
+#include <netoptim/greeter.h>
+#include <netoptim/version.h>
 
 #include <string>
 
-TEST_CASE("Greeter") {
-  using namespace greeter;
+TEST_CASE("NetOptimCpp") {
+  using namespace netoptim;
 
-  Greeter greeter("Tests");
+  NetOptimCpp netoptim("Tests");
 
-  CHECK(greeter.greet(LanguageCode::EN) == "Hello, Tests!");
-  CHECK(greeter.greet(LanguageCode::DE) == "Hallo Tests!");
-  CHECK(greeter.greet(LanguageCode::ES) == "¡Hola Tests!");
-  CHECK(greeter.greet(LanguageCode::FR) == "Bonjour Tests!");
+  CHECK(netoptim.greet(LanguageCode::EN) == "Hello, Tests!");
+  CHECK(netoptim.greet(LanguageCode::DE) == "Hallo Tests!");
+  CHECK(netoptim.greet(LanguageCode::ES) == "¡Hola Tests!");
+  CHECK(netoptim.greet(LanguageCode::FR) == "Bonjour Tests!");
 }
 
-TEST_CASE("Greeter version") {
-  static_assert(std::string_view(GREETER_VERSION) == std::string_view("1.0"));
-  CHECK(std::string(GREETER_VERSION) == std::string("1.0"));
+TEST_CASE("NetOptimCpp version") {
+  static_assert(std::string_view(NETOPTIMCPP_VERSION) == std::string_view("1.0"));
+  CHECK(std::string(NETOPTIMCPP_VERSION) == std::string("1.0"));
 }
