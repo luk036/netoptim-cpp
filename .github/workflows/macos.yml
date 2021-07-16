@@ -29,14 +29,14 @@ jobs:
       - name: Install dependencies
         run: brew install boost
           
-      - name: Build and Install XNCpp
-        run: |
-          git clone https://github.com/luk036/xn-cpp.git
-          cd xn-cpp
-          cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target install
-          rm -rf build
-          cd ..
+      # - name: Build and Install XNetwork
+      #   run: |
+      #     git clone https://github.com/luk036/xn-cpp.git
+      #     cd xn-cpp
+      #     cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+      #     cmake --build build --target install
+      #     rm -rf build
+      #     cd ..
 
       - name: configure
         run: cmake -Stest -Bbuild -DCMAKE_BUILD_TYPE=Debug

@@ -4,18 +4,18 @@
 
 #include <string>
 
-TEST_CASE("NetOptimCpp") {
-  using namespace netoptim;
+TEST_CASE("NetOptim") {
+    using namespace netoptim;
 
-  NetOptimCpp netoptim("Tests");
+    NetOptim netoptim("Tests");
 
-  CHECK(netoptim.greet(LanguageCode::EN) == "Hello, Tests!");
-  CHECK(netoptim.greet(LanguageCode::DE) == "Hallo Tests!");
-  CHECK(netoptim.greet(LanguageCode::ES) == "¡Hola Tests!");
-  CHECK(netoptim.greet(LanguageCode::FR) == "Bonjour Tests!");
+    CHECK(netoptim.greet(LanguageCode::EN) == "Hello, Tests!");
+    CHECK(netoptim.greet(LanguageCode::DE) == "Hallo Tests!");
+    CHECK(netoptim.greet(LanguageCode::ES) == "¡Hola Tests!");
+    CHECK(netoptim.greet(LanguageCode::FR) == "Bonjour Tests!");
 }
 
-TEST_CASE("NetOptimCpp version") {
-  static_assert(std::string_view(NETOPTIMCPP_VERSION) == std::string_view("1.0"));
-  CHECK(std::string(NETOPTIMCPP_VERSION) == std::string("1.0"));
+TEST_CASE("NetOptim version") {
+    static_assert(std::string_view(NETOPTIM_VERSION) == std::string_view("1.0"));
+    CHECK(std::string(NETOPTIM_VERSION) == std::string("1.0"));
 }

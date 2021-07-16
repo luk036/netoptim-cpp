@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(NetOptimCppTests LANGUAGES CXX)
+project(NetOptimTests LANGUAGES CXX)
 
 # ---- Options ----
 
@@ -18,50 +18,53 @@ include(../cmake/CPM.cmake)
 CPMAddPackage("gh:onqtam/doctest#2.4.5")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.0")
 
-find_package(XNCpp REQUIRED)
-  
-find_package (Boost REQUIRED COMPONENTS coroutine context system)
-if (Boost_FOUND)
-    message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
-    include_directories(${Boost_INCLUDE_DIRS})
-endif (Boost_FOUND)
+include(../cmake/specific.cmake)
 
 if(TEST_INSTALLED_VERSION)
-  find_package(NetOptimCpp REQUIRED)  
+  find_package(NetOptim REQUIRED)
 else()
-  CPMAddPackage(NAME NetOptimCpp SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
+  CPMAddPackage(NAME NetOptim SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 endif()
 
 # ---- Create binary ----
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
-add_executable(NetOptimCppTests ${sources})
-target_link_libraries(NetOptimCppTests doctest::doctest XNCpp::XNCpp NetOptimCpp::NetOptimCpp ${Boost_LIBRARIES})
-set_target_properties(NetOptimCppTests PROPERTIES CXX_STANDARD 17)
+add_executable(NetOptimTests ${sources})
+target_link_libraries(
+  NetOptimTests
+  doctest::doctest
+  NetOptim::NetOptim
+  XNetwork::XNetwork
+  Boost::boost
+  cppcoro::cppcoro
+  Threads::Threads
+)
+set_target_properties(NetOptimTests PROPERTIES CXX_STANDARD 20)
 
 # enable compiler warnings
 if(NOT TEST_INSTALLED_VERSION)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(NetOptimCpp PUBLIC -Wall -Wpedantic -Wextra -Werror)
+    target_compile_options(NetOptim PUBLIC -Wall -Wpedantic -Wextra -Werror)
   elseif(MSVC)
-    target_compile_options(NetOptimCpp PUBLIC /W4 /WX)
-    target_compile_definitions(NetOptimCppTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
+    target_compile_options(NetOptim PUBLIC /W4 /WX)
+    target_compile_definitions(NetOptimTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
   endif()
 endif()
 
-# ---- Add NetOptimCppTests ----
+# ---- Add NetOptimTests ----
 
 enable_testing()
 
 # Note: doctest and similar testing frameworks can automatically configure CMake tests. For other
-# testing frameworks add the tests target instead: add_test(NAME netoptimTests COMMAND NetOptimCppTests)
+# testing frameworks add the tests target instead: add_test(NAME netoptimTests COMMAND
+# NetOptimTests)
 
 include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
-doctest_discover_tests(NetOptimCppTests)
+doctest_discover_tests(NetOptimTests)
 
 # ---- code coverage ----
 
 if(ENABLE_TEST_COVERAGE)
-  target_compile_options(NetOptimCpp PUBLIC -O0 -g -fprofile-arcs -ftest-coverage)
-  target_link_options(NetOptimCpp PUBLIC -fprofile-arcs -ftest-coverage)
+  target_compile_options(NetOptim PUBLIC -O0 -g -fprofile-arcs -ftest-coverage)
+  target_link_options(NetOptim PUBLIC -fprofile-arcs -ftest-coverage)
 endif()
