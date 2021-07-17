@@ -52,22 +52,23 @@ file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface
-# target: add_library(NetOptim INTERFACE)
-add_library(NetOptim ${headers} ${sources})
+# target:
+add_library(NetOptim INTERFACE)
+# add_library(NetOptim ${headers} ${sources})
 
 set_target_properties(NetOptim PROPERTIES CXX_STANDARD 20)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
-target_compile_options(NetOptim PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
+target_compile_options(NetOptim INTERFACE "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
 target_link_libraries(
-  NetOptim PRIVATE XNetwork::XNetwork Boost::boost cppcoro::cppcoro Threads::Threads fmt::fmt
+  NetOptim INTERFACE XNetwork::XNetwork Boost::boost cppcoro::cppcoro Threads::Threads fmt::fmt
 )
 
 target_include_directories(
-  NetOptim PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-                  $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+  NetOptim INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+                     $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
 # ---- Create an installable target ----

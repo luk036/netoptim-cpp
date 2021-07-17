@@ -46,8 +46,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    netoptim::NetOptim netoptim(name);
-    std::cout << netoptim.greet(langIt->second) << std::endl;
+    // netoptim::NetOptim netoptim(name);
+    // std::cout << netoptim.greet(langIt->second) << std::endl;
 
     return 0;
 }
