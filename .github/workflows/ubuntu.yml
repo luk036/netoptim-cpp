@@ -12,7 +12,7 @@ on:
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  CODECOV_TOKEN: "34846f6f-08f3-4be4-aec7-71af51c605f5"
   CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
 
 jobs:
@@ -27,18 +27,14 @@ jobs:
           path: "**/cpm_modules"
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
+      - name: Before Install
+        run: |
+          sudo apt-get install g++-10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 90 
+
       - name: Install dependencies
-        run: sudo apt-get install libboost-all-dev
-          
-      # - name: Build and Install XNetwork
-      #   run: |
-      #     git clone https://github.com/luk036/xn-cpp.git
-      #     cd xn-cpp
-      #     cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
-      #     sudo cmake --build build --target install
-      #     rm -rf build
-      #     cd ..
-          
+        run: sudo apt-get install libboost-dev
+                    
       - name: configure
         run: cmake -Stest -Bbuild -DENABLE_TEST_COVERAGE=1 -DCMAKE_BUILD_TYPE=Debug
 
