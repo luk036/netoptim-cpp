@@ -38,7 +38,7 @@ else()
   )
 endif(fmt_FOUND)
 
-include(cmake/specific.cmake)
+# include(cmake/specific.cmake)
 
 # ---- Add source files ----
 
@@ -62,9 +62,7 @@ set_target_properties(NetOptim PROPERTIES CXX_STANDARD 20)
 target_compile_options(NetOptim INTERFACE "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(
-  NetOptim INTERFACE XNetwork::XNetwork Boost::boost cppcoro::cppcoro Threads::Threads fmt::fmt
-)
+target_link_libraries(NetOptim INTERFACE fmt::fmt)
 
 target_include_directories(
   NetOptim INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
