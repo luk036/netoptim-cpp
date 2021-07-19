@@ -16,7 +16,7 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES NO" "CXXOPTS_BUILD_TESTS NO" "CXXOPTS_ENABLE_INSTALL YES"
 )
 
-include(../cmake/specific.cmake)
+include(../specific.cmake)
 
 CPMAddPackage(NAME NetOptim SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 

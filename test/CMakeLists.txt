@@ -18,7 +18,7 @@ include(../cmake/CPM.cmake)
 CPMAddPackage("gh:onqtam/doctest#2.4.5")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.0")
 
-include(../cmake/specific.cmake)
+include(../specific.cmake)
 
 if(TEST_INSTALLED_VERSION)
   find_package(NetOptim REQUIRED)
@@ -59,8 +59,7 @@ enable_testing()
 # testing frameworks add the tests target instead: add_test(NAME netoptimTests COMMAND
 # NetOptimTests)
 
-include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
-doctest_discover_tests(NetOptimTests)
+add_test(NAME netoptimTests COMMAND NetOptimTests)
 
 # ---- code coverage ----
 

@@ -1,12 +1,7 @@
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-find_package(XNetwork QUIET)
-if(XNetwork_FOUND)
-  message(STATUS "Found XNetwork: ${XNetwork_INCLUDE_DIR}")
-else()
-  CPMAddPackage("gh:luk036/xn-cpp#1.0.3")
-endif(XNetwork_FOUND)
+CPMAddPackage("gh:luk036/xnetwork-cpp#1.0.8")
 
 find_package(Boost REQUIRED)
 if(Boost_FOUND)
