@@ -1,6 +1,13 @@
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
+CPMAddPackage(
+  NAME fmt
+  GIT_TAG 7.1.3
+  GITHUB_REPOSITORY fmtlib/fmt
+  OPTIONS "FMT_INSTALL YES" # create an installable target
+)
+
 CPMAddPackage("gh:luk036/xnetwork-cpp#1.0.8")
 
 find_package(Boost REQUIRED)
@@ -34,3 +41,5 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   # using Visual Studio C++
   add_compile_options(/std:c++latest /await)
 endif()
+
+set(SPECIFIC_LIBS XNetwork::XNetwork Boost::boost cppcoro::cppcoro Threads::Threads fmt::fmt)

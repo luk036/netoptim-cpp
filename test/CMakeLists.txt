@@ -30,15 +30,7 @@ endif()
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 add_executable(NetOptimTests ${sources})
-target_link_libraries(
-  NetOptimTests
-  doctest::doctest
-  NetOptim::NetOptim
-  XNetwork::XNetwork
-  Boost::boost
-  cppcoro::cppcoro
-  Threads::Threads
-)
+target_link_libraries(NetOptimTests doctest::doctest NetOptim::NetOptim ${SPECIFIC_LIBS})
 set_target_properties(NetOptimTests PROPERTIES CXX_STANDARD 20)
 
 # enable compiler warnings

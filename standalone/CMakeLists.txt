@@ -28,12 +28,4 @@ add_executable(NetOptimStandalone ${sources})
 
 set_target_properties(NetOptimStandalone PROPERTIES CXX_STANDARD 20 OUTPUT_NAME "NetOptim")
 
-target_link_libraries(
-  NetOptimStandalone
-  NetOptim::NetOptim
-  cxxopts
-  XNetwork::XNetwork
-  Boost::boost
-  cppcoro::cppcoro
-  Threads::Threads
-)
+target_link_libraries(NetOptimStandalone NetOptim::NetOptim cxxopts ${SPECIFIC_LIBS})

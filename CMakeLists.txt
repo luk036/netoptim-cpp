@@ -26,19 +26,7 @@ include(cmake/CPM.cmake)
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
 
-find_package(fmt QUIET)
-if(fmt_FOUND)
-  message(STATUS "Found fmt: ${fmt_INCLUDE_DIR}")
-else()
-  CPMAddPackage(
-    NAME fmt
-    GIT_TAG 7.1.3
-    GITHUB_REPOSITORY fmtlib/fmt
-    OPTIONS "FMT_INSTALL YES" # create an installable target
-  )
-endif(fmt_FOUND)
-
-# include(specific.cmake)
+include(specific.cmake)
 
 # ---- Add source files ----
 
@@ -62,7 +50,7 @@ set_target_properties(NetOptim PROPERTIES CXX_STANDARD 20)
 target_compile_options(NetOptim INTERFACE "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(NetOptim INTERFACE fmt::fmt)
+target_link_libraries(NetOptim INTERFACE XNetwork::XNetwork)
 
 target_include_directories(
   NetOptim INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -85,5 +73,5 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "fmt 7.1.3"
+  DEPENDENCIES "XNetwork 1.0.8"
 )
