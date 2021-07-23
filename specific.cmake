@@ -8,7 +8,12 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage("gh:luk036/xnetwork-cpp#1.0.8")
+CPMAddPackage(
+  NAME XNetwork
+  GIT_TAG 1.0.9
+  GITHUB_REPOSITORY luk036/xnetwork-cpp
+  OPTIONS "INSTALL_ONLY ON" # create an installable target
+)
 
 find_package(Boost REQUIRED)
 if(Boost_FOUND)

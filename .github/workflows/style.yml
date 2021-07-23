@@ -35,7 +35,7 @@ jobs:
           brew install boost
 
       - name: configure
-        run: cmake -Stest -Bbuild
+        run: cmake -S. -Bbuild
 
       - name: check style
         run: cmake --build build --target check-format
