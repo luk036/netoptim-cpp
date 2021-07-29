@@ -12,7 +12,7 @@ using graph_t = boost::adjacency_list<
     boost::listS, boost::vecS, boost::directedS, boost::no_property,
     boost::property<boost::edge_weight_t, int, boost::property<boost::edge_index_t, int>>>;
 using Vertex = boost::graph_traits<graph_t>::vertex_descriptor;
-using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
+// using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
 static py::grAdaptor<graph_t> create_test_case1() {
     using Edge = std::pair<int, int>;

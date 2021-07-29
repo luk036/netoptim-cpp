@@ -23,7 +23,7 @@ using graph_t
     = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, boost::no_property,
                             boost::property<boost::edge_id_tag_t, size_t>>;
 using Vertex = typename boost::graph_traits<graph_t>::vertex_descriptor;
-using edge_t = typename boost::graph_traits<graph_t>::edge_iterator;
+// using Edge_it = typename boost::graph_traits<graph_t>::edge_iterator;
 
 static auto create_test_case1() {
     using Edge = std::pair<int, int>;
