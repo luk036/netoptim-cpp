@@ -1,9 +1,10 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include "network_oracle.hpp"
 #include <cassert>
 #include <xtensor/xarray.hpp>
+
+#include "network_oracle.hpp"
 
 /*!
  * @brief Oracle for Optimal Matrix Scaling.
@@ -19,9 +20,8 @@
  * @tparam Container
  * @tparam Fn
  */
-template <typename Graph, typename Container, typename Fn> //
-class optscaling_oracle
-{
+template <typename Graph, typename Container, typename Fn>  //
+class optscaling_oracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using edge_t = typename Graph::edge_t;
     using Cut = std::tuple<Arr, double>;
@@ -30,8 +30,7 @@ class optscaling_oracle
      * @brief Ratio
      *
      */
-    class Ratio
-    {
+    class Ratio {
       private:
         const Graph& _G;
         Fn _get_cost;
@@ -43,11 +42,7 @@ class optscaling_oracle
          * @param[in] G
          * @param[in] get_cost
          */
-        Ratio(const Graph& G, Fn get_cost)
-            : _G {G}
-            , _get_cost {std::move(get_cost)}
-        {
-        }
+        Ratio(const Graph& G, Fn get_cost) : _G{G}, _get_cost{std::move(get_cost)} {}
 
         /**
          * @brief Construct a new Ratio object (only explicitly)
@@ -62,8 +57,7 @@ class optscaling_oracle
          * @param[in] x $(\pi, \phi)$ in log scale
          * @return double
          */
-        auto eval(const edge_t& e, const Arr& x) const -> double
-        {
+        auto eval(const edge_t& e, const Arr& x) const -> double {
             const auto [u, v] = this->_G.end_points(e);
             const auto cost = this->_get_cost(e);
             assert(u != v);
@@ -77,11 +71,10 @@ class optscaling_oracle
          * @param[in] x $(\pi, \phi)$ in log scale
          * @return Arr
          */
-        auto grad(const edge_t& e, const Arr& ) const -> Arr
-        {
+        auto grad(const edge_t& e, const Arr&) const -> Arr {
             const auto [u, v] = this->_G.end_points(e);
             assert(u != v);
-            return (u < v) ? Arr {1., 0.} : Arr {0., -1.};
+            return (u < v) ? Arr{1., 0.} : Arr{0., -1.};
         }
     };
 
@@ -96,9 +89,7 @@ class optscaling_oracle
      * @param[in] get_cost
      */
     optscaling_oracle(const Graph& G, Container& u, Fn get_cost)
-        : _network(G, u, Ratio {G, get_cost})
-    {
-    }
+        : _network(G, u, Ratio{G, get_cost}) {}
 
     /**
      * @brief Construct a new optscaling oracle object
@@ -118,20 +109,17 @@ class optscaling_oracle
      *
      * @see cutting_plane_dc
      */
-    auto operator()(const Arr& x, double& t) -> std::tuple<Cut, bool>
-    {
+    auto operator()(const Arr& x, double& t) -> std::tuple<Cut, bool> {
         const auto cut = this->_network(x);
-        if (cut)
-        {
+        if (cut) {
             return {*cut, false};
         }
         auto s = x(0) - x(1);
         auto fj = s - t;
-        if (fj < 0)
-        {
+        if (fj < 0) {
             t = s;
-            return {{Arr {1., -1.}, 0.}, true};
+            return {{Arr{1., -1.}, 0.}, true};
         }
-        return {{Arr {1., -1.}, fj}, false};
+        return {{Arr{1., -1.}, fj}, false};
     }
 };

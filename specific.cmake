@@ -66,4 +66,6 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Boost::boost cppcoro::cppcoro Threads::Threads fmt::fmt)
+set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Boost::boost cppcoro::cppcoro
+                  Threads::Threads fmt::fmt
+)

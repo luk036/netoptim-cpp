@@ -3,7 +3,8 @@
 
 #include <ellalgo/utility.hpp>
 #include <optional>
-#include "neg_cycle.hpp" // import negCycleFinder
+
+#include "neg_cycle.hpp"  // import negCycleFinder
 
 /*!
  * @brief Oracle for Parametric Network Problem.
@@ -18,14 +19,12 @@
  * @tparam Container
  * @tparam Fn
  */
-template <typename Graph, typename Container, typename Fn>
-class network_oracle
-{
+template <typename Graph, typename Container, typename Fn> class network_oracle {
     using edge_t = typename Graph::edge_t;
 
   private:
     const Graph& _G;
-    Container& _u; // reference???
+    Container& _u;  // reference???
     negCycleFinder<Graph> _S;
     Fn _h;
 
@@ -37,13 +36,7 @@ class network_oracle
      * @param[in,out] u list or dictionary
      * @param[in] h function evaluation and gradient
      */
-    network_oracle(const Graph& G, Container& u, Fn h)
-        : _G {G}
-        , _u {u}
-        , _S(G)
-        , _h {std::move(h)}
-    {
-    }
+    network_oracle(const Graph& G, Container& u, Fn h) : _G{G}, _u{u}, _S(G), _h{std::move(h)} {}
 
     /**
      * @brief Construct a new network oracle object
@@ -59,11 +52,7 @@ class network_oracle
      *
      * @param[in] t the best-so-far optimal value
      */
-    template <typename opt_type>
-    auto update(const opt_type& t) -> void
-    {
-        this->_h.update(t);
-    }
+    template <typename opt_type> auto update(const opt_type& t) -> void { this->_h.update(t); }
 
     /*!
      * @brief Make object callable for cutting_plane_feas()
@@ -72,22 +61,17 @@ class network_oracle
      * @param[in] x
      * @return std::optional<std::tuple<T, double>>
      */
-    template <typename T>
-    auto operator()(const T& x) -> std::optional<std::tuple<T, double>>
-    {
-        auto get_weight = [this, &x](const edge_t& e) -> double
-        { return this->_h.eval(e, x); };
+    template <typename T> auto operator()(const T& x) -> std::optional<std::tuple<T, double>> {
+        auto get_weight = [this, &x](const edge_t& e) -> double { return this->_h.eval(e, x); };
 
         auto C = this->_S.find_neg_cycle(this->_u, get_weight);
-        if (C.empty())
-        {
+        if (C.empty()) {
             return {};
         }
 
         auto g = zeros(x);
         auto f = 0.;
-        for (auto&& e : C)
-        {
+        for (auto&& e : C) {
             f -= this->_h.eval(e, x);
             g -= this->_h.grad(e, x);
         }
