@@ -10,7 +10,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.0.13
+  GIT_TAG 1.0.14
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
@@ -47,4 +47,11 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options(/std:c++latest /await)
 endif()
 
-set(SPECIFIC_LIBS XNetwork::XNetwork Boost::boost cppcoro::cppcoro Threads::Threads fmt::fmt)
+CPMAddPackage(
+  NAME EllAlgo
+  GIT_TAG 1.0.3
+  GITHUB_REPOSITORY luk036/ellalgo-cpp
+  OPTIONS "INSTALL_ONLY YES" # create an installable target
+)
+
+set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Boost::boost cppcoro::cppcoro Threads::Threads fmt::fmt)
