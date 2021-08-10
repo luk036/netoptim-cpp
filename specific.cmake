@@ -8,13 +8,6 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage(
-  NAME XNetwork
-  GIT_TAG 1.0.15
-  GITHUB_REPOSITORY luk036/xnetwork-cpp
-  OPTIONS "INSTALL_ONLY ON" # create an installable target
-)
-
 find_package(Boost REQUIRED)
 if(Boost_FOUND)
   message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
@@ -47,6 +40,13 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options(/std:c++latest /await)
 endif()
 
+CPMAddPackage(
+  NAME XNetwork
+  GIT_TAG 1.0.15
+  GITHUB_REPOSITORY luk036/xnetwork-cpp
+  OPTIONS "INSTALL_ONLY ON" # create an installable target
+)
+
 CPMAddPackage("gh:xtensor-stack/xtl#0.6.23")
 if(xtl_ADDED)
   message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
@@ -59,6 +59,8 @@ if(xtensor_ADDED)
   include_directories(${xtensor_SOURCE_DIR}/include)
 endif(xtensor_ADDED)
 
+CPMAddPackage("gh:microsoft/GSL@3.1.0")
+
 CPMAddPackage(
   NAME EllAlgo
   GIT_TAG 1.0.3
@@ -67,5 +69,5 @@ CPMAddPackage(
 )
 
 set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Boost::boost cppcoro::cppcoro
-                  Threads::Threads fmt::fmt
+                  Threads::Threads fmt::fmt GSL
 )
