@@ -19,6 +19,7 @@ endif()
 
 CPMAddPackage(
   NAME cppcoro
+  GIT_TAG 1.0
   GITHUB_REPOSITORY luk036/cppcoro
 )
 # print_target_properties(cppcoro)
