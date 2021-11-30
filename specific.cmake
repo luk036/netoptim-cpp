@@ -65,24 +65,16 @@ if(xtensor_ADDED)
   include_directories(${xtensor_SOURCE_DIR}/include)
 endif(xtensor_ADDED)
 
-cpmaddpackage("gh:microsoft/GSL@3.1.0")
-
 cpmaddpackage(
   NAME
   EllAlgo
   GIT_TAG
-  1.0.3
+  1.1
   GITHUB_REPOSITORY
   luk036/ellalgo-cpp
   OPTIONS
   "INSTALL_ONLY YES" # create an installable target
 )
 
-set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo
-    XNetwork::XNetwork
-    Boost::boost
-    cppcoro::cppcoro
-    Threads::Threads
-    fmt::fmt
-    GSL)
+set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Boost::boost
+                  cppcoro::cppcoro Threads::Threads fmt::fmt)
