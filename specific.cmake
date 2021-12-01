@@ -44,9 +44,20 @@ endif()
 
 cpmaddpackage(
   NAME
+  Py2Cpp
+  GIT_TAG
+  1.0
+  GITHUB_REPOSITORY
+  luk036/py2cpp
+  OPTIONS
+  "INSTALL_ONLY ON" # create an installable target
+)
+
+cpmaddpackage(
+  NAME
   XNetwork
   GIT_TAG
-  1.0.16
+  1.1
   GITHUB_REPOSITORY
   luk036/xnetwork-cpp
   OPTIONS
@@ -76,5 +87,5 @@ cpmaddpackage(
   "INSTALL_ONLY YES" # create an installable target
 )
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Boost::boost
+set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Py2Cpp::Py2Cpp Boost::boost
                   cppcoro::cppcoro Threads::Threads fmt::fmt)
