@@ -44,9 +44,20 @@ endif()
 
 cpmaddpackage(
   NAME
+  Py2Cpp
+  GIT_TAG
+  1.0
+  GITHUB_REPOSITORY
+  luk036/py2cpp
+  OPTIONS
+  "INSTALL_ONLY ON" # create an installable target
+)
+
+cpmaddpackage(
+  NAME
   XNetwork
   GIT_TAG
-  1.0.16
+  1.1
   GITHUB_REPOSITORY
   luk036/xnetwork-cpp
   OPTIONS
@@ -65,24 +76,16 @@ if(xtensor_ADDED)
   include_directories(${xtensor_SOURCE_DIR}/include)
 endif(xtensor_ADDED)
 
-cpmaddpackage("gh:microsoft/GSL@3.1.0")
-
 cpmaddpackage(
   NAME
   EllAlgo
   GIT_TAG
-  1.0.3
+  1.1
   GITHUB_REPOSITORY
   luk036/ellalgo-cpp
   OPTIONS
   "INSTALL_ONLY YES" # create an installable target
 )
 
-set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo
-    XNetwork::XNetwork
-    Boost::boost
-    cppcoro::cppcoro
-    Threads::Threads
-    fmt::fmt
-    GSL)
+set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Py2Cpp::Py2Cpp Boost::boost
+                  cppcoro::cppcoro Threads::Threads fmt::fmt)
