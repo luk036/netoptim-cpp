@@ -87,5 +87,11 @@ cpmaddpackage(
   "INSTALL_ONLY YES" # create an installable target
 )
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo XNetwork::XNetwork Py2Cpp::Py2Cpp Boost::boost
-                  cppcoro::cppcoro Threads::Threads fmt::fmt)
+set(SPECIFIC_LIBS
+    EllAlgo::EllAlgo
+    XNetwork::XNetwork
+    Py2Cpp::Py2Cpp
+    Boost::boost
+    cppcoro::cppcoro
+    Threads::Threads
+    fmt::fmt)
