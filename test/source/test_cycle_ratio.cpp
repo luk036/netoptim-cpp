@@ -1,12 +1,19 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
-#include <array>
-#include <netoptim/min_cycle_ratio.hpp>
-#include <py2cpp/fractions.hpp>  // import Fraction
+#include <array>                              // for array
+#include <cppcoro/generator.hpp>              // for operator!=, generator
+#include <netoptim/min_cycle_ratio.hpp>       // for min_cycle_ratio
+#include <py2cpp/dict.hpp>                    // for dict
+#include <py2cpp/enumerate.hpp>               // for iterable_wrapper
+#include <py2cpp/fractions.hpp>               // for Fraction, operator-
+#include <xnetwork/classes/digraphs.hpp>      // for DiGraphS
+#include <xnetwork/generators/testcases.hpp>  // for create_test_case1, crea...
 // #include <xnetwork/classes/digraphs.hpp>
-#include <iostream>
-#include <xnetwork/generators/testcases.hpp>
+#include <cstdint>        // for uint32_t
+#include <iostream>       // for operator<<
+#include <unordered_map>  // for operator!=
+#include <vector>         // for vector
 
 TEST_CASE("Test Cycle Ratio") {
     const auto indices = std::array<uint32_t, 5>{0, 1, 2, 3, 4};

@@ -1,15 +1,23 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
-#include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <netoptim/min_cycle_ratio.hpp>  // import min_cycle_ratio, set_default
-#include <py2cpp/fractions.hpp>          // import Fraction
-#include <py2cpp/nx2bgl.hpp>
-#include <utility>  // for std::pair
-#include <vector>
+#include <boost/graph/adjacency_list.hpp>         // for vecS (ptr only)
+#include <boost/graph/detail/adjacency_list.hpp>  // for vertices, get, out_...
+#include <boost/graph/graph_selectors.hpp>        // for directedS
+#include <boost/graph/graph_traits.hpp>           // for graph_traits, graph...
+#include <boost/graph/properties.hpp>             // for edge_property_tag
+#include <boost/iterator/iterator_facade.hpp>     // for operator!=, operator==
+#include <boost/move/utility_core.hpp>            // for move
+#include <boost/pending/property.hpp>             // for no_property, property
+#include <boost/property_map/property_map.hpp>    // for get, iterator_prope...
+#include <cstddef>                                // for size_t
+#include <netoptim/min_cycle_ratio.hpp>           // for min_cycle_ratio
+#include <ostream>                                // for operator<<
+#include <py2cpp/fractions.hpp>                   // for Fraction, operator-
+#include <py2cpp/nx2bgl.hpp>                      // for grAdaptor, EdgeView
+#include <type_traits>                            // for move
+#include <utility>                                // for pair
+#include <vector>                                 // for vector
 // from fractions import Fraction
 
 namespace boost {

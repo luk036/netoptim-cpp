@@ -1,11 +1,16 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
+#include <doctest/doctest.h>  // for ResultBuilder, TestCase
 
-#include <array>
-#include <netoptim/neg_cycle.hpp>  // import negCycleFinder
-#include <vector>
+#include <netoptim/neg_cycle.hpp>  // for negCycleFinder
 // #include <xnetwork/classes/digraphs.hpp>
-#include <xnetwork/generators/testcases.hpp>
+#include <array>                              // for array
+#include <cppcoro/generator.hpp>              // for operator!=, generator
+#include <py2cpp/dict.hpp>                    // for dict
+#include <py2cpp/enumerate.hpp>               // for iterable_wrapper
+#include <unordered_map>                      // for operator!=
+#include <vector>                             // for vector
+#include <xnetwork/classes/digraphs.hpp>      // for DiGraphS
+#include <xnetwork/generators/testcases.hpp>  // for create_test_case1, crea...
 
 /*!
  * @brief

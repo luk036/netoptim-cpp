@@ -1,18 +1,32 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
-#include <algorithm>
-#include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <ellalgo/cutting_plane.hpp>
-#include <ellalgo/ell.hpp>
+#include <boost/graph/adjacency_list.hpp>       // for vecS (ptr only)
+#include <boost/graph/graph_traits.hpp>         // for graph_traits, graph...
+#include <boost/graph/properties.hpp>           // for edge_property_tag
+#include <boost/property_map/property_map.hpp>  // for get, iterator_prope...
+#include <ellalgo/cutting_plane.hpp>            // for cutting_plane_dc
+#include <ellalgo/ell.hpp>                      // for ell
 // #include <ellcpp/ell1d.hpp>
-#include <netoptim/optscaling_oracle.hpp>  // import optscaling
-#include <py2cpp/nx2bgl.hpp>
-#include <utility>  // for std::pair
-#include <xtensor/xarray.hpp>
+#include <algorithm>                              // for minmax_element
+#include <boost/graph/detail/adjacency_list.hpp>  // for vertices, get, out_...
+#include <boost/graph/graph_selectors.hpp>        // for directedS
+#include <boost/iterator/iterator_facade.hpp>     // for operator!=, operator==
+#include <boost/move/utility_core.hpp>            // for move
+#include <boost/pending/property.hpp>             // for no_property, property
+#include <cmath>                                  // for abs, log
+#include <cstddef>                                // for size_t
+#include <iterator>                               // for begin, end
+#include <netoptim/optscaling_oracle.hpp>         // for optscaling_oracle
+#include <py2cpp/nx2bgl.hpp>                      // for grAdaptor, EdgeView
+#include <tuple>                                  // for tuple_element<>::type
+#include <type_traits>                            // for move, add_const<>::...
+#include <utility>                                // for pair
+#include <vector>                                 // for vector
+#include <xtensor/xaccessible.hpp>                // for xconst_accessible
+#include <xtensor/xlayout.hpp>                    // for layout_type, layout...
+#include <xtensor/xoperation.hpp>                 // for operator-
+#include <xtensor/xtensor_forward.hpp>            // for xarray
 
 namespace boost {
 
