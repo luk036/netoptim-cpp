@@ -9,21 +9,20 @@
 #include <queue>
 #include <stdexcept>
 #include <thread>
-#include <type_traits>
 #include <vector>
 
 class ThreadPool {
   public:
     ThreadPool(size_t);
     template <class F, class... Args> auto enqueue(F&& f, Args&&... args)
-        -> std::future<typename std::invoke_result<F(Args...)>::type>;
+        -> std::future<typename std::result_of<F(Args...)>::type>;
     ~ThreadPool();
 
   private:
     // need to keep track of threads so we can join them
     std::vector<std::thread> workers;
     // the task queue
-    std::queue<std::function<void()>> tasks;
+    std::queue<std::function<void()> > tasks;
 
     // synchronization
     std::mutex queue_mutex;
@@ -54,10 +53,10 @@ inline ThreadPool::ThreadPool(size_t threads) : stop(false) {
 
 // add new work item to the pool
 template <class F, class... Args> auto ThreadPool::enqueue(F&& f, Args&&... args)
-    -> std::future<typename std::invoke_result<F(Args...)>::type> {
-    using return_type = typename std::invoke_result<F(Args...)>::type;
+    -> std::future<typename std::result_of<F(Args...)>::type> {
+    using return_type = typename std::result_of<F(Args...)>::type;
 
-    auto task = std::make_shared<std::packaged_task<return_type()>>(
+    auto task = std::make_shared<std::packaged_task<return_type()> >(
         std::bind(std::forward<F>(f), std::forward<Args>(args)...));
 
     std::future<return_type> res = task->get_future();
