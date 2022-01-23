@@ -46,7 +46,7 @@ cpmaddpackage(
   NAME
   Py2Cpp
   GIT_TAG
-  1.0
+  1.2
   GITHUB_REPOSITORY
   luk036/py2cpp
   OPTIONS
@@ -57,7 +57,7 @@ cpmaddpackage(
   NAME
   XNetwork
   GIT_TAG
-  1.1
+  1.4
   GITHUB_REPOSITORY
   luk036/xnetwork-cpp
   OPTIONS
