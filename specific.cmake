@@ -22,7 +22,7 @@ if(Boost_FOUND)
   target_compile_definitions(Boost::boost INTERFACE BOOST_ALL_NO_LIB=1)
 endif()
 
-cpmaddpackage(NAME cppcoro GIT_TAG 1.0 GITHUB_REPOSITORY luk036/cppcoro)
+cpmaddpackage(NAME cppcoro GIT_TAG 2.0 GITHUB_REPOSITORY luk036/cppcoro)
 # print_target_properties(cppcoro)
 if(cppcoro_ADDED)
   message(STATUS "Found cppcoro: ${cppcoro_SOURCE_DIR}")
@@ -46,7 +46,7 @@ cpmaddpackage(
   NAME
   Py2Cpp
   GIT_TAG
-  1.2
+  1.3
   GITHUB_REPOSITORY
   luk036/py2cpp
   OPTIONS
@@ -57,7 +57,7 @@ cpmaddpackage(
   NAME
   XNetwork
   GIT_TAG
-  1.5
+  1.6
   GITHUB_REPOSITORY
   luk036/xnetwork-cpp
   OPTIONS
@@ -80,7 +80,7 @@ cpmaddpackage(
   NAME
   EllAlgo
   GIT_TAG
-  1.1
+  1.2
   GITHUB_REPOSITORY
   luk036/ellalgo-cpp
   OPTIONS
