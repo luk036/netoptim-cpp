@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include <ellalgo/utility.hpp>
+// #include <ellalgo/utility.hpp>
 #include <optional>
 
 #include "neg_cycle.hpp"  // import negCycleFinder
@@ -61,7 +61,7 @@ template <typename Graph, typename Container, typename Fn> class network_oracle 
      * @param[in] x
      * @return std::optional<std::tuple<T, double>>
      */
-    template <typename T> auto operator()(const T& x) -> std::optional<std::tuple<T, double>> {
+    template <typename T> auto operator()(const T& x) -> std::optional<std::pair<T, double>> {
         auto get_weight = [this, &x](const edge_t& e) -> double { return this->_h.eval(e, x); };
 
         auto C = this->_S.find_neg_cycle(this->_u, get_weight);

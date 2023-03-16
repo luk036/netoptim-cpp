@@ -42,14 +42,14 @@ endif()
 
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG 1.3
+  GIT_TAG 1.4.2
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.6
+  GIT_TAG 1.6.2
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
@@ -68,7 +68,7 @@ endif(xtensor_ADDED)
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.2
+  GIT_TAG 1.3
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )

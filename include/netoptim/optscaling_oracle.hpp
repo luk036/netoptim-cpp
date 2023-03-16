@@ -24,7 +24,7 @@ template <typename Graph, typename Container, typename Fn>  //
 class optscaling_oracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using edge_t = typename Graph::edge_t;
-    using Cut = std::tuple<Arr, double>;
+    using Cut = std::pair<Arr, double>;
 
     /**
      * @brief Ratio
@@ -101,13 +101,13 @@ class optscaling_oracle {
     // optscaling_oracle(optscaling_oracle&&) = default;
 
     /*!
-     * @brief Make object callable for cutting_plane_dc()
+     * @brief Make object callable for cutting_plane_optim()
      *
      * @param[in] x (\pi, \phi) in log scale
      * @param[in] t the best-so-far optimal value
      * @return std::tuple<Cut, double>
      *
-     * @see cutting_plane_dc
+     * @see cutting_plane_optim
      */
     auto operator()(const Arr& x, double& t) -> std::tuple<Cut, bool> {
         const auto cut = this->_network(x);
