@@ -66,7 +66,7 @@ public:
    * @return std::optional<std::tuple<T, double>>
    */
   template <typename T>
-  auto operator()(const T &x) -> std::optional<std::pair<T, double>> {
+  auto assess_feas(const T &x) -> std::optional<std::pair<T, double>> {
     auto get_weight = [this, &x](const edge_t &e) -> double {
       return this->_h.eval(e, x);
     };
@@ -83,5 +83,17 @@ public:
       g -= this->_h.grad(e, x);
     }
     return {{std::move(g), f}};
+  }
+
+  /*!
+   * @brief Make object callable for cutting_plane_feas()
+   *
+   * @tparam T
+   * @param[in] x
+   * @return std::optional<std::tuple<T, double>>
+   */
+  template <typename T>
+  auto operator()(const T &x) -> std::optional<std::pair<T, double>> {
+    return this->assess_feas(x);
   }
 };

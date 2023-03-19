@@ -110,7 +110,7 @@ public:
    *
    * @see cutting_plane_optim
    */
-  auto operator()(const Arr &x, double &t) -> std::tuple<Cut, bool> {
+  auto assess_optim(const Arr &x, double &t) -> std::tuple<Cut, bool> {
     const auto cut = this->_network(x);
     if (cut) {
       return {*cut, false};
@@ -122,5 +122,18 @@ public:
       return {{Arr{1., -1.}, 0.}, true};
     }
     return {{Arr{1., -1.}, fj}, false};
+  }
+
+  /*!
+   * @brief Make object callable for cutting_plane_optim()
+   *
+   * @param[in] x (\pi, \phi) in log scale
+   * @param[in] t the best-so-far optimal value
+   * @return std::tuple<Cut, double>
+   *
+   * @see cutting_plane_optim
+   */
+  auto operator()(const Arr &x, double &t) -> std::tuple<Cut, bool> {
+    return this->assess_optim(x, t);
   }
 };
