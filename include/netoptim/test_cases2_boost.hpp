@@ -23,7 +23,7 @@ using edge_t = typename boost::graph_traits<graph_t>::edge_iterator;
 
 template <typename Container>
 inline auto create_test_case1(const Container &weights)
-    -> py::grAdaptor<graph_t> {
+    -> py::GraphAdaptor<graph_t> {
   using Edge = std::pair<int, int>;
   const auto num_nodes = 5;
   enum nodes { A, B, C, D, E };
@@ -32,12 +32,12 @@ inline auto create_test_case1(const Container &weights)
   // int weights[] = {-5, 1, 1, 1, 1};
   int num_arcs = sizeof(edge_array) / sizeof(Edge);
   auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
-  return py::grAdaptor<graph_t>{std::move(g)};
+  return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
 template <typename Container>
 inline auto create_test_case_timing(const Container &weights)
-    -> py::grAdaptor<graph_t> {
+    -> py::GraphAdaptor<graph_t> {
   using Edge = std::pair<int, int>;
   constexpr auto num_nodes = 3;
   enum nodes { A, B, C };
@@ -46,5 +46,5 @@ inline auto create_test_case_timing(const Container &weights)
   // int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
   constexpr int num_arcs = sizeof(edge_array) / sizeof(Edge);
   auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
-  return py::grAdaptor<graph_t>{std::move(g)};
+  return py::GraphAdaptor<graph_t>{std::move(g)};
 }

@@ -13,7 +13,7 @@
 #include <iterator>                                       // for begin
 #include <list>                                           // for operator==
 #include <netoptim/neg_cycle.hpp>                         // for negCycleFinder
-#include <py2cpp/nx2bgl.hpp>                              // for grAdaptor
+#include <py2cpp/nx2bgl.hpp>                              // for GraphAdaptor
 #include <type_traits>                                    // for move
 #include <utility>                                        // for pair
 #include <vector>                                         // for vector
@@ -24,7 +24,7 @@ using graph_t = boost::adjacency_list<
 using Vertex = boost::graph_traits<graph_t>::vertex_descriptor;
 // using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
-static py::grAdaptor<graph_t> create_test_case1() {
+static py::GraphAdaptor<graph_t> create_test_case1() {
     using Edge = std::pair<int, int>;
     const auto num_nodes = 5;
     enum nodes { A, B, C, D, E };
@@ -32,10 +32,10 @@ static py::grAdaptor<graph_t> create_test_case1() {
     int weights[] = {-5, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
     auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return py::grAdaptor<graph_t>{std::move(g)};
+    return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
-static py::grAdaptor<graph_t> create_test_case2() {
+static py::GraphAdaptor<graph_t> create_test_case2() {
     using Edge = std::pair<int, int>;
     const auto num_nodes = 5;
     enum nodes { A, B, C, D, E };
@@ -43,10 +43,10 @@ static py::grAdaptor<graph_t> create_test_case2() {
     int weights[] = {2, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
     auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return py::grAdaptor<graph_t>{std::move(g)};
+    return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
-static auto create_test_case_timing() -> py::grAdaptor<graph_t> {
+static auto create_test_case_timing() -> py::GraphAdaptor<graph_t> {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 3;
     enum nodes { A, B, C };
@@ -55,10 +55,10 @@ static auto create_test_case_timing() -> py::grAdaptor<graph_t> {
     int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
     constexpr int num_arcs = sizeof(edge_array) / sizeof(Edge);
     auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return py::grAdaptor<graph_t>{std::move(g)};
+    return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
-static auto create_test_case_timing2() -> py::grAdaptor<graph_t> {
+static auto create_test_case_timing2() -> py::GraphAdaptor<graph_t> {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 3;
     enum nodes { A, B, C };
@@ -67,10 +67,10 @@ static auto create_test_case_timing2() -> py::grAdaptor<graph_t> {
     int weights[] = {3, -4, -1, -3, 2, 0, -2, 1};
     constexpr int num_arcs = sizeof(edge_array) / sizeof(Edge);
     auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return py::grAdaptor<graph_t>{std::move(g)};
+    return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
-auto do_case(const py::grAdaptor<graph_t>& G) -> bool {
+auto do_case(const py::GraphAdaptor<graph_t>& G) -> bool {
     using edge_t = decltype(*(std::begin(G.edges())));
 
     const auto get_weight = [&](const edge_t& e) -> int {
@@ -79,12 +79,12 @@ auto do_case(const py::grAdaptor<graph_t>& G) -> bool {
     };
 
     auto dist = std::vector<int>(G.number_of_nodes(), 0);
-    auto N = negCycleFinder<py::grAdaptor<graph_t>>{G};
+    auto N = negCycleFinder<py::GraphAdaptor<graph_t>>{G};
     const auto cycle = N.find_neg_cycle(dist, get_weight);
     return !cycle.empty();
 }
 
-auto do_case_float(const py::grAdaptor<graph_t>& G) -> bool {
+auto do_case_float(const py::GraphAdaptor<graph_t>& G) -> bool {
     using edge_t = decltype(*(std::begin(G.edges())));
 
     const auto get_weight = [&](const edge_t& e) -> double {
@@ -93,7 +93,7 @@ auto do_case_float(const py::grAdaptor<graph_t>& G) -> bool {
     };
 
     auto dist = std::vector<double>(G.number_of_nodes(), 0.0);
-    auto N = negCycleFinder<py::grAdaptor<graph_t>>{G};
+    auto N = negCycleFinder<py::GraphAdaptor<graph_t>>{G};
     const auto cycle = N.find_neg_cycle(dist, get_weight);
     return !cycle.empty();
 }

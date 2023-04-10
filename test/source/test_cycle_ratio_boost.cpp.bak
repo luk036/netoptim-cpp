@@ -14,7 +14,7 @@
 #include <netoptim/min_cycle_ratio.hpp>           // for min_cycle_ratio
 #include <ostream>                                // for operator<<
 #include <py2cpp/fractions.hpp>                   // for Fraction, operator-
-#include <py2cpp/nx2bgl.hpp>                      // for grAdaptor, EdgeView
+#include <py2cpp/nx2bgl.hpp>                      // for GraphAdaptor, EdgeView
 #include <type_traits>                            // for move
 #include <utility>                                // for pair
 #include <vector>                                 // for vector
@@ -42,7 +42,7 @@ static auto create_test_case1() {
     size_t indices[] = {0, 1, 2, 3, 4};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
     graph_t g(edge_array, edge_array + num_arcs, indices, num_nodes);
-    return py::grAdaptor<graph_t>{std::move(g)};
+    return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
 static auto create_test_case_timing() {
@@ -56,7 +56,7 @@ static auto create_test_case_timing() {
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
 
     graph_t g(edge_array, edge_array + num_arcs, indices, num_nodes);
-    return py::grAdaptor<graph_t>{std::move(g)};
+    return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
 TEST_CASE("Test Cycle Ratio (boost)") {
