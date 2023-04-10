@@ -134,6 +134,6 @@ public:
    * @see cutting_plane_optim
    */
   auto operator()(const Arr &x, double &t) -> std::tuple<Cut, bool> {
-    return this->assess_optim(x, t);
+    return assess_optim(x, t);
   }
 };

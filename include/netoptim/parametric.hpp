@@ -2,7 +2,6 @@
 #pragma once
 
 #include "neg_cycle.hpp" // import NegCycleFinder
-// #include <iostream>
 #include <tuple>
 #include <vector>
 

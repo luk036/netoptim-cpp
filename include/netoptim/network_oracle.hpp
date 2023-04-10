@@ -26,7 +26,7 @@ class network_oracle {
 private:
   const Graph &_G;
   Container &_u; // reference???
-  negCycleFinder<Graph> _S;
+  NegCycleFinder<Graph> _S;
   Fn _h;
 
 public:
@@ -65,8 +65,8 @@ public:
    * @param[in] x
    * @return std::optional<std::tuple<T, double>>
    */
-  template <typename T>
-  auto assess_feas(const T &x) -> std::optional<std::pair<T, double>> {
+  template <typename Arr>
+  auto assess_feas(const Arr &x) -> std::optional<std::pair<Arr, double>> {
     auto get_weight = [this, &x](const edge_t &e) -> double {
       return this->_h.eval(e, x);
     };
@@ -92,8 +92,8 @@ public:
    * @param[in] x
    * @return std::optional<std::tuple<T, double>>
    */
-  template <typename T>
-  auto operator()(const T &x) -> std::optional<std::pair<T, double>> {
+  template <typename Arr>
+  auto operator()(const Arr &x) -> std::optional<std::pair<Arr, double>> {
     return this->assess_feas(x);
   }
 };

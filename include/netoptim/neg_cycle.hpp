@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*-
+// -*- coing: utf-8 -*-
 #pragma once
 
 /*!
@@ -7,11 +7,9 @@ Negative cycle detection for weighed graphs.
 // #include <ThreadPool.h>
 
 #include <cassert>
-// #include <chrono>
-#include <optional>
-#include <py2cpp/py2cpp.hpp>
+#include <memory> // for unique_ptr
+#include <unordered_map>
 #include <vector>
-// #include <iostream> // for debugging
 
 /*!
  * @brief negative cycle
@@ -30,11 +28,12 @@ class NegCycleFinder {
   using node_t = typename Graph::node_t;
   using edge_t = typename Graph::edge_t;
 
-  py::dict<node_t, node_t> _pred{};
-  py::dict<node_t, edge_t> _edge{};
+  std::unordered_map<node_t, node_t> _pred{};
+  std::unordered_map<node_t, edge_t> _edge{};
 
 private:
   const Graph &_G; // const???
+  std::unique_ptr<node_t> _cycle_start;
 
 public:
   /*!
@@ -42,7 +41,8 @@ public:
    *
    * @param[in] G
    */
-  explicit NegCycleFinder(const Graph &G) : _G{G} {}
+  explicit NegCycleFinder(const Graph &G)
+      : _G{G}, _cycle_start{std::make_unique<node_t>(node_t{})} {}
 
   /*!
    * @brief find negative cycle
@@ -75,25 +75,26 @@ private:
    *
    * @return node_t a start node of the cycle
    */
-  auto _find_cycle() -> std::optional<node_t> {
-    auto visited = py::dict<node_t, node_t>{};
+  auto _find_cycle() -> node_t * {
+    auto visited = std::unordered_map<node_t, node_t>{};
 
     for (auto &&v : this->_G) {
-      if (visited.contains(v)) {
+      if (visited.find(v) != visited.end()) {
         continue;
       }
       auto u = v;
       while (true) {
         visited[u] = v;
-        if (!this->_pred.contains(u)) {
+        if (this->_pred.find(u) == visited.end()) {
           break;
         }
         u = this->_pred[u];
-        if (visited.contains(u)) {
+        if (visited.find(u) != visited.end()) {
           if (visited[u] == v) {
             // if (this->_is_negative(u)) {
             // should be "yield u";
-            return u;
+            *this->_cycle_start = u;
+            return this->_cycle_start.get();
             // }
           }
           break;
@@ -101,7 +102,7 @@ private:
       }
     }
 
-    return {};
+    return nullptr;
   }
 
   /*!
