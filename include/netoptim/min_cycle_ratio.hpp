@@ -14,13 +14,13 @@
  *
  *        max  r
  *        s.t. dist[v] - dist[u] \ge cost(u, v) - r * time(u, v)
- *             \forall e(u, v) \in G(V, E)
+ *             \forall e(u, v) \in gra(V, E)
  *
  * @tparam Graph
  * @tparam Fn1
  * @tparam Fn2
  * @tparam Container
- * @param[in] G
+ * @param[in] gra
  * @param[in,out] r0
  * @param[in] get_cost
  * @param[in] get_time
@@ -29,7 +29,7 @@
  */
 template <typename Graph, typename T, typename Fn1, typename Fn2,
           typename Container>
-auto min_cycle_ratio(const Graph &G, T &r0, Fn1 &&get_cost, Fn2 &&get_time,
+auto min_cycle_ratio(const Graph &gra, T &r0, Fn1 &&get_cost, Fn2 &&get_time,
                      Container &&dist, size_t max_iter = 1000) {
   using edge_t = typename Graph::edge_t;
   using cost_T = decltype(get_cost(std::declval<edge_t>()));
@@ -49,6 +49,6 @@ auto min_cycle_ratio(const Graph &G, T &r0, Fn1 &&get_cost, Fn2 &&get_time,
     return get_cost(e) - r * get_time(e);
   };
 
-  return max_parametric(G, r0, std::move(calc_weight), std::move(calc_ratio),
+  return max_parametric(gra, r0, std::move(calc_weight), std::move(calc_ratio),
                         std::forward<Container>(dist), max_iter);
 }

@@ -32,17 +32,17 @@ class NegCycleFinder {
   std::unordered_map<node_t, edge_t> _edge{};
 
 private:
-  const Graph &_G; // const???
+  const Graph &_gra; // const???
   std::unique_ptr<node_t> _cycle_start;
 
 public:
   /*!
    * @brief Construct a new neg Cycle Finder object
    *
-   * @param[in] G
+   * @param[in] gra
    */
-  explicit NegCycleFinder(const Graph &G)
-      : _G{G}, _cycle_start{std::make_unique<node_t>(node_t{})} {}
+  explicit NegCycleFinder(const Graph &gra)
+      : _gra{gra}, _cycle_start{std::make_unique<node_t>(node_t{})} {}
 
   /*!
    * @brief find negative cycle
@@ -78,18 +78,18 @@ private:
   auto _find_cycle() -> node_t * {
     auto visited = std::unordered_map<node_t, node_t>{};
 
-    for (auto &&v : this->_G) {
-      if (visited.find(v) != visited.end()) {
+    for (auto &&v : this->_gra) {
+      if (visited.find(v) != visited.end()) { // contains v
         continue;
       }
       auto u = v;
       while (true) {
         visited[u] = v;
-        if (this->_pred.find(u) == visited.end()) {
+        if (this->_pred.find(u) == visited.end()) { // not contains u
           break;
         }
         u = this->_pred[u];
-        if (visited.find(u) != visited.end()) {
+        if (visited.find(u) != visited.end()) { // contains u
           if (visited[u] == v) {
             // if (this->_is_negative(u)) {
             // should be "yield u";
@@ -118,8 +118,8 @@ private:
   template <typename Container, typename WeightFn>
   auto _relax(Container &&dist, WeightFn &&get_weight) -> bool {
     auto changed = false;
-    for (const auto &u : this->_G) {
-      for (const auto &v : this->_G.successors(u)) {
+    for (const auto &u : this->_gra) {
+      for (const auto &v : this->_gra.successors(u)) {
         // Allow self-loop
         // assert(u != v);
         const auto e = edge_t{u, v};

@@ -19,12 +19,11 @@
  * @tparam Container
  * @tparam Fn
  */
-template <typename Graph, typename Container, typename Fn>
-class network_oracle {
+template <typename Graph, typename Container, typename Fn> class NetworkOracle {
   using edge_t = typename Graph::edge_t;
 
 private:
-  const Graph &_G;
+  const Graph &_gra;
   Container &_u; // reference???
   NegCycleFinder<Graph> _S;
   Fn _h;
@@ -33,29 +32,29 @@ public:
   /*!
    * @brief Construct a new network oracle object
    *
-   * @param[in] G a directed graph (V, E)
+   * @param[in] gra a directed graph (V, E)
    * @param[in,out] u list or dictionary
    * @param[in] h function evaluation and gradient
    */
-  network_oracle(const Graph &G, Container &u, Fn h)
-      : _G{G}, _u{u}, _S(G), _h{std::move(h)} {}
+  NetworkOracle(const Graph &gra, Container &u, Fn h)
+      : _gra{gra}, _u{u}, _S(gra), _h{std::move(h)} {}
 
   /**
    * @brief Construct a new network oracle object
    *
    */
-  explicit network_oracle(const network_oracle &) = default;
+  explicit NetworkOracle(const NetworkOracle &) = default;
 
-  // network_oracle& operator=(const network_oracle&) = delete;
-  // network_oracle(network_oracle&&) = default;
+  // NetworkOracle& operator=(const NetworkOracle&) = delete;
+  // NetworkOracle(network_oracle&&) = default;
 
   /*!
    * @brief
    *
-   * @param[in] t the best-so-far optimal value
+   * @param[in] target the best-so-far optimal value
    */
-  template <typename opt_type> auto update(const opt_type &t) -> void {
-    this->_h.update(t);
+  template <typename Num> auto update(const Num &target) -> void {
+    this->_h.update(target);
   }
 
   /*!
@@ -66,9 +65,9 @@ public:
    * @return std::optional<std::tuple<T, double>>
    */
   template <typename Arr>
-  auto assess_feas(const Arr &x) -> std::optional<std::pair<Arr, double>> {
-    auto get_weight = [this, &x](const edge_t &e) -> double {
-      return this->_h.eval(e, x);
+  auto assess_feas(const Arr &xval) -> std::optional<std::pair<Arr, double>> {
+    auto get_weight = [this, &xval](const edge_t &edge) -> double {
+      return this->_h.eval(edge, xval);
     };
 
     auto C = this->_S.find_neg_cycle(this->_u, get_weight);
@@ -76,13 +75,13 @@ public:
       return {};
     }
 
-    auto g = zeros(x);
-    auto f = 0.;
-    for (auto &&e : C) {
-      f -= this->_h.eval(e, x);
-      g -= this->_h.grad(e, x);
+    auto grad = zeros(xval);
+    auto fval = 0.;
+    for (auto &&edge : C) {
+      fval -= this->_h.eval(edge, xval);
+      grad -= this->_h.grad(edge, xval);
     }
-    return {{std::move(g), f}};
+    return {{std::move(grad), fval}};
   }
 
   /*!
@@ -93,7 +92,7 @@ public:
    * @return std::optional<std::tuple<T, double>>
    */
   template <typename Arr>
-  auto operator()(const Arr &x) -> std::optional<std::pair<Arr, double>> {
-    return this->assess_feas(x);
+  auto operator()(const Arr &xvar) -> std::optional<std::pair<Arr, double>> {
+    return this->assess_feas(xvar);
   }
 };

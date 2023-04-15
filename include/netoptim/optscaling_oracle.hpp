@@ -21,7 +21,7 @@
  * @tparam Fn
  */
 template <typename Graph, typename Container, typename Fn> //
-class optscaling_oracle {
+class OptScalingOracle {
   using Arr = xt::xarray<double, xt::layout_type::row_major>;
   using edge_t = typename Graph::edge_t;
   using Cut = std::pair<Arr, double>;
@@ -32,18 +32,18 @@ class optscaling_oracle {
    */
   class Ratio {
   private:
-    const Graph &_G;
+    const Graph &_gra;
     Fn _get_cost;
 
   public:
     /*!
      * @brief Construct a new Ratio object
      *
-     * @param[in] G
+     * @param[in] gra
      * @param[in] get_cost
      */
-    Ratio(const Graph &G, Fn get_cost)
-        : _G{G}, _get_cost{std::move(get_cost)} {}
+    Ratio(const Graph &gra, Fn get_cost)
+        : _gra{gra}, _get_cost{std::move(get_cost)} {}
 
     /**
      * @brief Construct a new Ratio object (only explicitly)
@@ -59,7 +59,7 @@ class optscaling_oracle {
      * @return double
      */
     auto eval(const edge_t &e, const Arr &x) const -> double {
-      const auto [u, v] = this->_G.end_points(e);
+      const auto [u, v] = this->_gra.end_points(e);
       const auto cost = this->_get_cost(e);
       assert(u != v);
       return (u < v) ? x(0) - cost : cost - x(1);
@@ -73,33 +73,33 @@ class optscaling_oracle {
      * @return Arr
      */
     auto grad(const edge_t &e, const Arr &) const -> Arr {
-      const auto [u, v] = this->_G.end_points(e);
+      const auto [u, v] = this->_gra.end_points(e);
       assert(u != v);
       return (u < v) ? Arr{1., 0.} : Arr{0., -1.};
     }
   };
 
-  network_oracle<Graph, Container, Ratio> _network;
+  NetworkOracle<Graph, Container, Ratio> _network;
 
 public:
   /*!
    * @brief Construct a new optscaling oracle object
    *
-   * @param[in] G
+   * @param[in] gra
    * @param[in,out] u
    * @param[in] get_cost
    */
-  optscaling_oracle(const Graph &G, Container &u, Fn get_cost)
-      : _network(G, u, Ratio{G, get_cost}) {}
+  OptScalingOracle(const Graph &gra, Container &u, Fn get_cost)
+      : _network(gra, u, Ratio{gra, get_cost}) {}
 
   /**
    * @brief Construct a new optscaling oracle object
    *
    */
-  explicit optscaling_oracle(const optscaling_oracle &) = default;
+  explicit OptScalingOracle(const OptScalingOracle &) = default;
 
-  // optscaling_oracle& operator=(const optscaling_oracle&) = delete;
-  // optscaling_oracle(optscaling_oracle&&) = default;
+  // OptScalingOracle& operator=(const OptScalingOracle&) = delete;
+  // OptScalingOracle(optscaling_oracle&&) = default;
 
   /*!
    * @brief Make object callable for cutting_plane_optim()
