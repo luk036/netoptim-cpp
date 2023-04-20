@@ -12,14 +12,14 @@
  *
  *        max  r
  *        s.t. dist[v] - dist[u] \ge d(u, v, r)
- *             \forall e(u, v) \in G(V, E)
+ *             \forall e(u, v) \in gra(V, E)
  *
  * @tparam Graph
  * @tparam T
  * @tparam Fn1
  * @tparam Fn2
  * @tparam Container
- * @param[in] G directed graph
+ * @param[in] gra directed graph
  * @param[in,out] r_opt parameter to be maximized, initially a large number
  * @param[in] d monotone decreasing function w.r.t. r
  * @param[in] zero_cancel
@@ -28,7 +28,7 @@
  */
 template <typename Graph, typename T, typename Fn1, typename Fn2,
           typename Container>
-auto max_parametric(const Graph &G, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
+auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
                     Container &&dist, size_t max_iter = 1000) {
   using edge_t = typename Graph::edge_t;
 
@@ -36,7 +36,7 @@ auto max_parametric(const Graph &G, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
     return d(r_opt, e);
   };
 
-  auto S = NegCycleFinder<Graph>(G);
+  auto S = NegCycleFinder<Graph>(gra);
   auto C_opt = std::vector<edge_t>{}; // should initial outside
 
   auto niter = 0U;
@@ -57,7 +57,7 @@ auto max_parametric(const Graph &G, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
 
     // update ???
     for (auto &&edge : C_opt) {
-      const auto e = G.end_points(edge);
+      const auto e = gra.end_points(edge);
       dist[e.first] = dist[e.second] - get_weight(edge);
     }
   }

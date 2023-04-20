@@ -63,17 +63,17 @@ TEST_CASE("Test Parametric (boost)") {
     using EdgeIndexMap = typename boost::property_map<graph_t, boost::edge_id_tag_t>::type;
     using IterMap = boost::iterator_property_map<int*, EdgeIndexMap, int, int&>;
 
-    auto G = create_test_case1();
+    auto gra = create_test_case1();
     int cost[] = {5, 1, 1, 1, 1};
-    EdgeIndexMap edge_id = boost::get(boost::id_tag, G);
+    EdgeIndexMap edge_id = boost::get(boost::id_tag, gra);
     IterMap cost_pa(cost, edge_id);
 
     auto get_cost = [&](const auto& e) -> int { return boost::get(cost_pa, e); };
     auto get_time = [&](const auto&) -> int { return 1; };
 
-    auto dist = std::vector<fun::Fraction<int>>(G.number_of_nodes(), fun::Fraction<int>(0));
+    auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
-    const auto c = min_cycle_ratio(G, r, get_cost, get_time, dist);
+    const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
     CHECK(!c.empty());
     CHECK(c.size() == 5);
     CHECK(r == fun::Fraction<int>(9, 5));
@@ -86,17 +86,17 @@ TEST_CASE("Test Parametric of Timing Graph (boost)") {
     using EdgeIndexMap = typename boost::property_map<graph_t, boost::edge_id_tag_t>::type;
     using IterMap = boost::iterator_property_map<int*, EdgeIndexMap, int, int&>;
 
-    auto G = create_test_case_timing();
+    auto gra = create_test_case_timing();
     int cost[] = {7, -1, 5, 4, 3, 0, 2, 4};
-    EdgeIndexMap edge_id = boost::get(boost::id_tag, G);
+    EdgeIndexMap edge_id = boost::get(boost::id_tag, gra);
     IterMap cost_pa(cost, edge_id);
 
     const auto get_cost = [&](const auto& e) -> int { return boost::get(cost_pa, e); };
     const auto get_time = [&](const auto& /*e*/) -> int { return 1; };
 
-    auto dist = std::vector<fun::Fraction<int>>(G.number_of_nodes(), fun::Fraction<int>(0));
+    auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(7);
-    const auto c = min_cycle_ratio(G, r, get_cost, get_time, dist);
+    const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
     CHECK(!c.empty());
     CHECK(r == fun::Fraction<int>(1, 1));
     CHECK(c.size() == 3);

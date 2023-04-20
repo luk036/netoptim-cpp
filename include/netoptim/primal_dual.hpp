@@ -13,19 +13,19 @@
  *
  * @tparam Graph
  * @tparam Container
- * @param[in] G
+ * @param[in] gra
  * @param[in,out] cover
  * @param[in] weight
  * @return auto
  */
 template <typename Graph, typename C1, typename C2>
-auto min_vertex_cover_pd(const Graph &G, C1 &cover, const C2 &weight) {
+auto min_vertex_cover_pd(const Graph &gra, C1 &cover, const C2 &weight) {
   using T = typename weight::value_type;
 
   [[maybe_unused]] auto total_dual_cost = T(0);
   auto total_primal_cost = T(0);
   auto gap = weight;
-  for (auto &&e : G.edges()) {
+  for (auto &&e : gra.edges()) {
     auto [u, v] = e.end_points();
     if (cover[u] || cover[v]) {
       continue;
@@ -53,17 +53,17 @@ auto min_vertex_cover_pd(const Graph &G, C1 &cover, const C2 &weight) {
  *
  * @tparam Graph
  * @tparam Container
- * @param[in] G
+ * @param[in] gra
  * @param[in,out] cover
  * @param[in] weight
  * @return auto
  */
 template <typename Graph, typename C1, typename C2>
-auto min_maximal_independant_set_pd(const Graph &G, C1 &indset, C1 &dep,
+auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep,
                                     const C2 &weight) {
   auto cover = [&](const auto &u) {
     dep[u] = true;
-    for (auto &&v : G[u]) {
+    for (auto &&v : gra[u]) {
       dep[v] = true;
     }
   };
@@ -71,7 +71,7 @@ auto min_maximal_independant_set_pd(const Graph &G, C1 &indset, C1 &dep,
   auto gap = weight;
   [[maybe_unused]] total_dual_cost = T(0);
   total_primal_cost = T(0);
-  for (auto &&u : G) {
+  for (auto &&u : gra) {
     if (dep[u]) {
       continue;
     }
@@ -81,7 +81,7 @@ auto min_maximal_independant_set_pd(const Graph &G, C1 &indset, C1 &dep,
     }
     auto min_val = gap[u];
     auto min_vtx = u;
-    for (auto &&v : G[u]) {
+    for (auto &&v : gra[u]) {
       if (dep[v]) {
         continue;
       }
@@ -97,7 +97,7 @@ auto min_maximal_independant_set_pd(const Graph &G, C1 &indset, C1 &dep,
     if (min_vtx == u) {
       continue;
     }
-    for (auto &&v : G[u]) {
+    for (auto &&v : gra[u]) {
       gap[v] -= min_val;
     }
   }
