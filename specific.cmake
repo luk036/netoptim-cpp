@@ -8,14 +8,10 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-find_package(Boost REQUIRED)
-if(Boost_FOUND)
-  message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
-  # add_library(Boost::boost INTERFACE IMPORTED GLOBAL)
-  target_include_directories(Boost::boost SYSTEM INTERFACE ${Boost_INCLUDE_DIRS})
-  # Disable autolink
-  target_compile_definitions(Boost::boost INTERFACE BOOST_ALL_NO_LIB=1)
-endif()
+# find_package(Boost REQUIRED) if(Boost_FOUND) message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
+# # add_library(Boost::boost INTERFACE IMPORTED GLOBAL) target_include_directories(Boost::boost
+# SYSTEM INTERFACE ${Boost_INCLUDE_DIRS}) # Disable autolink target_compile_definitions(Boost::boost
+# INTERFACE BOOST_ALL_NO_LIB=1) endif()
 
 # CPMAddPackage( NAME cppcoro GIT_TAG 2.0 GITHUB_REPOSITORY luk036/cppcoro ) #
 # print_target_properties(cppcoro) if(cppcoro_ADDED) message(STATUS "Found cppcoro:
@@ -62,7 +58,7 @@ CPMAddPackage(
 )
 
 set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo XNetwork::XNetwork Py2Cpp::Py2Cpp Boost::boost
+    EllAlgo::EllAlgo XNetwork::XNetwork Py2Cpp::Py2Cpp
     # cppcoro::cppcoro
     Threads::Threads fmt::fmt
 )
