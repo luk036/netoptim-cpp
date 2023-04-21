@@ -87,7 +87,7 @@ private:
       auto u = v;
       while (true) {
         visited[u] = v;
-        if (this->_pred.find(u) == visited.end()) { // not contains u
+        if (this->_pred.find(u) == this->_pred.end()) { // not contains u
           break;
         }
         u = this->_pred[u];
