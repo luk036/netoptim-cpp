@@ -42,7 +42,7 @@ public:
    * @param[in] gra
    */
   explicit NegCycleFinder(const Graph &gra)
-      : _gra{gra}, _cycle_start{std::make_unique<node_t>(node_t{})} {}
+      : _gra{gra}, _cycle_start{std::make_unique<node_t>()} {}
 
   /*!
    * @brief find negative cycle
