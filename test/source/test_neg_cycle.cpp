@@ -39,8 +39,8 @@ template <typename Graph> auto do_case(const Graph &gra) -> bool {
 TEST_CASE("Test Negative Cycle") {
   auto weights = std::array<int, 5>{-5, 1, 1, 1, 1};
   auto gra = create_test_case1(weights);
-  // const auto hasNeg = do_case(gra);
-  // CHECK(hasNeg);
+  const auto hasNeg = do_case(gra);
+  CHECK(hasNeg);
 }
 
 // /*!
