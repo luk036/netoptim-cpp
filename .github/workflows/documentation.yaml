@@ -30,9 +30,9 @@ jobs:
           sudo apt-get install doxygen
           pip3 install jinja2 Pygments
 
-      - name: Install project dependencies
-        run: |
-          sudo apt-get install libboost-dev
+      # - name: Install project dependencies
+      #   run: |
+      #     sudo apt-get install libboost-dev
 
       - name: Build
         run: |
