@@ -29,7 +29,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 elseif(MSVC)
   target_compile_options(
     ${PROJECT_NAME}
-    INTERFACE /std:c++latest
+    INTERFACE /std:c++20
               /await
               /W4
               /WX

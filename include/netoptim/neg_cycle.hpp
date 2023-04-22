@@ -8,6 +8,7 @@ Negative cycle detection for weighed graphs.
 
 #include <cassert>
 #include <memory> // for unique_ptr
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
@@ -33,7 +34,7 @@ class NegCycleFinder {
 
 private:
   const Graph &_gra; // const???
-  std::unique_ptr<node_t> _cycle_start;
+  // std::unique_ptr<node_t> _cycle_start;
 
 public:
   /*!
@@ -42,7 +43,8 @@ public:
    * @param[in] gra
    */
   explicit NegCycleFinder(const Graph &gra)
-      : _gra{gra}, _cycle_start{std::make_unique<node_t>(node_t{})} {}
+      // : _gra{gra}, _cycle_start{std::make_unique<node_t>()} {}
+      : _gra{gra} {}
 
   /*!
    * @brief find negative cycle
@@ -75,7 +77,7 @@ private:
    *
    * @return node_t a start node of the cycle
    */
-  auto _find_cycle() -> node_t * {
+  auto _find_cycle() -> std::optional<node_t> {
     auto visited = std::unordered_map<node_t, node_t>{};
 
     for (auto &&v : this->_gra) {
@@ -85,7 +87,7 @@ private:
       auto u = v;
       while (true) {
         visited[u] = v;
-        if (this->_pred.find(u) == visited.end()) { // not contains u
+        if (this->_pred.find(u) == this->_pred.end()) { // not contains u
           break;
         }
         u = this->_pred[u];
@@ -93,8 +95,9 @@ private:
           if (visited[u] == v) {
             // if (this->_is_negative(u)) {
             // should be "yield u";
-            *this->_cycle_start = u;
-            return this->_cycle_start.get();
+            // *this->_cycle_start = u;
+            // return this->_cycle_start.get();
+            return u;
             // }
           }
           break;
@@ -102,7 +105,7 @@ private:
       }
     }
 
-    return nullptr;
+    return {};
   }
 
   /*!

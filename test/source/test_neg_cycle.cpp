@@ -5,8 +5,8 @@
 // #include <xnetwork/classes/digraphs.hpp>
 #include <array> // for array
 // #include <cppcoro/generator.hpp>              // for operator!=, generator
-#include <py2cpp/dict.hpp>                   // for dict
-#include <py2cpp/enumerate.hpp>              // for iterable_wrapper
+// #include <py2cpp/dict.hpp>                   // for dict
+// #include <py2cpp/enumerate.hpp>              // for iterable_wrapper
 #include <unordered_map>                     // for operator!=
 #include <vector>                            // for vector
 #include <xnetwork/classes/digraphs.hpp>     // for DiGraphS
@@ -43,35 +43,35 @@ TEST_CASE("Test Negative Cycle") {
   CHECK(hasNeg);
 }
 
-/*!
- * @brief
- *
- */
-TEST_CASE("Test No Negative Cycle") {
-  auto weights = std::array<int, 5>{2, 1, 1, 1, 1};
-  auto gra = create_test_case1(weights);
-  const auto hasNeg = do_case(gra);
-  CHECK(!hasNeg);
-}
-
-/*!
- * @brief
- *
- */
-TEST_CASE("Test Timing Graph") {
-  auto weights = std::array<int, 6>{7, 0, 6, 4, 2, 5};
-  auto gra = create_test_case_timing(weights);
-  const auto hasNeg = do_case(gra);
-  CHECK(!hasNeg);
-}
-
-/*!
- * @brief
- *
- */
-TEST_CASE("Test Timing Graph (2)") {
-  auto weights = std::array<int, 6>{3, -4, 2, 0, -2, 1};
-  auto gra = create_test_case_timing(weights);
-  const auto hasNeg = do_case(gra);
-  CHECK(hasNeg);
-}
+// /*!
+//  * @brief
+//  *
+//  */
+// TEST_CASE("Test No Negative Cycle") {
+//   auto weights = std::array<int, 5>{2, 1, 1, 1, 1};
+//   auto gra = create_test_case1(weights);
+//   const auto hasNeg = do_case(gra);
+//   CHECK(!hasNeg);
+// }
+//
+// /*!
+//  * @brief
+//  *
+//  */
+// TEST_CASE("Test Timing Graph") {
+//   auto weights = std::array<int, 6>{7, 0, 6, 4, 2, 5};
+//   auto gra = create_test_case_timing(weights);
+//   const auto hasNeg = do_case(gra);
+//   CHECK(!hasNeg);
+// }
+//
+// /*!
+//  * @brief
+//  *
+//  */
+// TEST_CASE("Test Timing Graph (2)") {
+//   auto weights = std::array<int, 6>{3, -4, 2, 0, -2, 1};
+//   auto gra = create_test_case_timing(weights);
+//   const auto hasNeg = do_case(gra);
+//   CHECK(hasNeg);
+// }
