@@ -2,9 +2,10 @@
 #pragma once
 
 #include <cassert>
-#include <xtensor/xarray.hpp>
+// #include <xtensor/xarray.hpp>
 
 #include "network_oracle.hpp"
+#include <valarray>>
 
 /*!
  * @brief Oracle for Optimal Matrix Scaling.
@@ -22,9 +23,11 @@
  */
 template <typename Graph, typename Container, typename Fn> //
 class OptScalingOracle {
-  using Arr = xt::xarray<double, xt::layout_type::row_major>;
-  using edge_t = typename Graph::edge_t;
-  using Cut = std::pair<Arr, double>;
+  // using Vec = xt::xarray<double, xt::layout_type::row_major>;
+  using Vec = std::valarray<double>;
+  using node_t = typename Graph::node_t;
+  using Edge = std::pair<node_t, node_t>;
+  using Cut = std::pair<Vec, double>;
 
   /**
    * @brief Ratio
@@ -58,11 +61,12 @@ class OptScalingOracle {
      * @param[in] x $(\pi, \phi)$ in log scale
      * @return double
      */
-    auto eval(const edge_t &e, const Arr &x) const -> double {
-      const auto [u, v] = this->_gra.end_points(e);
-      const auto cost = this->_get_cost(e);
+    auto eval(const Edge &edge, const Vec &x) const -> double {
+      // const auto [u, v] = this->_gra.end_points(e);
+      const auto cost = this->_get_cost(edge);
+      const auto [u, v] = edge;
       assert(u != v);
-      return (u < v) ? x(0) - cost : cost - x(1);
+      return (u < v) ? x[0] - cost : cost - x[1];
     }
 
     /*!
@@ -70,12 +74,13 @@ class OptScalingOracle {
      *
      * @param[in] e
      * @param[in] x $(\pi, \phi)$ in log scale
-     * @return Arr
+     * @return Vec
      */
-    auto grad(const edge_t &e, const Arr &) const -> Arr {
-      const auto [u, v] = this->_gra.end_points(e);
+    auto grad(const Edge &edge, const Vec &) const -> Vec {
+      // const auto [u, v] = this->_gra.end_points(e);
+      const auto [u, v] = edge;
       assert(u != v);
-      return (u < v) ? Arr{1., 0.} : Arr{0., -1.};
+      return (u < v) ? Vec{1., 0.} : Vec{0., -1.};
     }
   };
 
@@ -110,18 +115,18 @@ public:
    *
    * @see cutting_plane_optim
    */
-  auto assess_optim(const Arr &x, double &t) -> std::tuple<Cut, bool> {
-    const auto cut = this->_network(x);
+  auto assess_optim(const Vec &x, double &t) -> std::tuple<Cut, bool> {
+    const auto cut = this->_network.assess_feas(x);
     if (cut) {
       return {*cut, false};
     }
-    auto s = x(0) - x(1);
+    auto s = x[0] - x[1];
     auto fj = s - t;
     if (fj < 0) {
       t = s;
-      return {{Arr{1., -1.}, 0.}, true};
+      return {{Vec{1., -1.}, 0.}, true};
     }
-    return {{Arr{1., -1.}, fj}, false};
+    return {{Vec{1., -1.}, fj}, false};
   }
 
   /*!
@@ -133,7 +138,7 @@ public:
    *
    * @see cutting_plane_optim
    */
-  auto operator()(const Arr &x, double &t) -> std::tuple<Cut, bool> {
+  auto operator()(const Vec &x, double &t) -> std::tuple<Cut, bool> {
     return assess_optim(x, t);
   }
 };

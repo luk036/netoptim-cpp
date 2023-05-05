@@ -10,6 +10,7 @@ Negative cycle detection for weighed graphs.
 #include <memory> // for unique_ptr
 #include <optional>
 #include <unordered_map>
+#include <utility> // for pair
 #include <vector>
 
 /*!
@@ -27,10 +28,11 @@ Negative cycle detection for weighed graphs.
 template <typename Graph> //
 class NegCycleFinder {
   using node_t = typename Graph::node_t;
-  using edge_t = typename Graph::edge_t;
+  // using edge_t = typename Graph::edge_t;
+  using Edge = std::pair<node_t, node_t>;
 
   std::unordered_map<node_t, node_t> _pred{};
-  std::unordered_map<node_t, edge_t> _edge{};
+  // std::unordered_map<node_t, edge_t> _edge{};
 
 private:
   const Graph &_gra; // const???
@@ -53,13 +55,13 @@ public:
    * @tparam WeightFn
    * @param[in,out] dist
    * @param[in] get_weight
-   * @return std::vector<edge_t>
+   * @return std::vector<Edge>
    */
   template <typename Container, typename WeightFn>
   auto find_neg_cycle(Container &&dist, WeightFn &&get_weight)
-      -> std::vector<edge_t> {
+      -> std::vector<Edge> {
     this->_pred.clear();
-    this->_edge.clear();
+    // this->_edge.clear();
 
     while (this->_relax(dist, get_weight)) {
       const auto v = this->_find_cycle();
@@ -68,7 +70,7 @@ public:
         return this->_cycle_list(*v);
       }
     }
-    return std::vector<edge_t>{}; // TODO
+    return std::vector<Edge>{}; // TODO
   }
 
 private:
@@ -125,13 +127,13 @@ private:
       for (const auto &v : this->_gra.successors(u)) {
         // Allow self-loop
         // assert(u != v);
-        const auto e = edge_t{u, v};
+        const auto e = Edge{u, v};
         const auto wt = get_weight(e);
         // assume it takes a long time
         const auto d = dist[u] + wt;
         if (dist[v] > d) {
           this->_pred[v] = u;
-          this->_edge[v] = e; // TODO
+          // this->_edge[v] = e; // TODO
           dist[v] = d;
           changed = true;
         }
@@ -144,14 +146,15 @@ private:
    * @brief generate a cycle list
    *
    * @param[in] handle
-   * @return std::vector<edge_t>
+   * @return std::vector<Edge>
    */
-  auto _cycle_list(const node_t &handle) -> std::vector<edge_t> {
+  auto _cycle_list(const node_t &handle) -> std::vector<Edge> {
     auto v = handle;
-    auto cycle = std::vector<edge_t>{}; // TODO
+    auto cycle = std::vector<Edge>{}; // TODO
     do {
       const auto &u = this->_pred[v];
-      cycle.push_back(this->_edge[v]); // TODO
+      // cycle.push_back(this->_edge[v]); // TODO
+      cycle.push_back(Edge{u, v});
       v = u;
     } while (v != handle);
     return cycle;
@@ -174,7 +177,7 @@ private:
     auto v = handle;
     do {
       const auto u = this->_pred[v];
-      const auto wt = get_weight(this->_edge[v]); // TODO
+      const auto wt = get_weight(Edge{u, v}); // TODO
       if (dist[v] > dist[u] + wt) {
         return true;
       }

@@ -30,14 +30,15 @@ template <typename Graph, typename T, typename Fn1, typename Fn2,
           typename Container>
 auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
                     Container &&dist, size_t max_iter = 1000) {
-  using edge_t = typename Graph::edge_t;
+  using node_t = typename Graph::node_t;
+  using Edge = std::pair<node_t, node_t>;
 
-  auto get_weight = [&](const edge_t &e) -> T { // int???
+  auto get_weight = [&](const Edge &e) -> T { // int???
     return d(r_opt, e);
   };
 
   auto S = NegCycleFinder<Graph>(gra);
-  auto C_opt = std::vector<edge_t>{}; // should initial outside
+  auto C_opt = std::vector<Edge>{}; // should initial outside
 
   auto niter = 0U;
   for (; niter != max_iter; ++niter) {
@@ -57,8 +58,8 @@ auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
 
     // update ???
     for (auto &&edge : C_opt) {
-      const auto e = gra.end_points(edge);
-      dist[e.first] = dist[e.second] - get_weight(edge);
+      const auto [u, v] = edge;
+      dist[u] = dist[v] - get_weight(edge);
     }
   }
 

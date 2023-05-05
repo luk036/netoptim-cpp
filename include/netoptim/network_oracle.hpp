@@ -20,7 +20,8 @@
  * @tparam Fn
  */
 template <typename Graph, typename Container, typename Fn> class NetworkOracle {
-  using edge_t = typename Graph::edge_t;
+  using node_t = typename Graph::node_t;
+  using Edge = std::pair<node_t, node_t>;
 
 private:
   const Graph &_gra;
@@ -66,7 +67,7 @@ public:
    */
   template <typename Arr>
   auto assess_feas(const Arr &xval) -> std::optional<std::pair<Arr, double>> {
-    auto get_weight = [this, &xval](const edge_t &edge) -> double {
+    auto get_weight = [this, &xval](const Edge &edge) -> double {
       return this->_h.eval(edge, xval);
     };
 
@@ -76,7 +77,7 @@ public:
     }
 
     auto grad = zeros(xval);
-    auto fval = 0.;
+    auto fval = 0.0;
     for (auto &&edge : C) {
       fval -= this->_h.eval(edge, xval);
       grad -= this->_h.grad(edge, xval);

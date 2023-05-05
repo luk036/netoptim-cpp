@@ -19,7 +19,7 @@
  */
 template <typename Graph> auto do_case(const Graph &gra) -> bool {
   const auto get_weight = [&](const auto &edge) -> int {
-    const auto [u, v] = gra.end_points(edge);
+    const auto [u, v] = edge;
     return gra[u][v];
   };
 

@@ -20,7 +20,7 @@ TEST_CASE("Test Cycle Ratio") {
   const auto cost = std::array<int, 5>{5, 1, 1, 1, 1};
 
   const auto get_cost = [&](const auto &edge) -> int {
-    const auto [u, v] = gra.end_points(edge);
+    const auto [u, v] = edge;
     return cost[gra[u][v]];
   };
   const auto get_time = [&](const auto & /*e*/) -> int { return 1; };
@@ -43,8 +43,8 @@ TEST_CASE("Test Cycle Ratio of Timing Graph") {
   const auto cost = std::array<int, 6>{7, -1, 3, 0, 2, 4};
 
   const auto get_cost = [&](const auto &edge) -> int {
-    const auto e = gra.end_points(edge);
-    return cost[gra[e.first][e.second]];
+    const auto [u, v] = edge;
+    return cost[gra[u][v]];
   };
   const auto get_time = [&](const auto & /*e*/) -> int { return 1; };
 
