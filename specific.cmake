@@ -33,7 +33,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.6.3
+  GIT_TAG 1.6.4
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
