@@ -29,7 +29,7 @@
 template <typename Graph, typename T, typename Fn1, typename Fn2,
           typename Container>
 auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
-                    Container &&dist, size_t max_iter = 1000) {
+                    Container &&dist, size_t max_iters = 1000) {
   using node_t = typename Graph::node_t;
   using Edge = std::pair<node_t, node_t>;
 
@@ -41,7 +41,7 @@ auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
   auto C_opt = std::vector<Edge>{}; // should initial outside
 
   auto niter = 0U;
-  for (; niter != max_iter; ++niter) {
+  for (; niter != max_iters; ++niter) {
     const auto &C_min =
         S.find_neg_cycle(std::forward<Container>(dist), std::move(get_weight));
     if (C_min.empty()) {
