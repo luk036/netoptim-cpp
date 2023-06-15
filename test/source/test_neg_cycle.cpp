@@ -1,13 +1,13 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h> // for ResultBuilder, TestCase
 
-#include <netoptim/neg_cycle.hpp>            // for NegCycleFinder
+#include <array>                  // for array
+#include <netoptim/neg_cycle.hpp> // for NegCycleFinder
+#include <unordered_map>          // for unordered_map
+#include <vector>                 // for vector
 #include <xnetwork/classes/digraphs.hpp>     // for DiGraphS
 #include <xnetwork/generators/testcases.hpp> // for create_test_case1, crea...
 
-#include <array>         // for array
-#include <unordered_map> // for unordered_map
-#include <vector>        // for vector
 
 /*!
  * @brief
@@ -24,8 +24,8 @@ template <typename Graph> auto do_case(const Graph &gra) -> bool {
   };
 
   auto dist = std::vector<int>(gra.number_of_nodes(), 0);
-  auto N = NegCycleFinder<Graph>(gra);
-  const auto cycle = N.find_neg_cycle(dist, get_weight);
+  auto ncf = NegCycleFinder<Graph>(gra);
+  const auto cycle = ncf.find_neg_cycle(dist, get_weight);
   return !cycle.empty();
 }
 

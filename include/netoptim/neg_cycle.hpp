@@ -27,16 +27,12 @@ Negative cycle detection for weighed graphs.
  */
 template <typename Graph> //
 class NegCycleFinder {
-  using node_t = typename Graph::node_t;
-  // using edge_t = typename Graph::edge_t;
+  using node_t = typename Graph::key_type;
   using Edge = std::pair<node_t, node_t>;
 
-  std::unordered_map<node_t, node_t> _pred{};
-  // std::unordered_map<node_t, edge_t> _edge{};
-
 private:
+  std::unordered_map<node_t, node_t> _pred{};
   const Graph &_gra; // const???
-  // std::unique_ptr<node_t> _cycle_start;
 
 public:
   /*!
@@ -124,7 +120,7 @@ private:
   auto _relax(Container &&dist, WeightFn &&get_weight) -> bool {
     auto changed = false;
     for (const auto &u : this->_gra) {
-      for (const auto &v : this->_gra.successors(u)) {
+      for (const auto &v : this->_gra[u]) {
         // Allow self-loop
         // assert(u != v);
         const auto e = Edge{u, v};
@@ -133,7 +129,6 @@ private:
         const auto d = dist[u] + wt;
         if (dist[v] > d) {
           this->_pred[v] = u;
-          // this->_edge[v] = e; // TODO
           dist[v] = d;
           changed = true;
         }
@@ -153,7 +148,6 @@ private:
     auto cycle = std::vector<Edge>{}; // TODO
     do {
       const auto &u = this->_pred[v];
-      // cycle.push_back(this->_edge[v]); // TODO
       cycle.push_back(Edge{u, v});
       v = u;
     } while (v != handle);
