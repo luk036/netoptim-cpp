@@ -22,3 +22,23 @@ TEST_CASE("Test Negative Cycle 2") {
   CHECK(cycle.empty());
 }
 
+#include <py2cpp/lict.hpp> // for Lict
+
+/*!
+ * @brief
+ *
+ */
+TEST_CASE("Test Negative Cycle (Lict)") {
+  py::Lict<py::dict<size_t, int>> gra {
+    {{{1, 7}, {2, 5}}, {{0, 0}, {2, 3}}, {{1, 1}, {0, 2}}}
+  };
+
+  const auto get_weight = [&](const auto &edge) -> int {
+    const auto [u, v] = edge;
+    return gra[u][v];
+  };
+  auto dist = py::Lict<int>{std::vector<int>{0, 0, 0}};
+  NegCycleFinder ncf(gra);
+  const auto cycle = ncf.find_neg_cycle(dist, get_weight);
+  CHECK(cycle.empty());
+}
