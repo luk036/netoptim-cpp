@@ -8,15 +8,30 @@
 
 using namespace std;
 
+/**
+ * @brief 
+ * 
+ */
 class NegCycleFinder {
 private:
   unordered_map<int, vector<pair<int, int>>> gra;
   unordered_map<int, int> pred;
 
 public:
+  /**
+   * @brief Construct a new Neg Cycle Finder object
+   * 
+   * @param gra 
+   */
   NegCycleFinder(unordered_map<int, vector<pair<int, int>>> gra) {
     this->gra = gra;
   }
+
+  /**
+   * @brief 
+   * 
+   * @return vector<pair<int, int>> 
+   */
   vector<pair<int, int>> find_cycle() {
     unordered_map<int, int> visited;
     vector<pair<int, int>> cycle;
@@ -51,6 +66,15 @@ public:
     }
     return cycle;
   }
+
+  /**
+   * @brief 
+   * 
+   * @param dist 
+   * @param get_weight 
+   * @return true 
+   * @return false 
+   */
   bool relax(unordered_map<int, int> &dist,
              function<int(pair<int, int>)> get_weight) {
     bool changed = false;
@@ -69,6 +93,14 @@ public:
     }
     return changed;
   }
+
+  /**
+   * @brief 
+   * 
+   * @param dist 
+   * @param get_weight 
+   * @return vector<pair<int, int>> 
+   */
   vector<pair<int, int>>
   find_neg_cycle(unordered_map<int, int> &dist,
                  function<int(pair<int, int>)> get_weight) {
@@ -84,6 +116,13 @@ public:
     }
     return cycle;
   }
+
+  /**
+   * @brief 
+   * 
+   * @param handle 
+   * @return vector<pair<int, int>> 
+   */
   vector<pair<int, int>> cycle_list(int handle) {
     int v = handle;
     vector<pair<int, int>> cycle;
