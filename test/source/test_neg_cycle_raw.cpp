@@ -29,9 +29,8 @@ TEST_CASE("Test Negative Cycle 2") {
  *
  */
 TEST_CASE("Test Negative Cycle (Lict)") {
-  py::Lict<py::dict<size_t, int>> gra {
-    {{{1, 7}, {2, 5}}, {{0, 0}, {2, 3}}, {{1, 1}, {0, 2}}}
-  };
+  py::Lict<py::dict<size_t, int>> gra{
+      {{{1, 7}, {2, 5}}, {{0, 0}, {2, 3}}, {{1, 1}, {0, 2}}}};
 
   const auto get_weight = [&](const auto &edge) -> int {
     const auto [u, v] = edge;
