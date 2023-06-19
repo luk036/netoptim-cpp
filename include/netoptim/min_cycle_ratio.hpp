@@ -13,8 +13,8 @@
  *    This function solves the following network parametric problem:
  *
  *        max  r
- *        s.t. dist[v] - dist[u] \ge cost(u, v) - r * time(u, v)
- *             \forall e(u, v) \in gra(V, E)
+ *        s.t. dist[vtx] - dist[utx] \ge cost(utx, vtx) - r * time(utx, vtx)
+ *             \forall edge(utx, vtx) \in gra(V, E)
  *
  * @tparam Graph
  * @tparam Fn1
@@ -39,15 +39,15 @@ auto min_cycle_ratio(const Graph &gra, T &r0, Fn1 &&get_cost, Fn2 &&get_time,
   auto calc_ratio = [&](const auto &C) -> T {
     auto total_cost = cost_T(0);
     auto total_time = time_T(0);
-    for (auto &&e : C) {
-      total_cost += get_cost(e);
-      total_time += get_time(e);
+    for (auto &&edge : C) {
+      total_cost += get_cost(edge);
+      total_time += get_time(edge);
     }
     return T(total_cost) / total_time;
   };
 
-  auto calc_weight = [&](const T &r, const Edge &e) -> T {
-    return get_cost(e) - r * get_time(e);
+  auto calc_weight = [&](const T &r, const Edge &edge) -> T {
+    return get_cost(edge) - r * get_time(edge);
   };
 
   return max_parametric(gra, r0, std::move(calc_weight), std::move(calc_ratio),

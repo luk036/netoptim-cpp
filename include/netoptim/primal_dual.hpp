@@ -25,19 +25,19 @@ auto min_vertex_cover_pd(const Graph &gra, C1 &cover, const C2 &weight) {
   [[maybe_unused]] auto total_dual_cost = T(0);
   auto total_primal_cost = T(0);
   auto gap = weight;
-  for (auto &&e : gra.edges()) {
-    auto [u, v] = e.end_points();
-    if (cover[u] || cover[v]) {
+  for (auto &&edge : gra.edges()) {
+    auto [utx, vtx] = edge.end_points();
+    if (cover[utx] || cover[vtx]) {
       continue;
     }
-    if (gap[u] < gap[v]) {
-      std::swap(u, v);
+    if (gap[utx] < gap[vtx]) {
+      std::swap(utx, vtx);
     }
-    cover[v] = true;
-    total_dual_cost += gap[v];
-    total_primal_cost += weight[v];
-    gap[u] -= gap[v];
-    gap[v] = T(0);
+    cover[vtx] = true;
+    total_dual_cost += gap[vtx];
+    total_primal_cost += weight[vtx];
+    gap[utx] -= gap[vtx];
+    gap[vtx] = T(0);
   }
 
   assert(total_dual_cost <= total_primal_cost);
@@ -61,44 +61,44 @@ auto min_vertex_cover_pd(const Graph &gra, C1 &cover, const C2 &weight) {
 template <typename Graph, typename C1, typename C2>
 auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep,
                                     const C2 &weight) {
-  auto cover = [&](const auto &u) {
-    dep[u] = true;
-    for (auto &&v : gra[u]) {
-      dep[v] = true;
+  auto cover = [&](const auto &utx) {
+    dep[utx] = true;
+    for (auto &&vtx : gra[utx]) {
+      dep[vtx] = true;
     }
   };
 
   auto gap = weight;
   [[maybe_unused]] total_dual_cost = T(0);
   total_primal_cost = T(0);
-  for (auto &&u : gra) {
-    if (dep[u]) {
+  for (auto &&utx : gra) {
+    if (dep[utx]) {
       continue;
     }
-    if (indset[u]) { // pre-define independant
-      cover(u);
+    if (indset[utx]) { // pre-define independant
+      cover(utx);
       continue;
     }
-    auto min_val = gap[u];
-    auto min_vtx = u;
-    for (auto &&v : gra[u]) {
-      if (dep[v]) {
+    auto min_val = gap[utx];
+    auto min_vtx = utx;
+    for (auto &&vtx : gra[utx]) {
+      if (dep[vtx]) {
         continue;
       }
-      if (min_val > gap[v]) {
-        min_val = gap[v];
-        min_vtx = v;
+      if (min_val > gap[vtx]) {
+        min_val = gap[vtx];
+        min_vtx = vtx;
       }
     }
     cover(min_vtx);
     indset[min_vtx] = true;
     total_primal_cost += weight[min_vtx];
     total_dual_cost += min_val;
-    if (min_vtx == u) {
+    if (min_vtx == utx) {
       continue;
     }
-    for (auto &&v : gra[u]) {
-      gap[v] -= min_val;
+    for (auto &&vtx : gra[utx]) {
+      gap[vtx] -= min_val;
     }
   }
   return total_primal_cost;

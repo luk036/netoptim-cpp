@@ -7,7 +7,6 @@ Negative cycle detection for weighed graphs.
 // #include <ThreadPool.h>
 
 #include <cassert>
-#include <memory> // for unique_ptr
 #include <optional>
 #include <unordered_map>
 #include <utility> // for pair
@@ -16,23 +15,24 @@ Negative cycle detection for weighed graphs.
 /*!
  * @brief negative cycle
  *
- * @tparam Graph
+ * @tparam DiGraph
  *
  * Note: Bellman-Ford's shortest-path algorithm (BF) is NOT the best way to
  *       detect negative cycles, because
  *
  *  1. BF needs a source node.
  *  2. BF detect whether there is a negative cycle at the fianl stage.
- *  3. BF restarts the solution (dist[u]) every time.
+ *  3. BF restarts the solution (dist[utx]) every time.
  */
-template <typename Graph> //
+template <typename DiGraph> //
 class NegCycleFinder {
-  using node_t = typename Graph::key_type;
-  using Edge = std::pair<node_t, node_t>;
+  using node_t = typename DiGraph::key_type;
+  using edge_t = std::pair<node_t, node_t>;
+  using Cycle = std::vector<edge_t>;
 
 private:
   std::unordered_map<node_t, node_t> _pred{};
-  const Graph &_gra; // const???
+  const DiGraph &_digraph;
 
 public:
   /*!
@@ -40,33 +40,28 @@ public:
    *
    * @param[in] gra
    */
-  explicit NegCycleFinder(const Graph &gra)
-      // : _gra{gra}, _cycle_start{std::make_unique<node_t>()} {}
-      : _gra{gra} {}
+  explicit NegCycleFinder(const DiGraph &gra) : _digraph{gra} {}
 
   /*!
    * @brief find negative cycle
    *
-   * @tparam Container
-   * @tparam WeightFn
+   * @tparam Mapping
+   * @tparam Callable
    * @param[in,out] dist
    * @param[in] get_weight
-   * @return std::vector<Edge>
+   * @return Cycle
    */
-  template <typename Container, typename WeightFn>
-  auto find_neg_cycle(Container &&dist, WeightFn &&get_weight)
-      -> std::vector<Edge> {
+  template <typename Mapping, typename Callable>
+  auto find_neg_cycle(Mapping &&dist, Callable &&get_weight) -> Cycle {
     this->_pred.clear();
-    // this->_edge.clear();
-
     while (this->_relax(dist, get_weight)) {
-      const auto v = this->_find_cycle();
-      if (v) {
-        assert(this->_is_negative(*v, dist, get_weight));
-        return this->_cycle_list(*v);
+      const auto vtx = this->_find_cycle();
+      if (vtx) {
+        assert(this->_is_negative(*vtx, dist, get_weight));
+        return this->_cycle_list(*vtx);
       }
     }
-    return std::vector<Edge>{}; // TODO
+    return Cycle{}; // TODO
   }
 
 private:
@@ -77,25 +72,24 @@ private:
    */
   auto _find_cycle() -> std::optional<node_t> {
     auto visited = std::unordered_map<node_t, node_t>{};
-
-    for (auto &&v : this->_gra) {
-      if (visited.find(v) != visited.end()) { // contains v
+    for (auto &&vtx : this->_digraph) {
+      if (visited.find(vtx) != visited.end()) { // contains vtx
         continue;
       }
-      auto u = v;
+      auto utx = vtx;
       while (true) {
-        visited[u] = v;
-        if (this->_pred.find(u) == this->_pred.end()) { // not contains u
+        visited[utx] = vtx;
+        if (this->_pred.find(utx) == this->_pred.end()) { // not contains utx
           break;
         }
-        u = this->_pred[u];
-        if (visited.find(u) != visited.end()) { // contains u
-          if (visited[u] == v) {
-            // if (this->_is_negative(u)) {
-            // should be "yield u";
-            // *this->_cycle_start = u;
+        utx = this->_pred[utx];
+        if (visited.find(utx) != visited.end()) { // contains utx
+          if (visited[utx] == vtx) {
+            assert(this->_is_negative(vtx, dist, get_weight));
+            // should be "yield utx";
+            // *this->_cycle_start = utx;
             // return this->_cycle_start.get();
-            return u;
+            return utx;
             // }
           }
           break;
@@ -109,27 +103,24 @@ private:
   /*!
    * @brief Perform one relaxation
    *
-   * @tparam Container
-   * @tparam WeightFn
+   * @tparam Mapping
+   * @tparam Callable
    * @param[in,out] dist
    * @param[in] get_weight
    * @return true
    * @return false
    */
-  template <typename Container, typename WeightFn>
-  auto _relax(Container &&dist, WeightFn &&get_weight) -> bool {
+  template <typename Mapping, typename Callable>
+  auto _relax(Mapping &&dist, Callable &&get_weight) -> bool {
     auto changed = false;
-    for (const auto &u : this->_gra) {
-      for (const auto &v : this->_gra[u]) {
+    for (const auto &utx : this->_digraph) {
+      for (const auto &vtx : this->_digraph[utx]) {
         // Allow self-loop
-        // assert(u != v);
-        const auto e = Edge{u, v};
-        const auto wt = get_weight(e);
-        // assume it takes a long time
-        const auto d = dist[u] + wt;
-        if (dist[v] > d) {
-          this->_pred[v] = u;
-          dist[v] = d;
+        const auto weight = get_weight(edge_t{utx, vtx});
+        const auto distance = dist[utx] + weight;
+        if (dist[vtx] > distance) {
+          this->_pred[vtx] = utx;
+          dist[vtx] = distance;
           changed = true;
         }
       }
@@ -141,42 +132,42 @@ private:
    * @brief generate a cycle list
    *
    * @param[in] handle
-   * @return std::vector<Edge>
+   * @return Cycle
    */
-  auto _cycle_list(const node_t &handle) -> std::vector<Edge> {
-    auto v = handle;
-    auto cycle = std::vector<Edge>{}; // TODO
+  auto _cycle_list(const node_t &handle) -> Cycle {
+    auto vtx = handle;
+    auto cycle = Cycle{}; // TODO
     do {
-      const auto &u = this->_pred[v];
-      cycle.push_back(Edge{u, v});
-      v = u;
-    } while (v != handle);
+      const auto &utx = this->_pred[vtx];
+      cycle.push_back(edge_t{utx, vtx});
+      vtx = utx;
+    } while (vtx != handle);
     return cycle;
   }
 
   /*!
    * @brief check if it is really a negative cycle
    *
-   * @tparam Container
-   * @tparam WeightFn
+   * @tparam Mapping
+   * @tparam Callable
    * @param[in] handle
    * @param[in] dist
    * @param[in] get_weight
    * @return true
    * @return false
    */
-  template <typename Container, typename WeightFn>
-  auto _is_negative(const node_t &handle, const Container &dist,
-                    WeightFn &&get_weight) -> bool {
-    auto v = handle;
+  template <typename Mapping, typename Callable>
+  auto _is_negative(const node_t &handle, const Mapping &dist,
+                    Callable &&get_weight) -> bool {
+    auto vtx = handle;
     do {
-      const auto u = this->_pred[v];
-      const auto wt = get_weight(Edge{u, v}); // TODO
-      if (dist[v] > dist[u] + wt) {
+      const auto utx = this->_pred[vtx];
+      const auto weight = get_weight(edge_t{utx, vtx}); // TODO
+      if (dist[vtx] > dist[utx] + weight) {
         return true;
       }
-      v = u;
-    } while (v != handle);
+      vtx = utx;
+    } while (vtx != handle);
 
     return false;
   }

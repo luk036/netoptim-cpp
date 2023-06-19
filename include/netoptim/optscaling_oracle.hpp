@@ -13,9 +13,9 @@
  *    This example is taken from [Orlin and Rothblum, 1985]:
  *
  *        min     \pi/\phi
- *        s.t.    \phi \le u[i] * |aij| * u[j]^-1 \le \pi,
+ *        s.t.    \phi \le utx[i] * |aij| * utx[j]^-1 \le \pi,
  *                \forall aij != 0,
- *                \pi, \phi, u, positive
+ *                \pi, \phi, utx, positive
  *
  * @tparam Graph
  * @tparam Container
@@ -57,30 +57,30 @@ class OptScalingOracle {
     /*!
      * @brief Evaluate function
      *
-     * @param[in] e
+     * @param[in] edge
      * @param[in] x $(\pi, \phi)$ in log scale
      * @return double
      */
     auto eval(const Edge &edge, const Vec &x) const -> double {
-      // const auto [u, v] = this->_gra.end_points(e);
+      // const auto [utx, vtx] = this->_gra.end_points(edge);
       const auto cost = this->_get_cost(edge);
-      const auto [u, v] = edge;
-      assert(u != v);
-      return (u < v) ? x[0] - cost : cost - x[1];
+      const auto [utx, vtx] = edge;
+      assert(utx != vtx);
+      return (utx < vtx) ? x[0] - cost : cost - x[1];
     }
 
     /*!
      * @brief Gradient function
      *
-     * @param[in] e
+     * @param[in] edge
      * @param[in] x $(\pi, \phi)$ in log scale
      * @return Vec
      */
     auto grad(const Edge &edge, const Vec &) const -> Vec {
-      // const auto [u, v] = this->_gra.end_points(e);
-      const auto [u, v] = edge;
-      assert(u != v);
-      return (u < v) ? Vec{1., 0.} : Vec{0., -1.};
+      // const auto [utx, vtx] = this->_gra.end_points(edge);
+      const auto [utx, vtx] = edge;
+      assert(utx != vtx);
+      return (utx < vtx) ? Vec{1., 0.} : Vec{0., -1.};
     }
   };
 
@@ -91,11 +91,11 @@ public:
    * @brief Construct a new optscaling oracle object
    *
    * @param[in] gra
-   * @param[in,out] u
+   * @param[in,out] utx
    * @param[in] get_cost
    */
-  OptScalingOracle(const Graph &gra, Container &u, Fn get_cost)
-      : _network(gra, u, Ratio{gra, get_cost}) {}
+  OptScalingOracle(const Graph &gra, Container &utx, Fn get_cost)
+      : _network(gra, utx, Ratio{gra, get_cost}) {}
 
   /**
    * @brief Construct a new optscaling oracle object

@@ -11,8 +11,8 @@
  *    This function solves the following network parametric problem:
  *
  *        max  r
- *        s.t. dist[v] - dist[u] \ge d(u, v, r)
- *             \forall e(u, v) \in gra(V, E)
+ *        s.t. dist[vtx] - dist[utx] \ge d(utx, vtx, r)
+ *             \forall edge(utx, vtx) \in gra(V, E)
  *
  * @tparam Graph
  * @tparam T
@@ -33,8 +33,8 @@ auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
   using node_t = typename Graph::key_type;
   using Edge = std::pair<node_t, node_t>;
 
-  auto get_weight = [&](const Edge &e) -> T { // int???
-    return d(r_opt, e);
+  auto get_weight = [&](const Edge &edge) -> T { // int???
+    return d(r_opt, edge);
   };
 
   auto S = NegCycleFinder<Graph>(gra);
@@ -58,8 +58,8 @@ auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&d, Fn2 &&zero_cancel,
 
     // update ???
     for (auto &&edge : C_opt) {
-      const auto [u, v] = edge;
-      dist[u] = dist[v] - get_weight(edge);
+      const auto [utx, vtx] = edge;
+      dist[utx] = dist[vtx] - get_weight(edge);
     }
   }
 

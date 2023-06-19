@@ -11,9 +11,9 @@
  *
  *    This oracle solves the following feasibility problem:
  *
- *        find    x, u
- *        s.t.    u[j] - u[i] \le h(e, x)
- *                \forall e(i, j) \in E
+ *        find    x, utx
+ *        s.t.    utx[j] - utx[i] \le h(edge, x)
+ *                \forall edge(i, j) \in E
  *
  * @tparam Graph
  * @tparam Container
@@ -34,11 +34,11 @@ public:
    * @brief Construct a new network oracle object
    *
    * @param[in] gra a directed graph (V, E)
-   * @param[in,out] u list or dictionary
+   * @param[in,out] utx list or dictionary
    * @param[in] h function evaluation and gradient
    */
-  NetworkOracle(const Graph &gra, Container &u, Fn h)
-      : _gra{gra}, _u{u}, _S(gra), _h{std::move(h)} {}
+  NetworkOracle(const Graph &gra, Container &utx, Fn h)
+      : _gra{gra}, _u{utx}, _S(gra), _h{std::move(h)} {}
 
   /**
    * @brief Construct a new network oracle object

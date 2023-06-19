@@ -18,8 +18,8 @@
  */
 template <typename Graph> auto do_case(const Graph &gra) -> bool {
   const auto get_weight = [&](const auto &edge) -> int {
-    const auto [u, v] = edge;
-    return gra[u][v];
+    const auto [utx, vtx] = edge;
+    return gra[utx][vtx];
   };
 
   auto dist = std::vector<int>(gra.number_of_nodes(), 0);
