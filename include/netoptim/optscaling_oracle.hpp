@@ -18,15 +18,15 @@
  *                \pi, \phi, utx, positive
  *
  * @tparam Graph
- * @tparam Container
+ * @tparam Mapping
  * @tparam Fn
  */
-template <typename Graph, typename Container, typename Fn> //
+template <typename Graph, typename Mapping, typename Fn> //
 class OptScalingOracle {
   // using Vec = xt::xarray<double, xt::layout_type::row_major>;
   using Vec = std::valarray<double>;
   using node_t = typename Graph::node_t;
-  using Edge = std::pair<node_t, node_t>;
+  using edge_t = std::pair<node_t, node_t>;
   using Cut = std::pair<Vec, double>;
 
   /**
@@ -61,7 +61,7 @@ class OptScalingOracle {
      * @param[in] x $(\pi, \phi)$ in log scale
      * @return double
      */
-    auto eval(const Edge &edge, const Vec &x) const -> double {
+    auto eval(const edge_t &edge, const Vec &x) const -> double {
       // const auto [utx, vtx] = this->_gra.end_points(edge);
       const auto cost = this->_get_cost(edge);
       const auto [utx, vtx] = edge;
@@ -76,7 +76,7 @@ class OptScalingOracle {
      * @param[in] x $(\pi, \phi)$ in log scale
      * @return Vec
      */
-    auto grad(const Edge &edge, const Vec &) const -> Vec {
+    auto grad(const edge_t &edge, const Vec &) const -> Vec {
       // const auto [utx, vtx] = this->_gra.end_points(edge);
       const auto [utx, vtx] = edge;
       assert(utx != vtx);
@@ -84,7 +84,7 @@ class OptScalingOracle {
     }
   };
 
-  NetworkOracle<Graph, Container, Ratio> _network;
+  NetworkOracle<Graph, Mapping, Ratio> _network;
 
 public:
   /*!
@@ -94,7 +94,7 @@ public:
    * @param[in,out] utx
    * @param[in] get_cost
    */
-  OptScalingOracle(const Graph &gra, Container &utx, Fn get_cost)
+  OptScalingOracle(const Graph &gra, Mapping &utx, Fn get_cost)
       : _network(gra, utx, Ratio{gra, get_cost}) {}
 
   /**

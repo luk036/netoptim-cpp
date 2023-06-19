@@ -9,8 +9,9 @@
 using namespace std;
 
 /**
- * @brief
- *
+ * @brief 
+ * 
+ * @tparam DiGraph 
  */
 template <typename DiGraph> class NegCycleFinder {
   using node_t = typename DiGraph::key_type;
@@ -18,8 +19,8 @@ template <typename DiGraph> class NegCycleFinder {
   using Cycle = std::vector<edge_t>;
 
 private:
-  const DiGraph &_digraph;
-  std::unordered_map<node_t, node_t> _pred{};
+  const DiGraph &_digraph; ///< graph
+  std::unordered_map<node_t, node_t> _pred{}; ///< pred
 
 public:
   /**
@@ -85,9 +86,9 @@ public:
       for (auto jt = it->second.begin(); jt != it->second.end(); jt++) {
         int vtx = jt->first;
         int weight = get_weight(make_pair(utx, vtx));
-        int d = dist[utx] + weight;
-        if (dist[vtx] > d) {
-          dist[vtx] = d;
+        int distrance = dist[utx] + weight;
+        if (dist[vtx] > distrance) {
+          dist[vtx] = distrance;
           this->_pred[vtx] = utx;
           changed = true;
         }

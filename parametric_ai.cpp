@@ -55,13 +55,31 @@ private:
     const Graph<R, int>& graph_;
 };
 
+/**
+ * @brief 
+ * 
+ * @tparam R 
+ */
 template<typename R>
 class Omega {
 public:
+    /**
+     * @brief 
+     * 
+     * @param ratio 
+     * @param edge 
+     * @return R 
+     */
     R distance(R ratio, pair<int, int> edge) const {
         return log(ratio * exp(weights_[edge]) + (1 - ratio) * exp(-weights_[edge]));
     }
 
+    /**
+     * @brief 
+     * 
+     * @param cycle 
+     * @return R 
+     */
     R zero_cancel(const vector<int>& cycle) const {
         R sum = 0;
         for (int i = 0; i < cycle.size(); ++i) {
@@ -70,12 +88,18 @@ public:
         return exp(sum);
     }
 
+    /**
+     * @brief Set the weight object
+     * 
+     * @param edge 
+     * @param weight 
+     */
     void set_weight(pair<int, int> edge, R weight) {
         weights_[edge] = weight;
     }
 
 private:
-    unordered_map<pair<int, int>, R> weights_;
+    unordered_map<pair<int, int>, R> weights_; ///< weights
 };
 
 template<typename R, typename V>
@@ -90,6 +114,17 @@ using MutableMapping = unordered_map<V, unordered_map<V, R>>;
 template<typename R, typename V>
 using Cycle = vector<pair<V, V>>;
 
+/**
+ * @brief 
+ * 
+ * @tparam R 
+ * @tparam V 
+ * @param gra 
+ * @param ratio 
+ * @param omega 
+ * @param dist 
+ * @return R 
+ */
 template<typename R, typename V>
 R max_parametric(
     const Mapping<R, V>& gra,

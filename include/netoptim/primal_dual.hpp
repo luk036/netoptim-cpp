@@ -12,7 +12,7 @@
  *    approximation algorithm:
  *
  * @tparam Graph
- * @tparam Container
+ * @tparam Mapping
  * @param[in] gra
  * @param[in,out] cover
  * @param[in] weight
@@ -52,7 +52,7 @@ auto min_vertex_cover_pd(const Graph &gra, C1 &cover, const C2 &weight) {
  *    using primal-dual approximation algorithm:
  *
  * @tparam Graph
- * @tparam Container
+ * @tparam Mapping
  * @param[in] gra
  * @param[in,out] cover
  * @param[in] weight

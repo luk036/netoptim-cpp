@@ -16,16 +16,16 @@
  *                \forall edge(i, j) \in E
  *
  * @tparam Graph
- * @tparam Container
+ * @tparam Mapping
  * @tparam Fn
  */
-template <typename Graph, typename Container, typename Fn> class NetworkOracle {
+template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
   using node_t = typename Graph::node_t;
-  using Edge = std::pair<node_t, node_t>;
+  using edge_t = std::pair<node_t, node_t>;
 
 private:
   const Graph &_gra;
-  Container &_u; // reference???
+  Mapping &_u; // reference???
   NegCycleFinder<Graph> _S;
   Fn _h;
 
@@ -37,7 +37,7 @@ public:
    * @param[in,out] utx list or dictionary
    * @param[in] h function evaluation and gradient
    */
-  NetworkOracle(const Graph &gra, Container &utx, Fn h)
+  NetworkOracle(const Graph &gra, Mapping &utx, Fn h)
       : _gra{gra}, _u{utx}, _S(gra), _h{std::move(h)} {}
 
   /**
@@ -67,7 +67,7 @@ public:
    */
   template <typename Arr>
   auto assess_feas(const Arr &xval) -> std::optional<std::pair<Arr, double>> {
-    auto get_weight = [this, &xval](const Edge &edge) -> double {
+    auto get_weight = [this, &xval](const edge_t &edge) -> double {
       return this->_h.eval(edge, xval);
     };
 
