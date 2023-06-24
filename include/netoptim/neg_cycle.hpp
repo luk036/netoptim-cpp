@@ -85,7 +85,6 @@ private:
         utx = this->_pred[utx];
         if (visited.find(utx) != visited.end()) { // contains utx
           if (visited[utx] == vtx) {
-            assert(this->_is_negative(vtx, dist, get_weight));
             // should be "yield utx";
             // *this->_cycle_start = utx;
             // return this->_cycle_start.get();
@@ -114,7 +113,7 @@ private:
   auto _relax(Mapping &&dist, Callable &&get_weight) -> bool {
     auto changed = false;
     for (const auto &utx : this->_digraph) {
-      for (const auto &vtx : this->_digraph[utx]) {
+      for (const auto &vtx : this->_digraph.at(utx)) {
         // Allow self-loop
         const auto weight = get_weight(edge_t{utx, vtx});
         const auto distance = dist[utx] + weight;
@@ -158,12 +157,12 @@ private:
    */
   template <typename Mapping, typename Callable>
   auto _is_negative(const node_t &handle, const Mapping &dist,
-                    Callable &&get_weight) -> bool {
+                    Callable &&get_weight) const -> bool {
     auto vtx = handle;
     do {
-      const auto utx = this->_pred[vtx];
+      const auto utx = this->_pred.at(vtx);
       const auto weight = get_weight(edge_t{utx, vtx}); // TODO
-      if (dist[vtx] > dist[utx] + weight) {
+      if (dist.at(vtx) > dist.at(utx) + weight) {
         return true;
       }
       vtx = utx;

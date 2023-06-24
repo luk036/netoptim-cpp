@@ -15,7 +15,7 @@ TEST_CASE("Test Negative Cycle 2") {
 
   const auto get_weight = [&](const auto &edge) -> int {
     const auto [utx, vtx] = edge;
-    return gra[utx][vtx];
+    return gra.at(utx).at(vtx);
   };
   auto dist = py::dict<uint32_t, int>{{0, 0}, {1, 0}, {2, 0}};
   NegCycleFinder ncf(gra);
@@ -35,7 +35,7 @@ TEST_CASE("Test Negative Cycle (Lict)") {
 
   const auto get_weight = [&](const auto &edge) -> int {
     const auto [utx, vtx] = edge;
-    return gra[utx][vtx];
+    return gra.at(utx).at(vtx);
   };
   auto dist = py::Lict<int>{std::vector<int>{0, 0, 0}};
   NegCycleFinder ncf(gra);
