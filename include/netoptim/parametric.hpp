@@ -29,8 +29,9 @@
 
 template <typename Graph, typename T, typename Fn1, typename Fn2,
           typename Mapping>
-auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&distrance, Fn2 &&zero_cancel,
-                    Mapping &&dist, size_t max_iters = 1000) {
+auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&distrance,
+                    Fn2 &&zero_cancel, Mapping &&dist,
+                    size_t max_iters = 1000) {
   using node_t = typename Graph::key_type;
   using edge_t = std::pair<node_t, node_t>;
 

@@ -27,8 +27,8 @@ inline auto create_test_case1(const Mapping &weights)
   using edge_t = std::pair<int, int>;
   const auto num_nodes = 5;
   enum nodes { A, B, C, D, E };
-  static edge_t edge_array[] = {edge_t{A, B}, edge_t{B, C}, edge_t{C, D}, edge_t{D, E},
-                              edge_t{E, A}};
+  static edge_t edge_array[] = {edge_t{A, B}, edge_t{B, C}, edge_t{C, D},
+                                edge_t{D, E}, edge_t{E, A}};
   // int weights[] = {-5, 1, 1, 1, 1};
   int num_arcs = sizeof(edge_array) / sizeof(edge_t);
   auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
@@ -41,8 +41,9 @@ inline auto create_test_case_timing(const Mapping &weights)
   using edge_t = std::pair<int, int>;
   constexpr auto num_nodes = 3;
   enum nodes { A, B, C };
-  static edge_t edge_array[] = {edge_t{A, B}, edge_t{B, A}, edge_t{B, C}, edge_t{C, B},
-                              edge_t{B, C}, edge_t{C, B}, edge_t{C, A}, edge_t{A, C}};
+  static edge_t edge_array[] = {edge_t{A, B}, edge_t{B, A}, edge_t{B, C},
+                                edge_t{C, B}, edge_t{B, C}, edge_t{C, B},
+                                edge_t{C, A}, edge_t{A, C}};
   // int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
   constexpr int num_arcs = sizeof(edge_array) / sizeof(edge_t);
   auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);

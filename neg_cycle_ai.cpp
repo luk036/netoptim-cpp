@@ -9,9 +9,9 @@
 using namespace std;
 
 /**
- * @brief 
- * 
- * @tparam DiGraph 
+ * @brief
+ *
+ * @tparam DiGraph
  */
 template <typename DiGraph> class NegCycleFinder {
   using node_t = typename DiGraph::key_type;
@@ -19,7 +19,7 @@ template <typename DiGraph> class NegCycleFinder {
   using Cycle = std::vector<edge_t>;
 
 private:
-  const DiGraph &_digraph; ///< graph
+  const DiGraph &_digraph;                    ///< graph
   std::unordered_map<node_t, node_t> _pred{}; ///< pred
 
 public:
