@@ -4,7 +4,7 @@
 // #include <ellalgo/utility.hpp>
 #include <optional>
 
-#include "neg_cycle.hpp" // import negCycleFinder
+#include "neg_cycle.hpp"  // import negCycleFinder
 
 /*!
  * @brief Oracle for Parametric Network Problem.
@@ -25,7 +25,7 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
 
   private:
     const Graph &_gra;
-    Mapping &_u; // reference???
+    Mapping &_u;  // reference???
     NegCycleFinder<Graph> _S;
     Fn _h;
 
@@ -54,9 +54,7 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      *
      * @param[in] target the best-so-far optimal value
      */
-    template <typename Num> auto update(const Num &target) -> void {
-        this->_h.update(target);
-    }
+    template <typename Num> auto update(const Num &target) -> void { this->_h.update(target); }
 
     /*!
      * @brief Make object callable for cutting_plane_feas()
@@ -65,11 +63,10 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      * @param[in] x
      * @return std::optional<std::tuple<T, double>>
      */
-    template <typename Arr>
-    auto assess_feas(const Arr &xval) -> std::optional<std::pair<Arr, double>> {
-        auto get_weight = [this, &xval](const edge_t &edge) -> double {
-            return this->_h.eval(edge, xval);
-        };
+    template <typename Arr> auto assess_feas(const Arr &xval)
+        -> std::optional<std::pair<Arr, double>> {
+        auto get_weight
+            = [this, &xval](const edge_t &edge) -> double { return this->_h.eval(edge, xval); };
 
         auto C = this->_S.find_neg_cycle(this->_u, get_weight);
         if (C.empty()) {
@@ -92,8 +89,8 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      * @param[in] x
      * @return std::optional<std::tuple<T, double>>
      */
-    template <typename Arr>
-    auto operator()(const Arr &xvar) -> std::optional<std::pair<Arr, double>> {
+    template <typename Arr> auto operator()(const Arr &xvar)
+        -> std::optional<std::pair<Arr, double>> {
         return this->assess_feas(xvar);
     }
 };

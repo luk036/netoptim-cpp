@@ -1,9 +1,10 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include "neg_cycle.hpp" // import NegCycleFinder
 #include <tuple>
 #include <vector>
+
+#include "neg_cycle.hpp"  // import NegCycleFinder
 
 /*!
  * @brief maximum parametric problem
@@ -27,24 +28,21 @@
  * @return optimal r and the critical cycle
  */
 
-template <typename Graph, typename T, typename Fn1, typename Fn2,
-          typename Mapping>
-auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&distrance,
-                    Fn2 &&zero_cancel, Mapping &&dist,
+template <typename Graph, typename T, typename Fn1, typename Fn2, typename Mapping>
+auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&distrance, Fn2 &&zero_cancel, Mapping &&dist,
                     size_t max_iters = 1000) {
     using node_t = typename Graph::key_type;
     using edge_t = std::pair<node_t, node_t>;
 
-    auto get_weight = [&](const edge_t &edge) -> T { // int???
+    auto get_weight = [&](const edge_t &edge) -> T {  // int???
         return distrance(r_opt, edge);
     };
 
     auto ncf = NegCycleFinder<Graph>(gra);
-    auto c_opt = std::vector<edge_t>{}; // should initial outside
+    auto c_opt = std::vector<edge_t>{};  // should initial outside
 
     for (auto niter = 0U; niter != max_iters; ++niter) {
-        const auto &c_min = ncf.find_neg_cycle(std::forward<Mapping>(dist),
-                                               std::move(get_weight));
+        const auto &c_min = ncf.find_neg_cycle(std::forward<Mapping>(dist), std::move(get_weight));
         if (c_min.empty()) {
             break;
         }

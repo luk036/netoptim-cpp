@@ -1,9 +1,9 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h> // for ResultBuilder, TestCase
+#include <doctest/doctest.h>  // for ResultBuilder, TestCase
 
-#include <cstdint>                // for uint32_t
-#include <netoptim/neg_cycle.hpp> // for NegCycleFinder
-#include <py2cpp/dict.hpp>        // for dict
+#include <cstdint>                 // for uint32_t
+#include <netoptim/neg_cycle.hpp>  // for NegCycleFinder
+#include <py2cpp/dict.hpp>         // for dict
 
 /*!
  * @brief
@@ -23,15 +23,14 @@ TEST_CASE("Test Negative Cycle 2") {
     CHECK(cycle.empty());
 }
 
-#include <py2cpp/lict.hpp> // for Lict
+#include <py2cpp/lict.hpp>  // for Lict
 
 /*!
  * @brief
  *
  */
 TEST_CASE("Test Negative Cycle (Lict)") {
-    py::Lict<py::dict<size_t, int>> gra{
-        {{{1, 7}, {2, 5}}, {{0, 0}, {2, 3}}, {{1, 1}, {0, 2}}}};
+    py::Lict<py::dict<size_t, int>> gra{{{{1, 7}, {2, 5}}, {{0, 0}, {2, 3}}, {{1, 1}, {0, 2}}}};
 
     const auto get_weight = [&](const auto &edge) -> int {
         const auto [utx, vtx] = edge;

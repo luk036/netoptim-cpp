@@ -1,15 +1,15 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h> // for ResultBuilder, CHECK
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
-#include <array>   // for array
-#include <cstdint> // for uint32_t
+#include <array>    // for array
+#include <cstdint>  // for uint32_t
 #include <iostream>
-#include <netoptim/min_cycle_ratio.hpp> // for min_cycle_ratio
-#include <py2cpp/dict.hpp>              // for dict
-#include <py2cpp/enumerate.hpp>         // for iterable_wrapper
-#include <py2cpp/fractions.hpp>         // for Fraction, operator-
-#include <unordered_map>                // for operator!=
-#include <vector>                       // for vector
+#include <netoptim/min_cycle_ratio.hpp>  // for min_cycle_ratio
+#include <py2cpp/dict.hpp>               // for dict
+#include <py2cpp/enumerate.hpp>          // for iterable_wrapper
+#include <py2cpp/fractions.hpp>          // for Fraction, operator-
+#include <unordered_map>                 // for operator!=
+#include <vector>                        // for vector
 
 TEST_CASE("Test Cycle Ratio (raw, dict)") {
     py::dict<uint32_t, py::dict<uint32_t, int>> gra{
@@ -22,8 +22,7 @@ TEST_CASE("Test Cycle Ratio (raw, dict)") {
 
     const auto get_time = [&](const auto & /*edge*/) -> int { return 1; };
 
-    auto dist =
-        std::vector<fun::Fraction<int>>(gra.size(), fun::Fraction<int>(0));
+    auto dist = std::vector<fun::Fraction<int>>(gra.size(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
     const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
     CHECK(!c.empty());
@@ -31,11 +30,10 @@ TEST_CASE("Test Cycle Ratio (raw, dict)") {
     CHECK_EQ(r, fun::Fraction<int>(1, 1));
 }
 
-#include <py2cpp/lict.hpp> // for Lict
+#include <py2cpp/lict.hpp>  // for Lict
 
 TEST_CASE("Test Cycle Ratio (raw, Lict)") {
-    py::Lict<py::dict<size_t, int>> gra{
-        {{{1, 5}, {2, 1}}, {{0, 1}, {2, 1}}, {{1, 1}, {0, 1}}}};
+    py::Lict<py::dict<size_t, int>> gra{{{{1, 5}, {2, 1}}, {{0, 1}, {2, 1}}, {{1, 1}, {0, 1}}}};
 
     const auto get_cost = [&](const auto &edge) -> int {
         const auto [utx, vtx] = edge;
@@ -44,8 +42,7 @@ TEST_CASE("Test Cycle Ratio (raw, Lict)") {
 
     const auto get_time = [&](const auto & /*edge*/) -> int { return 1; };
 
-    auto dist =
-        std::vector<fun::Fraction<int>>(gra.size(), fun::Fraction<int>(0));
+    auto dist = std::vector<fun::Fraction<int>>(gra.size(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
     const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
     CHECK(!c.empty());

@@ -59,8 +59,7 @@ auto min_vertex_cover_pd(const Graph &gra, C1 &cover, const C2 &weight) {
  * @return auto
  */
 template <typename Graph, typename C1, typename C2>
-auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep,
-                                    const C2 &weight) {
+auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep, const C2 &weight) {
     auto cover = [&](const auto &utx) {
         dep[utx] = true;
         for (auto &&vtx : gra[utx]) {
@@ -75,7 +74,7 @@ auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep,
         if (dep[utx]) {
             continue;
         }
-        if (indset[utx]) { // pre-define independant
+        if (indset[utx]) {  // pre-define independant
             cover(utx);
             continue;
         }

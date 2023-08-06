@@ -23,8 +23,7 @@ public class MaxParametricSolver<V, R> {
         List<(V, V)> c_min = new List<(V, V)>();
         List<(V, V)> cycle = new List<(V, V)>();
         while (true) {
-            foreach (var ci in ncf.FindNegCycle(
-                         dist, e => omega.Distance(ratio, e))) {
+            foreach (var ci in ncf.FindNegCycle(dist, e => omega.Distance(ratio, e))) {
                 R ri = omega.ZeroCancel(ci);
                 if (r_min.CompareTo(ri) > 0) {
                     r_min = ri;
@@ -98,8 +97,7 @@ public class NegCycleFinder<V, R> {
         return new List<List<(V, V)>>();
     }
 
-    public List<List<(V, V)>> FindNegCycle(Dictionary<V, R> dist,
-                                           System.Func<(V, V), R> weight) {
+    public List<List<(V, V)>> FindNegCycle(Dictionary<V, R> dist, System.Func<(V, V), R> weight) {
         var gra = new Dictionary<V, Dictionary<V, dynamic>>();
         foreach (var (u, v) in dist.Keys) {
             if (!gra.ContainsKey(u)) {
@@ -107,8 +105,7 @@ public class NegCycleFinder<V, R> {
             }
             gra[u][v] = weight((u, v));
         }
-        foreach (var (u, to) in gra.Keys.SelectMany(
-                     u => gra[u].Keys.Select(to => (u, to)))) {
+        foreach (var (u, to) in gra.Keys.SelectMany(u => gra[u].Keys.Select(to => (u, to)))) {
             gra[u][to] = gra[u][to].Subtract(dist[u]).Add(dist[to]);
         }
         return new NegCycleFinder<V, R>(gra).FindAllNegCycles();

@@ -6,16 +6,12 @@
 
 template <typename V, typename R> class CycleRatioAPI {
   private:
-    std::unordered_map<
-        V, std::unordered_map<V, std::unordered_map<std::string, R>>>
-        gra;
+    std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra;
     std::type_info const &T;
 
   public:
     CycleRatioAPI(
-        std::unordered_map<
-            V, std::unordered_map<V, std::unordered_map<std::string, R>>>
-            gra,
+        std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra,
         std::type_info const &T)
         : gra(gra), T(T) {}
     R Distance(R ratio, std::pair<V, V> e) {
@@ -28,28 +24,22 @@ template <typename V, typename R> class CycleRatioAPI {
             totalCost += gra[e.first][e.second]["cost"];
             totalTime += gra[e.first][e.second]["time"];
         }
-        return static_cast<R>(
-            static_cast<typename std::underlying_type<R>::type>(totalCost) /
-            totalTime);
+        return static_cast<R>(static_cast<typename std::underlying_type<R>::type>(totalCost)
+                              / totalTime);
     }
 };
 
 template <typename V, typename R> class MaxParametricSolver {
   private:
-    std::unordered_map<
-        V, std::unordered_map<V, std::unordered_map<std::string, R>>>
-        gra;
+    std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra;
     CycleRatioAPI<V, R> omega;
 
   public:
     MaxParametricSolver(
-        std::unordered_map<
-            V, std::unordered_map<V, std::unordered_map<std::string, R>>>
-            gra,
+        std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra,
         CycleRatioAPI<V, R> omega)
         : gra(gra), omega(omega) {}
-    std::pair<R, std::vector<std::pair<V, V>>>
-    Run(std::unordered_map<V, R> dist, R r0) {
+    std::pair<R, std::vector<std::pair<V, V>>> Run(std::unordered_map<V, R> dist, R r0) {
         std::vector<std::pair<V, V>> cycle;
         R ratio = r0;
         for (int i = 0; i < 100; i++) {
@@ -81,11 +71,9 @@ template <typename V, typename R> class MaxParametricSolver {
                         break;
                     }
                 }
-                if (x != V())
-                    break;
+                if (x != V()) break;
             }
-            if (x == V())
-                break;
+            if (x == V()) break;
             std::vector<V> path;
             std::unordered_map<V, int> vis;
             while (!vis.count(x)) {
@@ -110,18 +98,13 @@ template <typename V, typename R> class MaxParametricSolver {
 
 template <typename V, typename R> class MinCycleRatioSolver {
   private:
-    std::unordered_map<
-        V, std::unordered_map<V, std::unordered_map<std::string, R>>>
-        gra;
+    std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra;
 
   public:
     MinCycleRatioSolver(
-        std::unordered_map<
-            V, std::unordered_map<V, std::unordered_map<std::string, R>>>
-            gra)
+        std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra)
         : gra(gra) {}
-    std::pair<R, std::vector<std::pair<V, V>>>
-    Run(std::unordered_map<V, R> dist, R r0) {
+    std::pair<R, std::vector<std::pair<V, V>>> Run(std::unordered_map<V, R> dist, R r0) {
         CycleRatioAPI<V, R> omega(gra, typeid(r0));
         MaxParametricSolver<V, R> solver(gra, omega);
         auto [ratio, cycle] = solver.Run(dist, r0);

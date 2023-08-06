@@ -4,8 +4,9 @@
 #include <cassert>
 // #include <xtensor/xarray.hpp>
 
-#include "network_oracle.hpp"
 #include <valarray>>
+
+#include "network_oracle.hpp"
 
 /*!
  * @brief Oracle for Optimal Matrix Scaling.
@@ -21,7 +22,7 @@
  * @tparam Mapping
  * @tparam Fn
  */
-template <typename Graph, typename Mapping, typename Fn> //
+template <typename Graph, typename Mapping, typename Fn>  //
 class OptScalingOracle {
     // using Vec = xt::xarray<double, xt::layout_type::row_major>;
     using Vec = std::valarray<double>;
@@ -45,8 +46,7 @@ class OptScalingOracle {
          * @param[in] gra
          * @param[in] get_cost
          */
-        Ratio(const Graph &gra, Fn get_cost)
-            : _gra{gra}, _get_cost{std::move(get_cost)} {}
+        Ratio(const Graph &gra, Fn get_cost) : _gra{gra}, _get_cost{std::move(get_cost)} {}
 
         /**
          * @brief Construct a new Ratio object (only explicitly)
@@ -138,7 +138,5 @@ class OptScalingOracle {
      *
      * @see cutting_plane_optim
      */
-    auto operator()(const Vec &x, double &t) -> std::tuple<Cut, bool> {
-        return assess_optim(x, t);
-    }
+    auto operator()(const Vec &x, double &t) -> std::tuple<Cut, bool> { return assess_optim(x, t); }
 };

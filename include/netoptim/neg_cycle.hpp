@@ -9,7 +9,7 @@ Negative cycle detection for weighed graphs.
 #include <cassert>
 #include <optional>
 #include <unordered_map>
-#include <utility> // for pair
+#include <utility>  // for pair
 #include <vector>
 
 /*!
@@ -24,7 +24,7 @@ Negative cycle detection for weighed graphs.
  *  2. BF detect whether there is a negative cycle at the fianl stage.
  *  3. BF restarts the solution (dist[utx]) every time.
  */
-template <typename DiGraph> //
+template <typename DiGraph>  //
 class NegCycleFinder {
     using node_t = typename DiGraph::key_type;
     using edge_t = std::pair<node_t, node_t>;
@@ -61,7 +61,7 @@ class NegCycleFinder {
                 return this->_cycle_list(*vtx);
             }
         }
-        return Cycle{}; // TODO
+        return Cycle{};  // TODO
     }
 
   private:
@@ -73,18 +73,17 @@ class NegCycleFinder {
     auto _find_cycle() -> std::optional<node_t> {
         auto visited = std::unordered_map<node_t, node_t>{};
         for (auto &&vtx : this->_digraph) {
-            if (visited.find(vtx) != visited.end()) { // contains vtx
+            if (visited.find(vtx) != visited.end()) {  // contains vtx
                 continue;
             }
             auto utx = vtx;
             while (true) {
                 visited[utx] = vtx;
-                if (this->_pred.find(utx) ==
-                    this->_pred.end()) { // not contains utx
+                if (this->_pred.find(utx) == this->_pred.end()) {  // not contains utx
                     break;
                 }
                 utx = this->_pred[utx];
-                if (visited.find(utx) != visited.end()) { // contains utx
+                if (visited.find(utx) != visited.end()) {  // contains utx
                     if (visited[utx] == vtx) {
                         // should be "yield utx";
                         // *this->_cycle_start = utx;
@@ -136,7 +135,7 @@ class NegCycleFinder {
      */
     auto _cycle_list(const node_t &handle) -> Cycle {
         auto vtx = handle;
-        auto cycle = Cycle{}; // TODO
+        auto cycle = Cycle{};  // TODO
         do {
             const auto &utx = this->_pred[vtx];
             cycle.push_back(edge_t{utx, vtx});
@@ -157,12 +156,12 @@ class NegCycleFinder {
      * @return false
      */
     template <typename Mapping, typename Callable>
-    auto _is_negative(const node_t &handle, const Mapping &dist,
-                      Callable &&get_weight) const -> bool {
+    auto _is_negative(const node_t &handle, const Mapping &dist, Callable &&get_weight) const
+        -> bool {
         auto vtx = handle;
         do {
             const auto utx = this->_pred.at(vtx);
-            const auto weight = get_weight(edge_t{utx, vtx}); // TODO
+            const auto weight = get_weight(edge_t{utx, vtx});  // TODO
             if (dist.at(vtx) > dist.at(utx) + weight) {
                 return true;
             }

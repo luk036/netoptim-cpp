@@ -16,21 +16,18 @@ template <typename V, typename R> class MaxParametricSolver {
     NegCycleFinder<V, R> *ncf;
 
   public:
-    MaxParametricSolver(std::map<V, std::map<V, R>> gra,
-                        ParametricAPI<V, R> *omega) {
+    MaxParametricSolver(std::map<V, std::map<V, R>> gra, ParametricAPI<V, R> *omega) {
         this->gra = gra;
         this->omega = omega;
         this->ncf = new NegCycleFinder<V, R>(gra);
     }
-    std::pair<R, std::vector<std::pair<V, V>>> Run(std::map<V, R> dist,
-                                                   R ratio) {
+    std::pair<R, std::vector<std::pair<V, V>>> Run(std::map<V, R> dist, R ratio) {
         R r_min = ratio;
         std::vector<std::pair<V, V>> c_min;
         std::vector<std::pair<V, V>> cycle;
         while (true) {
-            for (auto ci : ncf->FindNegCycle(dist, [&](std::pair<V, V> e) {
-                     return omega->Distance(ratio, e);
-                 })) {
+            for (auto ci : ncf->FindNegCycle(
+                     dist, [&](std::pair<V, V> e) { return omega->Distance(ratio, e); })) {
                 R ri = omega->ZeroCancel(ci);
                 if (r_min > ri) {
                     r_min = ri;

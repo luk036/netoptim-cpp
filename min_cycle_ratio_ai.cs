@@ -36,9 +36,8 @@ public class CycleRatioAPI<V, R>
 }
 
 public static class Extensions {
-    public static void
-    SetDefault<V, D>(this Dictionary<V, Dictionary<V, dynamic>> gra,
-                     string weight, D value)
+    public static void SetDefault<V, D>(this Dictionary<V, Dictionary<V, dynamic>> gra,
+                                        string weight, D value)
         where D : struct, IComparable<D>, IEquatable<D>, IConvertible {
         foreach (var u in gra.Keys.ToList()) {
             foreach (var v in gra[u].Keys.ToList()) {
