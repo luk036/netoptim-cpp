@@ -1,6 +1,6 @@
 add_rules("mode.debug", "mode.release", "mode.coverage")
 add_requires("doctest", {alias = "doctest"})
-add_requires("conan::andreasbuhr-cppcoro/cci.20210113", {alias = "cppcoro"})
+-- add_requires("conan::andreasbuhr-cppcoro/cci.20210113", {alias = "cppcoro"})
 
 set_languages("c++20")
 -- require std::optional
@@ -20,11 +20,12 @@ target("test_netoptim")
     set_kind("binary")
     -- add_deps("Py2Cpp")
     -- add_deps("NetOptim")
-    -- add_includedirs("py2cpp-xmake/include", {public = true})
-    -- add_includedirs("xnetwork-xmake/include", {public = true})
+    add_includedirs("../ellalgo-cpp/include", {public = true})
+    add_includedirs("../py2cpp/include", {public = true})
+    add_includedirs("../xnetwork-cpp/include", {public = true})
     add_includedirs("include", {public = true})
     add_files("test/source/*.cpp")
-    add_packages("doctest", "xtensor")
+    add_packages("doctest")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
