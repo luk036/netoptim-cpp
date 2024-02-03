@@ -12,7 +12,7 @@
  * @brief
  *
  * @tparam Graph
- * @param gra
+ * @param[in] gra
  * @return true
  * @return false
  */

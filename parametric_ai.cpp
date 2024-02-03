@@ -64,8 +64,8 @@ template <typename R> class Omega {
     /**
      * @brief
      *
-     * @param ratio
-     * @param edge
+     * @param[in] ratio
+     * @param[in] edge
      * @return R
      */
     R distance(R ratio, pair<int, int> edge) const {
@@ -75,7 +75,7 @@ template <typename R> class Omega {
     /**
      * @brief
      *
-     * @param cycle
+     * @param[in] cycle
      * @return R
      */
     R zero_cancel(const vector<int> &cycle) const {
@@ -89,8 +89,8 @@ template <typename R> class Omega {
     /**
      * @brief Set the weight object
      *
-     * @param edge
-     * @param weight
+     * @param[in] edge
+     * @param[in] weight
      */
     void set_weight(pair<int, int> edge, R weight) { weights_[edge] = weight; }
 
@@ -111,10 +111,10 @@ template <typename R, typename V> using Cycle = vector<pair<V, V>>;
  *
  * @tparam R
  * @tparam V
- * @param gra
- * @param ratio
- * @param omega
- * @param dist
+ * @param[in] gra
+ * @param[in] ratio
+ * @param[in] omega
+ * @param[in] dist
  * @return R
  */
 template <typename R, typename V> R max_parametric(const Mapping<R, V> &gra, R ratio,

@@ -26,7 +26,7 @@ template <typename DiGraph> class NegCycleFinder {
     /**
      * @brief Construct a new Neg Cycle Finder object
      *
-     * @param gra
+     * @param[in] gra
      */
     NegCycleFinder(const DiGraph &gra) : _digraph{gra} {}
 
@@ -73,8 +73,8 @@ template <typename DiGraph> class NegCycleFinder {
     /**
      * @brief
      *
-     * @param dist
-     * @param get_weight
+     * @param[in] dist
+     * @param[in] get_weight
      * @return true
      * @return false
      */
@@ -99,8 +99,8 @@ template <typename DiGraph> class NegCycleFinder {
     /**
      * @brief
      *
-     * @param dist
-     * @param get_weight
+     * @param[in] dist
+     * @param[in] get_weight
      * @return Cycle
      */
     Cycle find_neg_cycle(std::unordered_map<node_t, node_t> &dist,
@@ -121,7 +121,7 @@ template <typename DiGraph> class NegCycleFinder {
     /**
      * @brief
      *
-     * @param handle
+     * @param[in] handle
      * @return Cycle
      */
     Cycle cycle_list(int handle) {
