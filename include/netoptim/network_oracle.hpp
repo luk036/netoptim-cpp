@@ -52,9 +52,9 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
     /*!
      * @brief
      *
-     * @param[in] target the best-so-far optimal value
+     * @param[in] gamma the best-so-far optimal value
      */
-    template <typename Num> auto update(const Num &target) -> void { this->_h.update(target); }
+    template <typename Num> auto update(const Num &gamma) -> void { this->_h.update(gamma); }
 
     /*!
      * @brief Make object callable for cutting_plane_feas()

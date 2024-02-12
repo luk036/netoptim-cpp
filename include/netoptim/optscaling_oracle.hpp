@@ -110,7 +110,7 @@ class OptScalingOracle {
      * @brief Make object callable for cutting_plane_optim()
      *
      * @param[in] x (\pi, \phi) in log scale
-     * @param[in] t the best-so-far optimal value
+     * @param[in,out] t the best-so-far optimal value
      * @return std::tuple<Cut, double>
      *
      * @see cutting_plane_optim
@@ -133,7 +133,7 @@ class OptScalingOracle {
      * @brief Make object callable for cutting_plane_optim()
      *
      * @param[in] x (\pi, \phi) in log scale
-     * @param[in] t the best-so-far optimal value
+     * @param[in,out] t the best-so-far optimal value
      * @return std::tuple<Cut, double>
      *
      * @see cutting_plane_optim
