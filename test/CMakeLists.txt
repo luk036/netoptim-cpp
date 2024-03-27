@@ -36,6 +36,7 @@ elseif(MSVC)
               /wd4819
               /wd4146
               /wd4127
+              /wd4267
   )
   target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
