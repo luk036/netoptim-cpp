@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>network_oracle class | NetOptim</title>
+  <title>NetworkOracle class | NetOptim</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -50,8 +50,8 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="network__oracle_8hpp.html">&lt;netoptim/network_oracle.hpp&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename Graph, typename Container, typename Fn&gt;</div>
-          network_oracle <span class="m-thin">class</span>
+          <div class="m-doc-template">template&lt;typename Graph, typename Mapping, typename Fn&gt;</div>
+          NetworkOracle <span class="m-thin">class</span>
         </h1>
         <p>Oracle for Parametric Network Problem.</p>
         <table class="m-table m-fullwidth m-flat">
@@ -64,7 +64,7 @@
               <td></td>
             </tr>
             <tr>
-              <td>Container</td>
+              <td>Mapping</td>
               <td></td>
             </tr>
             <tr>
@@ -73,7 +73,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="m-block m-default">
+        <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -84,22 +84,22 @@
               </ul>
             </li>
           </ul>
-        </div>
-<p>This oracle solves the following feasibility problem:</p><pre>find    x, u
-s.t.    u[j] - u[i] \le h(e, x)
-        \forall e(i, j) \in E
+        </nav>
+<p>This oracle solves the following feasibility problem:</p><pre>find    x, utx
+s.t.    utx[j] - utx[i] \le h(edge, x)
+        \forall edge(i, j) \in E
 </pre>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper"><a href="#a19d81ce29362f04a513bc7d270e1ed20" class="m-doc">network_oracle</a>(</span><span class="m-doc-wrap">const Graph&amp; G,
-              Container&amp; u,
+              <span class="m-doc-wrap-bumper"><a href="#a51d94d47df96aa3eff4042825317d233" class="m-doc">NetworkOracle</a>(</span><span class="m-doc-wrap">const Graph&amp; gra,
+              Mapping&amp; utx,
               Fn h)</span>
             </dt>
             <dd>Construct a new network oracle object.</dd>
-            <dt id="a345d3b4b2704b4bb0365c811a99bc6f4">
-              <span class="m-doc-wrap-bumper"><a href="#a345d3b4b2704b4bb0365c811a99bc6f4" class="m-doc-self">network_oracle</a>(</span><span class="m-doc-wrap">const <a href="classnetwork__oracle.html" class="m-doc">network_<wbr />oracle</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-info">explicit</span> </span>
+            <dt id="a24f0a38ffaf98ff42636c81b455ec892">
+              <span class="m-doc-wrap-bumper"><a href="#a24f0a38ffaf98ff42636c81b455ec892" class="m-doc-self">NetworkOracle</a>(</span><span class="m-doc-wrap">const <a href="classNetworkOracle.html" class="m-doc">NetworkOracle</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
             <dd>Construct a new network oracle object.</dd>
           </dl>
@@ -108,26 +108,31 @@ s.t.    u[j] - u[i] \le h(e, x)
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename opt_type&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8a6caf401c19efb71e720e603a8f6019" class="m-doc">update</a>(</span><span class="m-doc-wrap">const opt_type&amp; t) -&gt; void -&gt; auto</span>
+              <div class="m-doc-template">template&lt;typename Num&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4d61e86d1c2e000180d994b21abb2c1d" class="m-doc">update</a>(</span><span class="m-doc-wrap">const Num&amp; gamma) -&gt; void -&gt; auto</span>
             </dt>
             <dd></dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a1319d059146c0528570d1cc71ec7b79d" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const T&amp; x) -&gt; std::optional&lt; std::tuple&lt; T, double &gt;&gt; -&gt; auto</span>
+              <div class="m-doc-template">template&lt;typename Arr&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab11970adf2594966409928d5d1474066" class="m-doc">assess_feas</a>(</span><span class="m-doc-wrap">const Arr&amp; xval) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt; -&gt; auto</span>
+            </dt>
+            <dd>Make object callable for cutting_plane_feas()</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Arr&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4d53a86b70e8f24898f265bb0dc7e621" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; xvar) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt; -&gt; auto</span>
             </dt>
             <dd>Make object callable for cutting_plane_feas()</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a19d81ce29362f04a513bc7d270e1ed20"><div>
+          <section class="m-doc-details" id="a51d94d47df96aa3eff4042825317d233"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Graph, typename Container, typename Fn&gt;
+                template&lt;typename Graph, typename Mapping, typename Fn&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> network_<wbr />oracle&lt;Graph, Container, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a19d81ce29362f04a513bc7d270e1ed20" class="m-doc-self">network_oracle</a>(</span><span class="m-doc-wrap">const Graph&amp; G,
-              Container&amp; u,
+              <span class="m-doc-wrap-bumper"> NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a51d94d47df96aa3eff4042825317d233" class="m-doc-self">NetworkOracle</a>(</span><span class="m-doc-wrap">const Graph&amp; gra,
+              Mapping&amp; utx,
               Fn h)</span></span>
             </h3>
             <p>Construct a new network oracle object.</p>
@@ -137,11 +142,11 @@ s.t.    u[j] - u[i] \le h(e, x)
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">G&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td style="width: 1%">gra&nbsp;<span class="m-label m-flat m-info">in</span></td>
                   <td>a directed graph (V, E)</td>
                 </tr>
                 <tr>
-                  <td>u&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
+                  <td>utx&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
                   <td>list or dictionary</td>
                 </tr>
                 <tr>
@@ -151,13 +156,13 @@ s.t.    u[j] - u[i] \le h(e, x)
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a8a6caf401c19efb71e720e603a8f6019"><div>
+          <section class="m-doc-details" id="a4d61e86d1c2e000180d994b21abb2c1d"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Graph, typename Container, typename Fn&gt;
-                template&lt;typename opt_type&gt;
+                template&lt;typename Graph, typename Mapping, typename Fn&gt;
+                template&lt;typename Num&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto network_<wbr />oracle&lt;Graph, Container, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8a6caf401c19efb71e720e603a8f6019" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">const opt_type&amp; t) -&gt; void</span></span>
+              <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4d61e86d1c2e000180d994b21abb2c1d" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">const Num&amp; gamma) -&gt; void</span></span>
             </h3>
             <table class="m-table m-fullwidth m-flat">
               <thead>
@@ -165,43 +170,43 @@ s.t.    u[j] - u[i] \le h(e, x)
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">t&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td style="width: 1%">gamma&nbsp;<span class="m-label m-flat m-info">in</span></td>
                   <td>the best-so-far optimal value</td>
                 </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a1319d059146c0528570d1cc71ec7b79d"><div>
+          <section class="m-doc-details" id="ab11970adf2594966409928d5d1474066"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;typename Graph, typename Container, typename Fn&gt;
-                template&lt;typename T&gt;
+                template&lt;typename Graph, typename Mapping, typename Fn&gt;
+                template&lt;typename Arr&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto network_<wbr />oracle&lt;Graph, Container, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1319d059146c0528570d1cc71ec7b79d" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const T&amp; x) -&gt; std::optional&lt; std::tuple&lt; T, double &gt;&gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab11970adf2594966409928d5d1474066" class="m-doc-self">assess_feas</a>(</span><span class="m-doc-wrap">const Arr&amp; xval) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt;</span></span>
             </h3>
             <p>Make object callable for cutting_plane_feas()</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td></td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>x&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
+                  <th style="width: 1%">Returns</th>
+                  <td>std::optional&lt;std::tuple&lt;T, double&gt;&gt;</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a4d53a86b70e8f24898f265bb0dc7e621"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Graph, typename Mapping, typename Fn&gt;
+                template&lt;typename Arr&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4d53a86b70e8f24898f265bb0dc7e621" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; xvar) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt;</span></span>
+            </h3>
+            <p>Make object callable for cutting_plane_feas()</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
                   <td>std::optional&lt;std::tuple&lt;T, double&gt;&gt;</td>
                 </tr>
               </tfoot>
@@ -246,8 +251,8 @@ s.t.    u[j] - u[i] \le h(e, x)
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">
