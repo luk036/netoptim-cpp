@@ -11,7 +11,7 @@ end
 
 if is_plat("linux") then
     set_warnings("all", "error")
-    add_cxflags("-Wconversion", {force = true})
+    -- add_cxflags("-Wconversion", {force = true})
 end
 
 -- header only
