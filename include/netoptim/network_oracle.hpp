@@ -63,8 +63,8 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      * @param[in] x
      * @return std::optional<std::tuple<T, double>>
      */
-    template <typename Arr> auto assess_feas(const Arr &xval)
-        -> std::optional<std::pair<Arr, double>> {
+    template <typename Arr>
+    auto assess_feas(const Arr &xval) -> std::optional<std::pair<Arr, double>> {
         auto get_weight
             = [this, &xval](const edge_t &edge) -> double { return this->_h.eval(edge, xval); };
 
@@ -89,8 +89,8 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      * @param[in] x
      * @return std::optional<std::tuple<T, double>>
      */
-    template <typename Arr> auto operator()(const Arr &xvar)
-        -> std::optional<std::pair<Arr, double>> {
+    template <typename Arr>
+    auto operator()(const Arr &xvar) -> std::optional<std::pair<Arr, double>> {
         return this->assess_feas(xvar);
     }
 };
