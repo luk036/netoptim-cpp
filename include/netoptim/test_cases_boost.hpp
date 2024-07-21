@@ -12,8 +12,8 @@ using graph_t = boost::adjacency_list<
 using Vertex = boost::graph_traits<graph_t>::vertex_descriptor;
 using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
-template <typename Mapping>
-inline auto create_test_case1(const Mapping &weights) -> py::GraphAdaptor<graph_t> {
+template <typename Mapping> inline auto create_test_case1(const Mapping &weights)
+    -> py::GraphAdaptor<graph_t> {
     using edge_t = std::pair<int, int>;
     const auto num_nodes = 5;
     enum nodes { A, B, C, D, E };
@@ -25,8 +25,8 @@ inline auto create_test_case1(const Mapping &weights) -> py::GraphAdaptor<graph_
     return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
-template <typename Mapping>
-inline auto create_test_case_timing(const Mapping &weights) -> py::GraphAdaptor<graph_t> {
+template <typename Mapping> inline auto create_test_case_timing(const Mapping &weights)
+    -> py::GraphAdaptor<graph_t> {
     using edge_t = std::pair<int, int>;
     constexpr auto num_nodes = 3;
     enum nodes { A, B, C };
