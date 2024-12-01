@@ -156,8 +156,8 @@ class NegCycleFinder {
      * @return false
      */
     template <typename Mapping, typename Callable>
-    auto _is_negative(const node_t &handle, const Mapping &dist,
-                      Callable &&get_weight) const -> bool {
+    auto _is_negative(const node_t &handle, const Mapping &dist, Callable &&get_weight) const
+        -> bool {
         auto vtx = handle;
         do {
             const auto utx = this->_pred.at(vtx);
