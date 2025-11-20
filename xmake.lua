@@ -26,6 +26,7 @@ target("test_netoptim")
     add_includedirs("include", {public = true})
     add_files("test/source/*.cpp")
     add_packages("doctest")
+    add_tests("default")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
