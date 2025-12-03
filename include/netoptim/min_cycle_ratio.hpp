@@ -8,24 +8,48 @@
 #include "parametric.hpp"  // import max_parametric
 
 /*!
- * @brief minimum cost-to-time cycle ratio problem
- *
- *    This function solves the following network parametric problem:
- *
- *        max  r
- *        s.t. dist[vtx] - dist[utx] \ge cost(utx, vtx) - r * time(utx, vtx)
- *             \forall edge(utx, vtx) \in gra(V, E)
- *
- * @tparam Graph
- * @tparam Fn1
- * @tparam Fn2
- * @tparam Mapping
- * @param[in] gra
- * @param[in,out] r0
- * @param[in] get_cost
- * @param[in] get_time
- * @param[in,out] dist
- * @return auto
+ * @file min_cycle_ratio.hpp
+ * @brief Minimum cost-to-time cycle ratio problem solver
+ * 
+ * This module implements an algorithm to find the minimum cycle ratio in a
+ * weighted directed graph where each edge has both a cost and a time value.
+ * The cycle ratio is defined as the total cost divided by the total time.
+ * 
+ * The problem formulation:
+ *     max  r
+ *     s.t. dist[vtx] - dist[utx] &ge; cost(utx, vtx) - r * time(utx, vtx)
+ *          &forall; edge(utx, vtx) &isin; gra(V, E)
+ * 
+ * This is equivalent to finding the cycle with minimum cost/time ratio.
+ * The algorithm uses a parametric search approach combined with negative
+ * cycle detection.
+ */
+
+/*!
+ * @brief Solve the minimum cost-to-time cycle ratio problem
+ * 
+ * This function finds the cycle in a graph that minimizes the ratio of
+ * total cost to total time. It uses a parametric search algorithm that
+ * iteratively adjusts the ratio parameter and searches for negative cycles.
+ * 
+ * The algorithm works by:
+ * 1. Converting the ratio problem to a parametric weight problem
+ * 2. Using negative cycle detection to find violating cycles
+ * 3. Adjusting the ratio based on the found cycles
+ * 4. Repeating until convergence
+ * 
+ * @tparam Graph Type of the graph, must provide key_type and edge iteration
+ * @tparam T Numeric type for ratio values (e.g., double, float)
+ * @tparam Fn1 Type of cost function (edge -> cost)
+ * @tparam Fn2 Type of time function (edge -> time)
+ * @tparam Mapping Type of distance mapping (vertex -> distance)
+ * @param[in] gra The input graph
+ * @param[in,out] r0 Initial ratio value, updated with optimal result
+ * @param[in] get_cost Function to extract cost from edges
+ * @param[in] get_time Function to extract time from edges
+ * @param[in,out] dist Distance mapping used in the algorithm
+ * @param[in] max_iters Maximum number of iterations (default: 1000)
+ * @return auto A cycle (vector of edges) with the minimum ratio
  */
 template <typename Graph, typename T, typename Fn1, typename Fn2, typename Mapping>
 auto min_cycle_ratio(const Graph &gra, T &r0, Fn1 &&get_cost, Fn2 &&get_time, Mapping &&dist,

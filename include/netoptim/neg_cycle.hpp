@@ -2,8 +2,21 @@
 #pragma once
 
 /*!
-Negative cycle detection for weighed graphs.
-**/
+ * @file neg_cycle.hpp
+ * @brief Negative cycle detection for weighted directed graphs
+ * 
+ * This module provides an efficient algorithm for detecting negative cycles
+ * in weighted directed graphs. It implements a cycle detection method that
+ * is superior to Bellman-Ford for this specific purpose.
+ * 
+ * The algorithm works by:
+ * 1. Maintaining a predecessor map to track paths
+ * 2. Performing edge relaxations iteratively
+ * 3. Detecting cycles in the predecessor graph
+ * 4. Verifying that detected cycles are indeed negative
+ * 
+ * @tparam DiGraph Type of the directed graph
+ */
 // #include <ThreadPool.h>
 
 #include <cassert>
@@ -13,18 +26,24 @@ Negative cycle detection for weighed graphs.
 #include <vector>
 
 /*!
- * @brief negative cycle
+ * @brief Negative cycle finder for weighted directed graphs
+ * 
+ * This class implements an efficient algorithm for detecting negative cycles
+ * in weighted directed graphs. Unlike Bellman-Ford algorithm, this approach:
+ * - Does not require a source node
+ * - Can detect negative cycles during the relaxation process
+ * - Maintains distance information across iterations
+ * - Provides the actual negative cycle path
+ * 
+ * The algorithm is particularly useful in network optimization problems
+ * where negative cycle detection is a core operation.
  *
- * @tparam DiGraph
- *
- * Note: Bellman-Ford's shortest-path algorithm (BF) is NOT the best way to
- *       detect negative cycles, because
- *
- *  1. BF needs a source node.
- *  2. BF detect whether there is a negative cycle at the fianl stage.
- *  3. BF restarts the solution (dist[utx]) every time.
+ * @tparam DiGraph Type of the directed graph, must provide:
+ *                 - key_type for vertex identification
+ *                 - begin()/end() for vertex iteration
+ *                 - at(vertex) for adjacency list access
  */
-template <typename DiGraph>  //
+template <typename DiGraph>
 class NegCycleFinder {
     using node_t = typename DiGraph::key_type;
     using edge_t = std::pair<node_t, node_t>;
@@ -43,13 +62,21 @@ class NegCycleFinder {
     explicit NegCycleFinder(const DiGraph &gra) : _digraph{gra} {}
 
     /*!
-     * @brief find negative cycle
-     *
-     * @tparam Mapping
-     * @tparam Callable
-     * @param[in,out] dist
-     * @param[in] get_weight
-     * @return Cycle
+     * @brief Find a negative cycle in the graph
+     * 
+     * This is the main method that searches for negative cycles. It performs
+     * edge relaxations repeatedly and checks for cycles in the predecessor
+     * graph after each relaxation phase.
+     * 
+     * The algorithm continues until either:
+     * - No more relaxations are possible (no negative cycles)
+     * - A negative cycle is found and returned
+     * 
+     * @tparam Mapping Type of distance mapping (vertex -> distance)
+     * @tparam Callable Type of weight function (edge -> weight)
+     * @param[in,out] dist Distance mapping that gets updated during relaxation
+     * @param[in] get_weight Function to get edge weights
+     * @return Cycle A vector of edges forming the negative cycle, empty if none found
      */
     template <typename Mapping, typename Callable>
     auto find_neg_cycle(Mapping &&dist, Callable &&get_weight) -> Cycle {
@@ -66,9 +93,13 @@ class NegCycleFinder {
 
   private:
     /*!
-     * @brief Find a cycle on policy graph
-     *
-     * @return node_t a start node of the cycle
+     * @brief Find a cycle in the predecessor graph
+     * 
+     * This method searches for cycles in the predecessor map that represents
+     * the current relaxation policy. It uses a visited map to detect when
+     * we encounter a vertex that's already part of the current search path.
+     * 
+     * @return std::optional<node_t> A vertex that's part of a cycle, empty if no cycle
      */
     auto _find_cycle() -> std::optional<node_t> {
         auto visited = std::unordered_map<node_t, node_t>{};
@@ -100,14 +131,17 @@ class NegCycleFinder {
     }
 
     /*!
-     * @brief Perform one relaxation
-     *
-     * @tparam Mapping
-     * @tparam Callable
-     * @param[in,out] dist
-     * @param[in] get_weight
-     * @return true
-     * @return false
+     * @brief Perform one iteration of edge relaxation
+     * 
+     * This method attempts to improve distances by relaxing all edges in the graph.
+     * For each edge (u,v), it checks if dist[v] > dist[u] + weight(u,v) and updates
+     * the distance and predecessor if true.
+     * 
+     * @tparam Mapping Type of distance mapping
+     * @tparam Callable Type of weight function
+     * @param[in,out] dist Distance mapping to be updated
+     * @param[in] get_weight Function to get edge weights
+     * @return true if any distance was updated, false otherwise
      */
     template <typename Mapping, typename Callable>
     auto _relax(Mapping &&dist, Callable &&get_weight) -> bool {
@@ -128,10 +162,13 @@ class NegCycleFinder {
     }
 
     /*!
-     * @brief generate a cycle list
-     *
-     * @param[in] handle
-     * @return Cycle
+     * @brief Extract the cycle edges starting from a given vertex
+     * 
+     * This method reconstructs the complete cycle by following the predecessor
+     * map starting from the given handle vertex until it returns to the start.
+     * 
+     * @param[in] handle A vertex that is part of the cycle
+     * @return Cycle A vector of edges forming the complete cycle
      */
     auto _cycle_list(const node_t &handle) -> Cycle {
         auto vtx = handle;
@@ -145,15 +182,17 @@ class NegCycleFinder {
     }
 
     /*!
-     * @brief check if it is really a negative cycle
-     *
-     * @tparam Mapping
-     * @tparam Callable
-     * @param[in] handle
-     * @param[in] dist
-     * @param[in] get_weight
-     * @return true
-     * @return false
+     * @brief Verify that the detected cycle is indeed negative
+     * 
+     * This method checks if the sum of edge weights in the cycle is negative
+     * by verifying the distance property for each edge in the cycle.
+     * 
+     * @tparam Mapping Type of distance mapping
+     * @tparam Callable Type of weight function
+     * @param[in] handle A vertex that is part of the cycle
+     * @param[in] dist Distance mapping for verification
+     * @param[in] get_weight Function to get edge weights
+     * @return true if the cycle is negative, false otherwise
      */
     template <typename Mapping, typename Callable>
     auto _is_negative(const node_t &handle, const Mapping &dist, Callable &&get_weight) const
