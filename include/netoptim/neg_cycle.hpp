@@ -4,17 +4,17 @@
 /*!
  * @file neg_cycle.hpp
  * @brief Negative cycle detection for weighted directed graphs
- * 
+ *
  * This module provides an efficient algorithm for detecting negative cycles
  * in weighted directed graphs. It implements a cycle detection method that
  * is superior to Bellman-Ford for this specific purpose.
- * 
+ *
  * The algorithm works by:
  * 1. Maintaining a predecessor map to track paths
  * 2. Performing edge relaxations iteratively
  * 3. Detecting cycles in the predecessor graph
  * 4. Verifying that detected cycles are indeed negative
- * 
+ *
  * @tparam DiGraph Type of the directed graph
  */
 // #include <ThreadPool.h>
@@ -27,14 +27,14 @@
 
 /*!
  * @brief Negative cycle finder for weighted directed graphs
- * 
+ *
  * This class implements an efficient algorithm for detecting negative cycles
  * in weighted directed graphs. Unlike Bellman-Ford algorithm, this approach:
  * - Does not require a source node
  * - Can detect negative cycles during the relaxation process
  * - Maintains distance information across iterations
  * - Provides the actual negative cycle path
- * 
+ *
  * The algorithm is particularly useful in network optimization problems
  * where negative cycle detection is a core operation.
  *
@@ -63,15 +63,15 @@ class NegCycleFinder {
 
     /*!
      * @brief Find a negative cycle in the graph
-     * 
+     *
      * This is the main method that searches for negative cycles. It performs
      * edge relaxations repeatedly and checks for cycles in the predecessor
      * graph after each relaxation phase.
-     * 
+     *
      * The algorithm continues until either:
      * - No more relaxations are possible (no negative cycles)
      * - A negative cycle is found and returned
-     * 
+     *
      * @tparam Mapping Type of distance mapping (vertex -> distance)
      * @tparam Callable Type of weight function (edge -> weight)
      * @param[in,out] dist Distance mapping that gets updated during relaxation
@@ -94,11 +94,11 @@ class NegCycleFinder {
   private:
     /*!
      * @brief Find a cycle in the predecessor graph
-     * 
+     *
      * This method searches for cycles in the predecessor map that represents
      * the current relaxation policy. It uses a visited map to detect when
      * we encounter a vertex that's already part of the current search path.
-     * 
+     *
      * @return std::optional<node_t> A vertex that's part of a cycle, empty if no cycle
      */
     auto _find_cycle() -> std::optional<node_t> {
@@ -132,11 +132,11 @@ class NegCycleFinder {
 
     /*!
      * @brief Perform one iteration of edge relaxation
-     * 
+     *
      * This method attempts to improve distances by relaxing all edges in the graph.
      * For each edge (u,v), it checks if dist[v] > dist[u] + weight(u,v) and updates
      * the distance and predecessor if true.
-     * 
+     *
      * @tparam Mapping Type of distance mapping
      * @tparam Callable Type of weight function
      * @param[in,out] dist Distance mapping to be updated
@@ -163,10 +163,10 @@ class NegCycleFinder {
 
     /*!
      * @brief Extract the cycle edges starting from a given vertex
-     * 
+     *
      * This method reconstructs the complete cycle by following the predecessor
      * map starting from the given handle vertex until it returns to the start.
-     * 
+     *
      * @param[in] handle A vertex that is part of the cycle
      * @return Cycle A vector of edges forming the complete cycle
      */
@@ -183,10 +183,10 @@ class NegCycleFinder {
 
     /*!
      * @brief Verify that the detected cycle is indeed negative
-     * 
+     *
      * This method checks if the sum of edge weights in the cycle is negative
      * by verifying the distance property for each edge in the cycle.
-     * 
+     *
      * @tparam Mapping Type of distance mapping
      * @tparam Callable Type of weight function
      * @param[in] handle A vertex that is part of the cycle

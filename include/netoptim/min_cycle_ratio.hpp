@@ -10,16 +10,16 @@
 /*!
  * @file min_cycle_ratio.hpp
  * @brief Minimum cost-to-time cycle ratio problem solver
- * 
+ *
  * This module implements an algorithm to find the minimum cycle ratio in a
  * weighted directed graph where each edge has both a cost and a time value.
  * The cycle ratio is defined as the total cost divided by the total time.
- * 
+ *
  * The problem formulation:
  *     max  r
  *     s.t. dist[vtx] - dist[utx] &ge; cost(utx, vtx) - r * time(utx, vtx)
  *          &forall; edge(utx, vtx) &isin; gra(V, E)
- * 
+ *
  * This is equivalent to finding the cycle with minimum cost/time ratio.
  * The algorithm uses a parametric search approach combined with negative
  * cycle detection.
@@ -27,17 +27,17 @@
 
 /*!
  * @brief Solve the minimum cost-to-time cycle ratio problem
- * 
+ *
  * This function finds the cycle in a graph that minimizes the ratio of
  * total cost to total time. It uses a parametric search algorithm that
  * iteratively adjusts the ratio parameter and searches for negative cycles.
- * 
+ *
  * The algorithm works by:
  * 1. Converting the ratio problem to a parametric weight problem
  * 2. Using negative cycle detection to find violating cycles
  * 3. Adjusting the ratio based on the found cycles
  * 4. Repeating until convergence
- * 
+ *
  * @tparam Graph Type of the graph, must provide key_type and edge iteration
  * @tparam T Numeric type for ratio values (e.g., double, float)
  * @tparam Fn1 Type of cost function (edge -> cost)

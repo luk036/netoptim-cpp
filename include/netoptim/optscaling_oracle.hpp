@@ -11,29 +11,29 @@
 /*!
  * @file optscaling_oracle.hpp
  * @brief Oracle for Optimal Matrix Scaling Problem
- * 
+ *
  * This module implements an oracle for solving the optimal matrix scaling
  * problem as formulated by Orlin and Rothblum (1985). The problem involves
  * finding diagonal scaling factors that minimize the ratio between the
  * maximum and minimum scaled matrix entries.
- * 
+ *
  * The problem formulation:
  *     min     pi/phi
  *     s.t.    phi &le; utx[i] * |aij| * utx[j]^-1 &le; pi,
  *             &forall; aij != 0,
  *             pi, phi, utx, positive
- * 
+ *
  * where utx are the scaling factors, pi is the maximum scaled entry,
  * and phi is the minimum scaled entry.
  */
 
 /*!
  * @brief Oracle for Optimal Matrix Scaling
- * 
+ *
  * This class implements a separation oracle for the optimal matrix scaling
  * problem. It uses a network oracle internally to handle the feasibility
  * constraints and provides cutting planes for optimization.
- * 
+ *
  * The oracle maintains:
  * - A reference to the underlying graph structure
  * - A cost function for matrix entries
@@ -54,7 +54,7 @@ class OptScalingOracle {
 
     /*!
      * @brief Helper class for evaluating scaling ratio constraints
-     * 
+     *
      * This nested class provides the constraint evaluation and gradient
      * computation functions needed by the network oracle. It implements
      * the constraint functions for the matrix scaling problem.
