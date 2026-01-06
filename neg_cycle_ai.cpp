@@ -60,14 +60,14 @@ template <typename DiGraph> class NegCycleFinder {
                                 }
                             }
                             // reverse(cycle.begin(), cycle.end());
-                            return cycle;
+                            return std::move(cycle);
                         }
                         break;
                     }
                 }
             }
         }
-        return cycle;
+        return std::move(cycle);
     }
 
     /**
@@ -115,7 +115,7 @@ template <typename DiGraph> class NegCycleFinder {
                 cycle = cycle_list(c[0].first);
             }
         }
-        return cycle;
+        return std::move(cycle);
     }
 
     /**
@@ -136,7 +136,7 @@ template <typename DiGraph> class NegCycleFinder {
             }
         }
         // reverse(cycle.begin(), cycle.end());
-        return cycle;
+        return std::move(cycle);
     }
 };
 

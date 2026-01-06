@@ -88,5 +88,5 @@ auto max_parametric(const Graph &gra, T &r_opt, Fn1 &&distrance, Fn2 &&zero_canc
         }
     }
 
-    return c_opt;
+    return std::move(c_opt);
 }

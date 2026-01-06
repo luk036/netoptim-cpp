@@ -17,9 +17,9 @@ template <typename V, typename R> class MaxParametricSolver {
 
   public:
     MaxParametricSolver(std::map<V, std::map<V, R>> gra, ParametricAPI<V, R> *omega) {
-        this->gra = gra;
+        this->gra = std::move(gra);
         this->omega = omega;
-        this->ncf = new NegCycleFinder<V, R>(gra);
+        this->ncf = new NegCycleFinder<V, R>(this->gra);
     }
     std::pair<R, std::vector<std::pair<V, V>>> Run(std::map<V, R> dist, R ratio) {
         R r_min = ratio;
@@ -40,6 +40,6 @@ template <typename V, typename R> class MaxParametricSolver {
             cycle = c_min;
             ratio = r_min;
         }
-        return std::make_pair(ratio, cycle);
+        return std::make_pair(ratio, std::move(cycle));
     }
 };

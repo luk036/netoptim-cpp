@@ -178,7 +178,7 @@ class NegCycleFinder {
             cycle.push_back(edge_t{utx, vtx});
             vtx = utx;
         } while (vtx != handle);
-        return cycle;
+        return std::move(cycle);
     }
 
     /*!

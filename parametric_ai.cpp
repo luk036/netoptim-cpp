@@ -47,7 +47,7 @@ template <typename R> class NegCycleFinder {
             }
             reverse(cycle.begin(), cycle.end());
         }
-        return cycle;
+        return std::move(cycle);
     }
 
   private:
