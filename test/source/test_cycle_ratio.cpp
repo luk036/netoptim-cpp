@@ -13,6 +13,12 @@
 #include <xnetwork/classes/digraphs.hpp>      // for DiGraphS
 #include <xnetwork/generators/testcases.hpp>  // for create_test_case1,
 
+/*!
+ * @brief Test minimum cycle ratio calculation with test case 1
+ *
+ * Tests that the minimum cost-to-time cycle ratio is correctly computed
+ * for a simple graph with equal time values for all edges.
+ */
 TEST_CASE("Test Cycle Ratio") {
     const auto indices = std::array<size_t, 5>{0, 1, 2, 3, 4};
     auto gra = create_test_case1(indices);
@@ -33,6 +39,12 @@ TEST_CASE("Test Cycle Ratio") {
     CHECK(r == fun::Fraction<int>(9, 5));
 }
 
+/*!
+ * @brief Test minimum cycle ratio on timing test graph
+ *
+ * Tests that the minimum cycle ratio is correctly computed for a
+ * timing graph where edge costs vary and includes negative costs.
+ */
 TEST_CASE("Test Cycle Ratio of Timing Graph") {
     // make sure no parallel edges!!!
 

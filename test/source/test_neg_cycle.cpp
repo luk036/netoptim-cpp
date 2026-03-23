@@ -9,12 +9,15 @@
 #include <xnetwork/generators/testcases.hpp>  // for create_test_case1, crea...
 
 /*!
- * @brief
+ * @brief Test case runner for negative cycle detection
  *
- * @tparam Graph
- * @param[in] gra
- * @return true
- * @return false
+ * This function creates a test case with the given graph and attempts to
+ * find a negative cycle using the NegCycleFinder. It is used as a helper
+ * to run multiple test scenarios.
+ *
+ * @tparam Graph Type of the directed graph
+ * @param[in] gra The directed graph to test
+ * @return true if a negative cycle was found, false otherwise
  */
 template <typename Graph> auto do_case(const Graph &gra) -> bool {
     const auto get_weight = [&](const auto &edge) -> int {
@@ -29,8 +32,10 @@ template <typename Graph> auto do_case(const Graph &gra) -> bool {
 }
 
 /*!
- * @brief
+ * @brief Test negative cycle detection with test case 1
  *
+ * Verifies that a negative cycle is correctly detected when all edge
+ * weights are set such that a negative cycle exists in the graph.
  */
 TEST_CASE("Test Negative Cycle") {
     auto weights = std::array<int, 5>{-5, 1, 1, 1, 1};
@@ -40,8 +45,10 @@ TEST_CASE("Test Negative Cycle") {
 }
 
 /*!
- * @brief
+ * @brief Test that no negative cycle is reported when graph has none
  *
+ * Verifies that the algorithm correctly reports no negative cycle when
+ * all edge weights are non-negative.
  */
 TEST_CASE("Test No Negative Cycle") {
     auto weights = std::array<int, 5>{2, 1, 1, 1, 1};
@@ -51,8 +58,10 @@ TEST_CASE("Test No Negative Cycle") {
 }
 
 /*!
- * @brief
+ * @brief Test timing graph with all positive weights
  *
+ * Verifies that no negative cycle is found in the timing test graph
+ * when all weights are positive.
  */
 TEST_CASE("Test Timing Graph") {
     auto weights = std::array<int, 6>{7, 0, 6, 4, 2, 5};
@@ -62,8 +71,10 @@ TEST_CASE("Test Timing Graph") {
 }
 
 /*!
- * @brief
+ * @brief Test timing graph with negative cycle
  *
+ * Verifies that a negative cycle is correctly detected in the timing
+ * test graph when some edge weights create a negative cycle.
  */
 TEST_CASE("Test Timing Graph (2)") {
     auto weights = std::array<int, 6>{3, -4, 2, 0, -2, 1};

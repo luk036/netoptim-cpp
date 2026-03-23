@@ -4,6 +4,14 @@
 #include <xnetwork/generators/testcases.hpp>
 #include "netoptim/neg_cycle.hpp"
 
+/*!
+ * @brief Stress test for negative cycle detection on large graph
+ *
+ * Tests the negative cycle finder on a large graph with 100 nodes
+ * to ensure the algorithm works correctly under stress conditions.
+ * The graph contains a single negative weight edge that creates
+ * a negative cycle.
+ */
 TEST_CASE("Test Stress Negative Cycle") {
     auto weights = std::vector<int>();
     weights.resize(100, 1);

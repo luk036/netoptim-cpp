@@ -11,6 +11,12 @@
 #include <unordered_map>                 // for operator!=
 #include <vector>                        // for vector
 
+/*!
+ * @brief Test minimum cycle ratio with py::dict graph representation
+ *
+ * Tests the minimum cost-to-time cycle ratio calculation using the
+ * raw py::dict container for graph representation.
+ */
 TEST_CASE("Test Cycle Ratio (raw, dict)") {
     py::dict<uint32_t, py::dict<uint32_t, int>> gra{
         {0, {{1, 5}, {2, 1}}}, {1, {{0, 1}, {2, 1}}}, {2, {{1, 1}, {0, 1}}}};
@@ -32,6 +38,12 @@ TEST_CASE("Test Cycle Ratio (raw, dict)") {
 
 #include <py2cpp/lict.hpp>  // for Lict
 
+/*!
+ * @brief Test minimum cycle ratio with py::Lict graph representation
+ *
+ * Tests the minimum cost-to-time cycle ratio calculation using the
+ * py::Lict container for graph representation.
+ */
 TEST_CASE("Test Cycle Ratio (raw, Lict)") {
     py::Lict<py::dict<size_t, int>> gra{{{{1, 5}, {2, 1}}, {{0, 1}, {2, 1}}, {{1, 1}, {0, 1}}}};
 
