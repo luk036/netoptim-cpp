@@ -7,12 +7,12 @@
 template <typename V, typename R> class CycleRatioAPI {
   private:
     std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra;
-    std::type_info const &T;
+    std::type_info const& T;
 
   public:
     CycleRatioAPI(
         std::unordered_map<V, std::unordered_map<V, std::unordered_map<std::string, R>>> gra,
-        std::type_info const &T)
+        std::type_info const& T)
         : gra(std::move(gra)), T(T) {}
     R Distance(R ratio, std::pair<V, V> e) {
         auto [u, v] = e;

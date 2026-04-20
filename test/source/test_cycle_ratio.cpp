@@ -25,11 +25,11 @@ TEST_CASE("Test Cycle Ratio") {
 
     const auto cost = std::array<int, 5>{5, 1, 1, 1, 1};
 
-    const auto get_cost = [&](const auto &edge) -> int {
+    const auto get_cost = [&](const auto& edge) -> int {
         const auto [utx, vtx] = edge;
         return cost[size_t(gra[utx][vtx])];
     };
-    const auto get_time = [&](const auto & /*edge*/) -> int { return 1; };
+    const auto get_time = [&](const auto& /*edge*/) -> int { return 1; };
 
     auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
@@ -53,11 +53,11 @@ TEST_CASE("Test Cycle Ratio of Timing Graph") {
 
     const auto cost = std::array<int, 6>{7, -1, 3, 0, 2, 4};
 
-    const auto get_cost = [&](const auto &edge) -> int {
+    const auto get_cost = [&](const auto& edge) -> int {
         const auto [utx, vtx] = edge;
         return cost[size_t(gra[utx][vtx])];
     };
-    const auto get_time = [&](const auto & /*edge*/) -> int { return 1; };
+    const auto get_time = [&](const auto& /*edge*/) -> int { return 1; };
 
     auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(7);

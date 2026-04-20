@@ -43,15 +43,14 @@
  *                 - begin()/end() for vertex iteration
  *                 - at(vertex) for adjacency list access
  */
-template <typename DiGraph>
-class NegCycleFinder {
+template <typename DiGraph> class NegCycleFinder {
     using node_t = typename DiGraph::key_type;
     using edge_t = std::pair<node_t, node_t>;
     using Cycle = std::vector<edge_t>;
 
   private:
     std::unordered_map<node_t, node_t> _pred{};
-    const DiGraph &_digraph;
+    const DiGraph& _digraph;
 
   public:
     /*!
@@ -59,7 +58,7 @@ class NegCycleFinder {
      *
      * @param[in] gra
      */
-    explicit NegCycleFinder(const DiGraph &gra) : _digraph{gra} {}
+    explicit NegCycleFinder(const DiGraph& gra) : _digraph{gra} {}
 
     /*!
      * @brief Find a negative cycle in the graph
@@ -79,7 +78,7 @@ class NegCycleFinder {
      * @return Cycle A vector of edges forming the negative cycle, empty if none found
      */
     template <typename Mapping, typename Callable>
-    auto find_neg_cycle(Mapping &&dist, Callable &&get_weight) -> Cycle {
+    auto find_neg_cycle(Mapping&& dist, Callable&& get_weight) -> Cycle {
         this->_pred.clear();
         while (this->_relax(dist, get_weight)) {
             const auto vtx = this->_find_cycle();
@@ -103,7 +102,7 @@ class NegCycleFinder {
      */
     auto _find_cycle() -> std::optional<node_t> {
         auto visited = std::unordered_map<node_t, node_t>{};
-        for (auto &&vtx : this->_digraph) {
+        for (auto&& vtx : this->_digraph) {
             if (visited.find(vtx) != visited.end()) {  // contains vtx
                 continue;
             }
@@ -144,10 +143,10 @@ class NegCycleFinder {
      * @return true if any distance was updated, false otherwise
      */
     template <typename Mapping, typename Callable>
-    auto _relax(Mapping &&dist, Callable &&get_weight) -> bool {
+    auto _relax(Mapping&& dist, Callable&& get_weight) -> bool {
         auto changed = false;
-        for (const auto &utx : this->_digraph) {
-            for (const auto &vtx : this->_digraph.at(utx)) {
+        for (const auto& utx : this->_digraph) {
+            for (const auto& vtx : this->_digraph.at(utx)) {
                 // Allow self-loop
                 const auto weight = get_weight(edge_t{utx, vtx});
                 const auto distance = dist[utx] + weight;
@@ -170,11 +169,11 @@ class NegCycleFinder {
      * @param[in] handle A vertex that is part of the cycle
      * @return Cycle A vector of edges forming the complete cycle
      */
-    auto _cycle_list(const node_t &handle) -> Cycle {
+    auto _cycle_list(const node_t& handle) -> Cycle {
         auto vtx = handle;
         auto cycle = Cycle{};  // TODO
         do {
-            const auto &utx = this->_pred[vtx];
+            const auto& utx = this->_pred[vtx];
             cycle.push_back(edge_t{utx, vtx});
             vtx = utx;
         } while (vtx != handle);
@@ -195,7 +194,7 @@ class NegCycleFinder {
      * @return true if the cycle is negative, false otherwise
      */
     template <typename Mapping, typename Callable>
-    auto _is_negative(const node_t &handle, const Mapping &dist, Callable &&get_weight) const
+    auto _is_negative(const node_t& handle, const Mapping& dist, Callable&& get_weight) const
         -> bool {
         auto vtx = handle;
         do {

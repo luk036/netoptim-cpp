@@ -15,7 +15,7 @@ TEST_CASE("Test Negative Cycle 2") {
     py::dict<uint32_t, py::dict<uint32_t, int>> gra{
         {0, {{1, 7}, {2, 5}}}, {1, {{0, 0}, {2, 3}}}, {2, {{1, 1}, {0, 2}}}};
 
-    const auto get_weight = [&](const auto &edge) -> int {
+    const auto get_weight = [&](const auto& edge) -> int {
         const auto [utx, vtx] = edge;
         return gra.at(utx).at(vtx);
     };
@@ -36,7 +36,7 @@ TEST_CASE("Test Negative Cycle 2") {
 TEST_CASE("Test Negative Cycle (Lict)") {
     py::Lict<py::dict<size_t, int>> gra{{{{1, 7}, {2, 5}}, {{0, 0}, {2, 3}}, {{1, 1}, {0, 2}}}};
 
-    const auto get_weight = [&](const auto &edge) -> int {
+    const auto get_weight = [&](const auto& edge) -> int {
         const auto [utx, vtx] = edge;
         return gra.at(utx).at(vtx);
     };

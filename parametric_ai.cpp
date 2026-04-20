@@ -16,17 +16,17 @@ template <typename R, typename V> using Graph = unordered_map<V, unordered_map<V
 
 template <typename R> class NegCycleFinder {
   public:
-    NegCycleFinder(const Graph<R, int> &graph) : graph_(graph) {}
+    NegCycleFinder(const Graph<R, int>& graph) : graph_(graph) {}
 
-    vector<int> find_neg_cycle(unordered_map<int, R> &dist,
+    vector<int> find_neg_cycle(unordered_map<int, R>& dist,
                                function<R(pair<int, int>)> get_weight) {
         int n = graph_.size();
         vector<int> prev(n, -1);
         vector<int> cycle;
         int last = -1;
         for (int i = 0; i < n; ++i) {
-            for (auto &[u, edges] : graph_) {
-                for (auto &[v, _] : edges) {
+            for (auto& [u, edges] : graph_) {
+                for (auto& [v, _] : edges) {
                     if (dist[u] + get_weight({u, v}) < dist[v]) {
                         dist[v] = dist[u] + get_weight({u, v});
                         prev[v] = u;
@@ -51,7 +51,7 @@ template <typename R> class NegCycleFinder {
     }
 
   private:
-    const Graph<R, int> &graph_;
+    const Graph<R, int>& graph_;
 };
 
 /**
@@ -78,7 +78,7 @@ template <typename R> class Omega {
      * @param[in] cycle
      * @return R
      */
-    R zero_cancel(const vector<int> &cycle) const {
+    R zero_cancel(const vector<int>& cycle) const {
         R sum = 0;
         for (int i = 0; i < cycle.size(); ++i) {
             sum += weights_.at({cycle[i], cycle[(i + 1) % cycle.size()]});
@@ -117,15 +117,15 @@ template <typename R, typename V> using Cycle = vector<pair<V, V>>;
  * @param[in] dist
  * @return R
  */
-template <typename R, typename V> R max_parametric(const Mapping<R, V> &gra, R ratio,
-                                                   const Omega<R> &omega,
-                                                   MutableMapping<R, V> &dist) {
+template <typename R, typename V> R max_parametric(const Mapping<R, V>& gra, R ratio,
+                                                   const Omega<R>& omega,
+                                                   MutableMapping<R, V>& dist) {
     NegCycleFinder<R> ncf(gra);
     R r_min = ratio;
     Cycle<R, V> c_min;
     Cycle<R, V> cycle;
     while (true) {
-        for (auto &ci : ncf.find_neg_cycle(
+        for (auto& ci : ncf.find_neg_cycle(
                  dist, [&](pair<V, V> edge) { return omega.distance(ratio, edge); })) {
             R ri = omega.zero_cancel(ci);
             if (r_min > ri) {

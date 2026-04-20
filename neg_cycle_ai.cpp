@@ -19,7 +19,7 @@ template <typename DiGraph> class NegCycleFinder {
     using Cycle = std::vector<edge_t>;
 
   private:
-    const DiGraph &_digraph;                     ///< graph
+    const DiGraph& _digraph;                     ///< graph
     std::unordered_map<node_t, node_t> _pred{};  ///< pred
 
   public:
@@ -28,7 +28,7 @@ template <typename DiGraph> class NegCycleFinder {
      *
      * @param[in] gra
      */
-    NegCycleFinder(const DiGraph &gra) : _digraph{gra} {}
+    NegCycleFinder(const DiGraph& gra) : _digraph{gra} {}
 
     /**
      * @brief
@@ -78,7 +78,7 @@ template <typename DiGraph> class NegCycleFinder {
      * @return true
      * @return false
      */
-    bool relax(std::unordered_map<node_t, node_t> &dist, function<int(edge_t)> get_weight) {
+    bool relax(std::unordered_map<node_t, node_t>& dist, function<int(edge_t)> get_weight) {
         bool changed = false;
         for (auto it = this->_digraph.begin(); it != this->_digraph.end(); it++) {
             int utx = it->first;
@@ -103,7 +103,7 @@ template <typename DiGraph> class NegCycleFinder {
      * @param[in] get_weight
      * @return Cycle
      */
-    Cycle find_neg_cycle(std::unordered_map<node_t, node_t> &dist,
+    Cycle find_neg_cycle(std::unordered_map<node_t, node_t>& dist,
                          function<int(edge_t)> get_weight) {
         this->_pred.clear();
         Cycle cycle;

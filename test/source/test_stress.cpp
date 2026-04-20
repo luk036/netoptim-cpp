@@ -1,7 +1,9 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>
+
 #include <vector>
 #include <xnetwork/generators/testcases.hpp>
+
 #include "netoptim/neg_cycle.hpp"
 
 /*!
@@ -20,7 +22,7 @@ TEST_CASE("Test Stress Negative Cycle") {
     auto dist = std::vector<int>(gra.number_of_nodes(), 0);
     auto ncf = NegCycleFinder(gra);
 
-    const auto get_weight = [&](const auto &edge) -> int {
+    const auto get_weight = [&](const auto& edge) -> int {
         const auto [utx, vtx] = edge;
         return gra[utx][vtx];
     };

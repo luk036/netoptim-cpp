@@ -52,17 +52,17 @@
  * @return auto A cycle (vector of edges) with the minimum ratio
  */
 template <typename Graph, typename T, typename Fn1, typename Fn2, typename Mapping>
-auto min_cycle_ratio(const Graph &gra, T &r0, Fn1 &&get_cost, Fn2 &&get_time, Mapping &&dist,
+auto min_cycle_ratio(const Graph& gra, T& r0, Fn1&& get_cost, Fn2&& get_time, Mapping&& dist,
                      size_t max_iters = 1000) {
     using node_t = typename Graph::key_type;
     using edge_t = std::pair<node_t, node_t>;
     using cost_T = decltype(get_cost(std::declval<edge_t>()));
     using time_T = decltype(get_time(std::declval<edge_t>()));
 
-    auto calc_ratio = [&](const auto &C) -> T {
+    auto calc_ratio = [&](const auto& C) -> T {
         auto total_cost = cost_T(0);
         auto total_time = time_T(0);
-        for (auto &&edge : C) {
+        for (auto&& edge : C) {
             total_cost += get_cost(edge);
             total_time += get_time(edge);
         }
@@ -70,7 +70,7 @@ auto min_cycle_ratio(const Graph &gra, T &r0, Fn1 &&get_cost, Fn2 &&get_time, Ma
     };
 
     auto calc_weight
-        = [&](const T &r, const edge_t &edge) -> T { return get_cost(edge) - r * get_time(edge); };
+        = [&](const T& r, const edge_t& edge) -> T { return get_cost(edge) - r * get_time(edge); };
 
     return max_parametric(gra, r0, std::move(calc_weight), std::move(calc_ratio),
                           std::forward<Mapping>(dist), max_iters);

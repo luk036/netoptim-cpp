@@ -52,7 +52,7 @@ using edge_t = typename boost::graph_traits<graph_t>::edge_iterator;
  * @param[in] weights weights for the edges in order of creation
  * @return py::GraphAdaptor<graph_t> wrapped Boost graph with edge IDs
  */
-template <typename Mapping> inline auto create_test_case1(const Mapping &weights)
+template <typename Mapping> inline auto create_test_case1(const Mapping& weights)
     -> py::GraphAdaptor<graph_t> {
     using edge_t = std::pair<int, int>;
     const auto num_nodes = 5;
@@ -80,7 +80,7 @@ template <typename Mapping> inline auto create_test_case1(const Mapping &weights
  * @param[in] weights weights for the edges in order of creation
  * @return py::GraphAdaptor<graph_t> wrapped Boost graph with edge IDs
  */
-template <typename Mapping> inline auto create_test_case_timing(const Mapping &weights)
+template <typename Mapping> inline auto create_test_case_timing(const Mapping& weights)
     -> py::GraphAdaptor<graph_t> {
     using edge_t = std::pair<int, int>;
     constexpr auto num_nodes = 3;

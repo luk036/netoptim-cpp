@@ -39,13 +39,13 @@
  * @return auto total cost of the vertex cover
  */
 template <typename Graph, typename C1, typename C2>
-auto min_vertex_cover_pd(const Graph &gra, C1 &cover, const C2 &weight) {
+auto min_vertex_cover_pd(const Graph& gra, C1& cover, const C2& weight) {
     using T = typename weight::value_type;
 
     [[maybe_unused]] auto total_dual_cost = T(0);
     auto total_primal_cost = T(0);
     auto gap = weight;
-    for (auto &&edge : gra.edges()) {
+    for (auto&& edge : gra.edges()) {
         auto [utx, vtx] = edge.end_points();
         if (cover[utx] || cover[vtx]) {
             continue;
@@ -90,12 +90,12 @@ auto min_vertex_cover_pd(const Graph &gra, C1 &cover, const C2 &weight) {
  * @return auto total cost of the independent set
  */
 template <typename Graph, typename C1, typename C2>
-auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep, const C2 &weight) {
+auto min_maximal_independant_set_pd(const Graph& gra, C1& indset, C1& dep, const C2& weight) {
     using T = typename C2::value_type;
 
-    auto cover = [&](const auto &utx) {
+    auto cover = [&](const auto& utx) {
         dep[utx] = true;
-        for (auto &&vtx : gra[utx]) {
+        for (auto&& vtx : gra[utx]) {
             dep[vtx] = true;
         }
     };
@@ -103,7 +103,7 @@ auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep, const
     auto gap = weight;
     [[maybe_unused]] auto total_dual_cost = T(0);
     auto total_primal_cost = T(0);
-    for (auto &&utx : gra) {
+    for (auto&& utx : gra) {
         if (dep[utx]) {
             continue;
         }
@@ -113,7 +113,7 @@ auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep, const
         }
         auto min_val = gap[utx];
         auto min_vtx = utx;
-        for (auto &&vtx : gra[utx]) {
+        for (auto&& vtx : gra[utx]) {
             if (dep[vtx]) {
                 continue;
             }
@@ -129,7 +129,7 @@ auto min_maximal_independant_set_pd(const Graph &gra, C1 &indset, C1 &dep, const
         if (min_vtx == utx) {
             continue;
         }
-        for (auto &&vtx : gra[utx]) {
+        for (auto&& vtx : gra[utx]) {
             gap[vtx] -= min_val;
         }
     }

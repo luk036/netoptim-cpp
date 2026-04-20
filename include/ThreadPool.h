@@ -59,7 +59,7 @@ class ThreadPool {
      * @return std::future<typename std::result_of<F(Args...)>::type> A future
      *         containing the result of the task
      */
-    template <class F, class... Args> auto enqueue(F &&f, Args &&...args)
+    template <class F, class... Args> auto enqueue(F&& f, Args&&... args)
         -> std::future<typename std::result_of<F(Args...)>::type>;
 
     /*!
@@ -127,7 +127,7 @@ inline ThreadPool::ThreadPool(size_t threads) : stop(false) {
  * @return std::future<typename std::result_of<F(Args...)>::type> Future containing the result
  * @throws std::runtime_error if enqueue is called after the pool has been stopped
  */
-template <class F, class... Args> auto ThreadPool::enqueue(F &&f, Args &&...args)
+template <class F, class... Args> auto ThreadPool::enqueue(F&& f, Args&&... args)
     -> std::future<typename std::result_of<F(Args...)>::type> {
     using return_type = typename std::result_of<F(Args...)>::type;
 
@@ -161,7 +161,7 @@ inline ThreadPool::~ThreadPool() {
         stop = true;
     }
     condition.notify_all();
-    for (std::thread &worker : workers) worker.join();
+    for (std::thread& worker : workers) worker.join();
 }
 
 #endif

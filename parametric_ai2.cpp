@@ -12,11 +12,11 @@ template <typename V, typename R> class ParametricAPI {
 template <typename V, typename R> class MaxParametricSolver {
   private:
     std::map<V, std::map<V, R>> gra;
-    ParametricAPI<V, R> *omega;
-    NegCycleFinder<V, R> *ncf;
+    ParametricAPI<V, R>* omega;
+    NegCycleFinder<V, R>* ncf;
 
   public:
-    MaxParametricSolver(std::map<V, std::map<V, R>> gra, ParametricAPI<V, R> *omega) {
+    MaxParametricSolver(std::map<V, std::map<V, R>> gra, ParametricAPI<V, R>* omega) {
         this->gra = std::move(gra);
         this->omega = omega;
         this->ncf = new NegCycleFinder<V, R>(this->gra);

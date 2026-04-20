@@ -46,8 +46,8 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
     using edge_t = std::pair<node_t, node_t>;
 
   private:
-    const Graph &_gra;
-    Mapping &_u;  // reference???
+    const Graph& _gra;
+    Mapping& _u;  // reference???
     NegCycleFinder<Graph> _S;
     Fn _h;
 
@@ -59,14 +59,14 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      * @param[in,out] utx vertex potential mapping (updated during operation)
      * @param[in] h function for constraint evaluation and gradient computation
      */
-    NetworkOracle(const Graph &gra, Mapping &utx, Fn h)
+    NetworkOracle(const Graph& gra, Mapping& utx, Fn h)
         : _gra{gra}, _u{utx}, _S(gra), _h{std::move(h)} {}
 
     /**
      * @brief Construct a new network oracle object
      *
      */
-    explicit NetworkOracle(const NetworkOracle &) = default;
+    explicit NetworkOracle(const NetworkOracle&) = default;
 
     // NetworkOracle& operator=(const NetworkOracle&) = delete;
     // NetworkOracle(network_oracle&&) = default;
@@ -80,7 +80,7 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      *
      * @param[in] gamma the new parameter value (best-so-far optimal value)
      */
-    template <typename Num> auto update(const Num &gamma) -> void { this->_h.update(gamma); }
+    template <typename Num> auto update(const Num& gamma) -> void { this->_h.update(gamma); }
 
     /*!
      * @brief Assess feasibility and generate cutting plane if needed
@@ -101,10 +101,10 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      * @return std::optional<std::pair<Arr, double>> Empty if feasible,
      *         otherwise a pair containing gradient and function value for cutting plane
      */
-    template <typename Arr> auto assess_feas(const Arr &xval)
+    template <typename Arr> auto assess_feas(const Arr& xval)
         -> std::optional<std::pair<Arr, double>> {
         auto get_weight
-            = [this, &xval](const edge_t &edge) -> double { return this->_h.eval(edge, xval); };
+            = [this, &xval](const edge_t& edge) -> double { return this->_h.eval(edge, xval); };
 
         auto C = this->_S.find_neg_cycle(this->_u, get_weight);
         if (C.empty()) {
@@ -113,7 +113,7 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
 
         auto grad = zeros(xval);
         auto fval = 0.0;
-        for (auto &&edge : C) {
+        for (auto&& edge : C) {
             fval -= this->_h.eval(edge, xval);
             grad -= this->_h.grad(edge, xval);
         }
@@ -131,7 +131,7 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
      * @param[in] xvar input variables to be assessed
      * @return std::optional<std::pair<Arr, double>> Same as assess_feas
      */
-    template <typename Arr> auto operator()(const Arr &xvar)
+    template <typename Arr> auto operator()(const Arr& xvar)
         -> std::optional<std::pair<Arr, double>> {
         return this->assess_feas(xvar);
     }

@@ -61,7 +61,7 @@ class OptScalingOracle {
      */
     class Ratio {
       private:
-        const Graph &_gra;
+        const Graph& _gra;
         Fn _get_cost;
 
       public:
@@ -71,12 +71,12 @@ class OptScalingOracle {
          * @param[in] gra graph representing matrix sparsity pattern
          * @param[in] get_cost function to extract matrix entries
          */
-        Ratio(const Graph &gra, Fn get_cost) : _gra{gra}, _get_cost{std::move(get_cost)} {}
+        Ratio(const Graph& gra, Fn get_cost) : _gra{gra}, _get_cost{std::move(get_cost)} {}
 
         /*!
          * @brief Copy constructor (explicitly defined)
          */
-        explicit Ratio(const Ratio &) = default;
+        explicit Ratio(const Ratio&) = default;
 
         /*!
          * @brief Evaluate the constraint function for an edge
@@ -90,7 +90,7 @@ class OptScalingOracle {
          * @param[in] x vector containing (pi, phi) in log scale
          * @return double constraint value (negative if violated)
          */
-        auto eval(const edge_t &edge, const Vec &x) const -> double {
+        auto eval(const edge_t& edge, const Vec& x) const -> double {
             // const auto [utx, vtx] = this->_gra.end_points(edge);
             const auto cost = this->_get_cost(edge);
             const auto [utx, vtx] = edge;
@@ -109,7 +109,7 @@ class OptScalingOracle {
          * @param[in] x vector containing (pi, phi) in log scale
          * @return Vec gradient vector [d/d(pi), d/d(phi)]
          */
-        auto grad(const edge_t &edge, const Vec &x) const -> Vec {
+        auto grad(const edge_t& edge, const Vec& x) const -> Vec {
             // const auto [utx, vtx] = this->_gra.end_points(edge);
             const auto [utx, vtx] = edge;
             assert(utx != vtx);
@@ -127,14 +127,14 @@ class OptScalingOracle {
      * @param[in,out] utx
      * @param[in] get_cost
      */
-    OptScalingOracle(const Graph &gra, Mapping &utx, Fn get_cost)
+    OptScalingOracle(const Graph& gra, Mapping& utx, Fn get_cost)
         : _network(gra, utx, Ratio{gra, get_cost}) {}
 
     /**
      * @brief Construct a new optscaling oracle object
      *
      */
-    explicit OptScalingOracle(const OptScalingOracle &) = default;
+    explicit OptScalingOracle(const OptScalingOracle&) = default;
 
     // OptScalingOracle& operator=(const OptScalingOracle&) = delete;
     // OptScalingOracle(optscaling_oracle&&) = default;
@@ -148,7 +148,7 @@ class OptScalingOracle {
      *
      * @see cutting_plane_optim
      */
-    auto assess_optim(const Vec &x, double &t) -> std::tuple<Cut, bool> {
+    auto assess_optim(const Vec& x, double& t) -> std::tuple<Cut, bool> {
         const auto cut = this->_network.assess_feas(x);
         if (cut) {
             return {*cut, false};
@@ -171,5 +171,5 @@ class OptScalingOracle {
      *
      * @see cutting_plane_optim
      */
-    auto operator()(const Vec &x, double &t) -> std::tuple<Cut, bool> { return assess_optim(x, t); }
+    auto operator()(const Vec& x, double& t) -> std::tuple<Cut, bool> { return assess_optim(x, t); }
 };

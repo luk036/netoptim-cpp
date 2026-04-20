@@ -19,8 +19,8 @@
  * @param[in] gra The directed graph to test
  * @return true if a negative cycle was found, false otherwise
  */
-template <typename Graph> auto do_case(const Graph &gra) -> bool {
-    const auto get_weight = [&](const auto &edge) -> int {
+template <typename Graph> auto do_case(const Graph& gra) -> bool {
+    const auto get_weight = [&](const auto& edge) -> int {
         const auto [utx, vtx] = edge;
         return gra[utx][vtx];
     };

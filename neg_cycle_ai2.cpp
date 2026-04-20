@@ -9,13 +9,15 @@ template <typename V, typename D> class NegCycleFinder {
     std::unordered_map<V, std::unordered_map<V, D>> digraph;
 
   public:
-    NegCycleFinder(std::unordered_map<V, std::unordered_map<V, D>> gra) { digraph = std::move(gra); }
+    NegCycleFinder(std::unordered_map<V, std::unordered_map<V, D>> gra) {
+        digraph = std::move(gra);
+    }
 
     std::vector<V> FindCycle() {
         std::unordered_map<V, V> visited;
         std::vector<V> cycle;
 
-        for (auto const &[v, _] : digraph) {
+        for (auto const& [v, _] : digraph) {
             if (visited.find(v) == visited.end()) {
                 V u = v;
                 while (true) {
