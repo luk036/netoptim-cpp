@@ -53,7 +53,7 @@ template <typename DiGraph> class NegCycleFinder {
                             int w = utx;
                             while (true) {
                                 int x = this->_pred[w];
-                                cycle.push_back(make_pair(x, w));
+                                cycle.emplace_back(make_pair(x, w));
                                 w = x;
                                 if (w == utx) {
                                     break;
@@ -129,7 +129,7 @@ template <typename DiGraph> class NegCycleFinder {
         Cycle cycle;
         while (true) {
             int utx = this->_pred[vtx];
-            cycle.push_back(make_pair(utx, vtx));
+            cycle.emplace_back(make_pair(utx, vtx));
             vtx = utx;
             if (vtx == handle) {
                 break;

@@ -174,7 +174,7 @@ template <typename DiGraph> class NegCycleFinder {
         auto cycle = Cycle{};  // TODO
         do {
             const auto& utx = this->_pred[vtx];
-            cycle.push_back(edge_t{utx, vtx});
+            cycle.emplace_back(edge_t{utx, vtx});
             vtx = utx;
         } while (vtx != handle);
         return std::move(cycle);

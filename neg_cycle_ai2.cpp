@@ -28,7 +28,7 @@ template <typename V, typename D> class NegCycleFinder {
                     u = pred[u];
                     if (visited.find(u) != visited.end()) {
                         if (visited[u] == v) {
-                            cycle.push_back(u);
+                            cycle.emplace_back(u);
                         }
                         break;
                     }

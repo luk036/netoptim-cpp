@@ -40,7 +40,7 @@ template <typename R> class NegCycleFinder {
                 last = prev[last];
             }
             for (int v = last;; v = prev[v]) {
-                cycle.push_back(v);
+                cycle.emplace_back(v);
                 if (v == last && cycle.size() > 1) {
                     break;
                 }

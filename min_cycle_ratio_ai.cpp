@@ -78,12 +78,12 @@ template <typename V, typename R> class MaxParametricSolver {
             std::unordered_map<V, int> vis;
             while (!vis.count(x)) {
                 vis[x] = path.size();
-                path.push_back(x);
+                path.emplace_back(x);
                 x = p[x];
             }
             cycle.clear();
             for (int i = vis[x]; i < path.size(); i++) {
-                cycle.push_back({path[i], p[path[i]]});
+                cycle.emplace_back({path[i], p[path[i]]});
             }
             R r = omega.ZeroCancel(cycle);
             if (r > ratio) {
