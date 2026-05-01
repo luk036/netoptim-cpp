@@ -54,7 +54,7 @@ TEST_CASE("Test No Negative Cycle") {
     auto weights = std::array<int, 5>{2, 1, 1, 1, 1};
     auto gra = create_test_case1(weights);
     const auto hasNeg = do_case(gra);
-    CHECK(!hasNeg);
+    CHECK_FALSE(hasNeg);
 }
 
 /*!
@@ -67,7 +67,7 @@ TEST_CASE("Test Timing Graph") {
     auto weights = std::array<int, 6>{7, 0, 6, 4, 2, 5};
     auto gra = create_test_case_timing(weights);
     const auto hasNeg = do_case(gra);
-    CHECK(!hasNeg);
+    CHECK_FALSE(hasNeg);
 }
 
 /*!

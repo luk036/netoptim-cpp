@@ -91,6 +91,6 @@ TEST_CASE("Test Optimal Scaling (two varaibles, boost)") {
     const auto [x, num_iters] = cutting_plane_optim(omega, ellip, t);
 
     REQUIRE_NE(x.size(), 0U);
-    CHECK(x[1] >= x[0]);
-    CHECK(num_iters <= 27);
+    CHECK_GE(x[1], x[0]);
+    CHECK_LE(num_iters, 27);
 }

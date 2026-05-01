@@ -31,7 +31,7 @@ TEST_CASE("Test Cycle Ratio (raw, dict)") {
     auto dist = std::vector<fun::Fraction<int>>(gra.size(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
     const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
-    CHECK(!c.empty());
+    CHECK_FALSE(c.empty());
     // CHECK_EQ(c.size(), 3);
     CHECK_EQ(r, fun::Fraction<int>(1, 1));
 }
@@ -57,7 +57,7 @@ TEST_CASE("Test Cycle Ratio (raw, Lict)") {
     auto dist = std::vector<fun::Fraction<int>>(gra.size(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
     const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
-    CHECK(!c.empty());
+    CHECK_FALSE(c.empty());
     CHECK_EQ(c.size(), 2);
     CHECK_EQ(r, fun::Fraction<int>(1, 1));
 }
@@ -80,7 +80,7 @@ TEST_CASE("Test Cycle Ratio (raw, Lict)") {
 //                                               fun::Fraction<int>(0));
 //   auto r = fun::Fraction<int>(7);
 //   const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
-//   CHECK(!c.empty());
+//   CHECK_FALSE(c.empty());
 //   CHECK_EQ(r, fun::Fraction<int>(1, 1));
 //   CHECK_EQ(c.size(), 3);
 // }

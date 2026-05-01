@@ -28,5 +28,5 @@ TEST_CASE("Test Stress Negative Cycle") {
     };
 
     auto cycle = ncf.find_neg_cycle(dist, get_weight);
-    CHECK(!cycle.empty());
+    CHECK_FALSE(cycle.empty());
 }

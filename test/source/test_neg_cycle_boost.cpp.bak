@@ -107,13 +107,13 @@ TEST_CASE("Test Negative Cycle (boost)") {
 TEST_CASE("Test No Negative Cycle (boost)") {
     const auto gra = create_test_case2();
     const auto hasNeg = do_case(gra);
-    CHECK(!hasNeg);
+    CHECK_FALSE(hasNeg);
 }
 
 TEST_CASE("Test Timing Graph (boost)") {
     const auto gra = create_test_case_timing();
     const auto hasNeg = do_case(gra);
-    CHECK(!hasNeg);
+    CHECK_FALSE(hasNeg);
 }
 
 TEST_CASE("Test Timing Graph 2 (boost)") {
@@ -125,7 +125,7 @@ TEST_CASE("Test Timing Graph 2 (boost)") {
 TEST_CASE("Test Timing Graph float (boost)") {
     const auto gra = create_test_case_timing();
     const auto hasNeg = do_case_float(gra);
-    CHECK(!hasNeg);
+    CHECK_FALSE(hasNeg);
 }
 
 TEST_CASE("Test Timing Graph 2 (boost)") {
