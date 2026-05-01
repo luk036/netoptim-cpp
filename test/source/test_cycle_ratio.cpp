@@ -35,8 +35,8 @@ TEST_CASE("Test Cycle Ratio") {
     auto r = fun::Fraction<int>(5);
     const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
     CHECK(!c.empty());
-    CHECK(c.size() == 5);
-    CHECK(r == fun::Fraction<int>(9, 5));
+    CHECK_EQ(c.size(), 5);
+    CHECK_EQ(r, fun::Fraction<int>(9, 5));
 }
 
 /*!
@@ -63,6 +63,6 @@ TEST_CASE("Test Cycle Ratio of Timing Graph") {
     auto r = fun::Fraction<int>(7);
     const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
     CHECK(!c.empty());
-    CHECK(r == fun::Fraction<int>(1, 1));
-    CHECK(c.size() == 3);
+    CHECK_EQ(r, fun::Fraction<int>(1, 1));
+    CHECK_EQ(c.size(), 3);
 }

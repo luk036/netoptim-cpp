@@ -81,6 +81,6 @@ TEST_CASE("Test Cycle Ratio (raw, Lict)") {
 //   auto r = fun::Fraction<int>(7);
 //   const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist);
 //   CHECK(!c.empty());
-//   CHECK(r == fun::Fraction<int>(1, 1));
-//   CHECK(c.size() == 3);
+//   CHECK_EQ(r, fun::Fraction<int>(1, 1));
+//   CHECK_EQ(c.size(), 3);
 // }
