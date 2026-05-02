@@ -51,7 +51,7 @@
         <h1>
           <span class="m-breadcrumb"><a href="dir_d0cbb37df914947cd117d8beaf5233cd.html">netoptim</a>/</span>parametric.hpp <span class="m-thin">file</span>
         </h1>
-        <p><span></span></p>
+        <p>Maximum parametric problem solver for network optimization.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -63,6 +63,7 @@
             </li>
           </ul>
         </nav>
+<p>This module implements a general algorithm for solving parametric network optimization problems. The algorithm finds the maximum parameter value r such that a system of inequalities holds, which is equivalent to finding the most violated cycle in a weighted graph.</p><p>The problem formulation: max r s.t. dist[vtx] - dist[utx] &ge; distance(utx, vtx, r) &forall; edge(utx, vtx) &isin; gra(V, E)</p><p>This is a fundamental building block for many network optimization algorithms including minimum cycle ratio, minimum mean cycle, and other parametric flow problems.</p>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
@@ -75,7 +76,7 @@
               Mapping&amp;&amp; dist,
               size_t max_iters = 1000) -&gt; auto</span>
             </dt>
-            <dd>maximum parametric problem</dd>
+            <dd>Solve the maximum parametric problem.</dd>
           </dl>
         </section>
         <section>
@@ -92,7 +93,7 @@
               Mapping&amp;&amp; dist,
               size_t max_iters = 1000)</span></span>
             </h3>
-            <p>maximum parametric problem</p>
+            <p>Solve the maximum parametric problem.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -100,23 +101,23 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">Graph</td>
-                  <td></td>
+                  <td>Type of the directed graph</td>
                 </tr>
                 <tr>
                   <td>T</td>
-                  <td></td>
+                  <td>Numeric type for the parameter r</td>
                 </tr>
                 <tr>
                   <td>Fn1</td>
-                  <td></td>
+                  <td>Type of the distance function (parameter, edge) -&gt; weight</td>
                 </tr>
                 <tr>
                   <td>Fn2</td>
-                  <td></td>
+                  <td>Type of the zero-canceling function (cycle) -&gt; parameter</td>
                 </tr>
                 <tr>
                   <td>Mapping</td>
-                  <td></td>
+                  <td>Type of distance mapping (vertex -&gt; distance)</td>
                 </tr>
               </tbody>
               <thead>
@@ -125,40 +126,37 @@
               <tbody>
                 <tr>
                   <td>gra&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>directed graph</td>
+                  <td>directed graph containing the network structure</td>
                 </tr>
                 <tr>
                   <td>r_opt&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
-                  <td>parameter to be maximized, initially a large number</td>
+                  <td>parameter to be maximized, updated with optimal value</td>
                 </tr>
                 <tr>
                   <td>distrance&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>monotone decreasing function w.r.t. r</td>
+                  <td>monotone decreasing function of parameter r</td>
                 </tr>
                 <tr>
                   <td>zero_cancel&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>function to compute new parameter from cycle</td>
                 </tr>
                 <tr>
                   <td>dist&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
-                  <td></td>
+                  <td>distance mapping used in the algorithm</td>
                 </tr>
                 <tr>
-                  <td>max_iters</td>
-                  <td></td>
+                  <td>max_iters&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>maximum number of iterations (default: 1000)</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>optimal r and the critical cycle</td>
+                  <td>auto the critical cycle that determines the optimal parameter</td>
                 </tr>
               </tfoot>
             </table>
-<p>This function solves the following network parametric problem:</p><pre>max  r
-s.t. dist[vtx] - dist[utx] \ge distrance(utx, vtx, r)
-     \forall edge(utx, vtx) \in gra(V, E)
-</pre>
+<p>This function implements an iterative algorithm to find the maximum parameter value r for which the system of constraints is feasible. The algorithm uses negative cycle detection to identify violations and adjusts the parameter accordingly.</p><p>The algorithm proceeds as follows:</p><ol><li>For the current parameter value, compute edge weights</li><li>Find negative cycles using these weights</li><li>If no negative cycles exist, the current parameter is optimal</li><li>Otherwise, compute a new parameter value from the violating cycle</li><li>Update distances and repeat until convergence</li></ol>
           </div></section>
         </section>
       </div>
@@ -205,7 +203,7 @@ s.t. dist[vtx] - dist[utx] \ge distrance(utx, vtx, r)
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

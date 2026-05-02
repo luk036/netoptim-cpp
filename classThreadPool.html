@@ -52,7 +52,7 @@
           ThreadPool <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="ThreadPool_8h.html">&lt;ThreadPool.h&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p>Thread pool for parallel task execution.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -65,29 +65,101 @@
             </li>
           </ul>
         </nav>
+<p>This class implements a thread pool that manages a fixed number of worker threads. Tasks can be submitted to the pool and are executed asynchronously by available worker threads.</p><p>The thread pool uses a work-stealing queue pattern where worker threads wait for tasks and execute them as they become available. The pool automatically manages thread lifecycle and task queue synchronization.</p>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="ac291710e33dbbed96ee20711080d506d">
-              <span class="m-doc-wrap-bumper"><a href="#ac291710e33dbbed96ee20711080d506d" class="m-doc-self">ThreadPool</a>(</span><span class="m-doc-wrap">size_t)</span>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="#ac291710e33dbbed96ee20711080d506d" class="m-doc">ThreadPool</a>(</span><span class="m-doc-wrap">size_t)</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a44d3d2ab618970605e684efc216655eb">
-              <span class="m-doc-wrap-bumper"><a href="#a44d3d2ab618970605e684efc216655eb" class="m-doc-self">~ThreadPool</a>(</span><span class="m-doc-wrap">)</span>
+            <dd>Construct a new thread pool.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="#a44d3d2ab618970605e684efc216655eb" class="m-doc">~ThreadPool</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Destroy the thread pool.</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a72b4c3f76abfbed3bb346c9ba2de02ed">
+            <dt>
               <div class="m-doc-template">template&lt;class F, class... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a72b4c3f76abfbed3bb346c9ba2de02ed" class="m-doc-self">enqueue</a>(</span><span class="m-doc-wrap">F&amp;&amp; f,
+              <span class="m-doc-wrap-bumper">auto <a href="#a8f628893c030552d9714c25f68656adc" class="m-doc">enqueue</a>(</span><span class="m-doc-wrap">F&amp;&amp; f,
               Args &amp;&amp; ... args) &gt;::type &gt; -&gt; auto</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Enqueue a task for execution.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="ac291710e33dbbed96ee20711080d506d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> ThreadPool::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac291710e33dbbed96ee20711080d506d" class="m-doc-self">ThreadPool</a>(</span><span class="m-doc-wrap">size_t)</span></span>
+            </h3>
+            <p>Construct a new thread pool.</p>
+<p>Creates a thread pool with the specified number of worker threads. Each worker thread is immediately started and waits for tasks to execute.</p><p>Creates worker threads that wait for tasks to be enqueued. Each worker runs in an infinite loop, waiting on a condition variable for tasks to become available.</p>
+          </div></section>
+          <section class="m-doc-details" id="a44d3d2ab618970605e684efc216655eb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> ThreadPool::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a44d3d2ab618970605e684efc216655eb" class="m-doc-self">~ThreadPool</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>Destroy the thread pool.</p>
+<p>Destroy the thread pool and join all worker threads.</p><p>The destructor signals all worker threads to stop, waits for them to complete their current tasks, and then joins all threads.</p><p>Signals all worker threads to stop by setting the stop flag and waking all threads. Then waits for each thread to finish by calling join() on each worker thread.</p>
+          </div></section>
+          <section class="m-doc-details" id="a8f628893c030552d9714c25f68656adc"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class F, class... Args&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto ThreadPool::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8f628893c030552d9714c25f68656adc" class="m-doc-self">enqueue</a>(</span><span class="m-doc-wrap">F&amp;&amp; f,
+              Args &amp;&amp; ... args) &gt;::type &gt;</span></span>
+            </h3>
+            <p>Enqueue a task for execution.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">F</td>
+                  <td>Type of the callable object</td>
+                </tr>
+                <tr>
+                  <td>Args</td>
+                  <td>Types of the arguments</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>f&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>The callable object to execute</td>
+                </tr>
+                <tr>
+                  <td>args&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>Arguments to pass to the callable</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <th>Returns</th>
+                  <td>std::future&lt;typename std::result_of&lt;F(Args...)&gt;::type&gt; A future containing the result of the task</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>std::runtime_error</td>
+                  <td>if enqueue is called after the pool has been stopped</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Enqueue a task for asynchronous execution.</p><p>This method adds a task to the thread pool&#x27;s queue. The task will be executed by an available worker thread. The method returns a future that can be used to retrieve the result or wait for completion.</p><p>Wraps the callable and its arguments into a packaged_task and adds it to the task queue. A future is returned that will contain the result when the task completes.</p>
+          </div></section>
         </section>
       </div>
     </div>
@@ -133,7 +205,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

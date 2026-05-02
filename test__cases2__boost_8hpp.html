@@ -51,58 +51,126 @@
         <h1>
           <span class="m-breadcrumb"><a href="dir_d0cbb37df914947cd117d8beaf5233cd.html">netoptim</a>/</span>test_cases2_boost.hpp <span class="m-thin">file</span>
         </h1>
-        <p><span></span></p>
+        <p>Alternative test case generators with edge IDs.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
-          <dl class="m-doc">
-            <dt>namespace <a href="namespaceboost.html" class="m-doc">boost</a></dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
+<p>This module provides test case generators similar to <a href="test__cases__boost_8hpp.html" class="m-doc">test_<wbr />cases_<wbr />boost.hpp</a> but with additional edge ID properties. The edge IDs are useful for algorithms that need to uniquely identify edges beyond just their endpoints.</p><p>This version uses custom edge properties to store unique identifiers, which can be helpful for debugging, tracking, and algorithm implementation.</p>
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt id="a180690b463e3586c798c19fa46232909">
               using <a href="#a180690b463e3586c798c19fa46232909" class="m-doc-self">graph_t</a> = boost::adjacency_list&lt;boost::vecS, boost::vecS, boost::directedS, boost::no_property, boost::property&lt;<a href="namespaceboost.html#a7aefe4e19588a96bfecbcba19cf27153" class="m-doc">boost::<wbr />edge_id_tag_t</a>, size_t&gt;&gt;
             </dt>
-            <dd><span></span></dd>
+            <dd>Type alias for Boost adjacency list with custom edge ID properties.</dd>
             <dt id="ae4cee34238421c7a4b951bc39177c8e2">
               using <a href="#ae4cee34238421c7a4b951bc39177c8e2" class="m-doc-self">Vertex</a> = typename boost::graph_traits&lt;<a href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909" class="m-doc">graph_<wbr />t</a>&gt;::vertex_descriptor
             </dt>
-            <dd><span></span></dd>
+            <dd>Type alias for vertex descriptor.</dd>
             <dt id="ad4734d75e3a342108dfa45126b678416">
               using <a href="#ad4734d75e3a342108dfa45126b678416" class="m-doc-self">edge_t</a> = typename boost::graph_traits&lt;<a href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909" class="m-doc">graph_<wbr />t</a>&gt;::edge_iterator
             </dt>
-            <dd><span></span></dd>
+            <dd>Type alias for edge iterator.</dd>
           </dl>
         </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt id="a621b32ecd79ba7f2372daa9c657fa222">
+            <dt>
               <div class="m-doc-template">template&lt;typename Mapping&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a621b32ecd79ba7f2372daa9c657fa222" class="m-doc-self">create_test_case1</a>(</span><span class="m-doc-wrap">const Mapping&amp; weights) -&gt; py::GraphAdaptor&lt; graph_t &gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a621b32ecd79ba7f2372daa9c657fa222" class="m-doc">create_test_case1</a>(</span><span class="m-doc-wrap">const Mapping&amp; weights) -&gt; py::GraphAdaptor&lt; graph_t &gt; -&gt; auto</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="adc94c791a40902f7e2d7a6ba36190c81">
+            <dd>Create a simple 5-node cycle test graph with edge IDs.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Mapping&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#adc94c791a40902f7e2d7a6ba36190c81" class="m-doc-self">create_test_case_timing</a>(</span><span class="m-doc-wrap">const Mapping&amp; weights) -&gt; py::GraphAdaptor&lt; graph_t &gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#adc94c791a40902f7e2d7a6ba36190c81" class="m-doc">create_test_case_timing</a>(</span><span class="m-doc-wrap">const Mapping&amp; weights) -&gt; py::GraphAdaptor&lt; graph_t &gt; -&gt; auto</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Create a 3-node timing test graph with parallel edges and edge IDs.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a621b32ecd79ba7f2372daa9c657fa222"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Mapping&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a621b32ecd79ba7f2372daa9c657fa222" class="m-doc-self">create_test_case1</a>(</span><span class="m-doc-wrap">const Mapping&amp; weights) -&gt; py::GraphAdaptor&lt; graph_t &gt;</span></span>
+            </h3>
+            <p>Create a simple 5-node cycle test graph with edge IDs.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Mapping</td>
+                  <td>Type of weight mapping (edge -&gt; weight)</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>weights&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>weights for the edges in order of creation</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>py::GraphAdaptor&lt;graph_t&gt; wrapped Boost graph with edge IDs</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This function creates the same 5-node cycle as in <a href="test__cases__boost_8hpp.html" class="m-doc">test_<wbr />cases_<wbr />boost.hpp</a> but with additional edge ID properties. The graph structure is: A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; A</p><p>The edge IDs are automatically assigned during graph construction and can be used to uniquely identify edges in algorithms.</p>
+          </div></section>
+          <section class="m-doc-details" id="adc94c791a40902f7e2d7a6ba36190c81"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Mapping&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adc94c791a40902f7e2d7a6ba36190c81" class="m-doc-self">create_test_case_timing</a>(</span><span class="m-doc-wrap">const Mapping&amp; weights) -&gt; py::GraphAdaptor&lt; graph_t &gt;</span></span>
+            </h3>
+            <p>Create a 3-node timing test graph with parallel edges and edge IDs.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Mapping</td>
+                  <td>Type of weight mapping (edge -&gt; weight)</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>weights&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>weights for the edges in order of creation</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>py::GraphAdaptor&lt;graph_t&gt; wrapped Boost graph with edge IDs</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This function creates the same complex 3-node graph as in <a href="test__cases__boost_8hpp.html" class="m-doc">test_<wbr />cases_<wbr />boost.hpp</a> but with additional edge ID properties. The graph includes multiple parallel edges and bidirectional connections.</p><p>The edge IDs are particularly useful here since there are multiple edges between the same pair of vertices, making endpoint-based identification ambiguous.</p>
+          </div></section>
         </section>
       </div>
     </div>
@@ -148,7 +216,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

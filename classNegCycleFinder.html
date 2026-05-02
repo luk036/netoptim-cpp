@@ -53,7 +53,7 @@
           <div class="m-doc-template">template&lt;typename DiGraph&gt;</div>
           NegCycleFinder <span class="m-thin">class</span>
         </h1>
-        <p>negative cycle</p>
+        <p>Negative cycle finder for weighted directed graphs.</p>
         <table class="m-table m-fullwidth m-flat">
           <thead>
             <tr><th colspan="2">Template parameters</th></tr>
@@ -61,7 +61,7 @@
           <tbody>
             <tr>
               <td style="width: 1%">DiGraph</td>
-              <td>Note: Bellman-Ford&#x27;s shortest-path algorithm (BF) is NOT the best way to detect negative cycles, because</td>
+              <td><p>Type of the directed graph, must provide:</p><ul><li>key_type for vertex identification</li><li>begin()/end() for vertex iteration</li><li>at(vertex) for adjacency list access</li></ul></td>
             </tr>
           </tbody>
         </table>
@@ -77,7 +77,7 @@
             </li>
           </ul>
         </nav>
-<p>Negative cycle detection for weighed graphs.</p><ol><li>BF needs a source node.</li><li>BF detect whether there is a negative cycle at the fianl stage.</li><li>BF restarts the solution (dist[utx]) every time.</li></ol>
+<p>This class implements an efficient algorithm for detecting negative cycles in weighted directed graphs. Unlike Bellman-Ford algorithm, this approach:</p><ul><li>Does not require a source node</li><li>Can detect negative cycles during the relaxation process</li><li>Maintains distance information across iterations</li><li>Provides the actual negative cycle path</li></ul><p>The algorithm is particularly useful in network optimization problems where negative cycle detection is a core operation.</p>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
@@ -95,7 +95,7 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a2d61e50ce73d6fe25b55afaf46cc9369" class="m-doc">find_neg_cycle</a>(</span><span class="m-doc-wrap">Mapping&amp;&amp; dist,
               Callable&amp;&amp; get_weight) -&gt; Cycle -&gt; auto</span>
             </dt>
-            <dd>find negative cycle</dd>
+            <dd>Find a negative cycle in the graph.</dd>
           </dl>
         </section>
         <section>
@@ -129,7 +129,7 @@
               <span class="m-doc-wrap-bumper">auto NegCycleFinder&lt;DiGraph&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2d61e50ce73d6fe25b55afaf46cc9369" class="m-doc-self">find_neg_cycle</a>(</span><span class="m-doc-wrap">Mapping&amp;&amp; dist,
               Callable&amp;&amp; get_weight) -&gt; Cycle</span></span>
             </h3>
-            <p>find negative cycle</p>
+            <p>Find a negative cycle in the graph.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -137,11 +137,11 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">Mapping</td>
-                  <td></td>
+                  <td>Type of distance mapping (vertex -&gt; distance)</td>
                 </tr>
                 <tr>
                   <td>Callable</td>
-                  <td></td>
+                  <td>Type of weight function (edge -&gt; weight)</td>
                 </tr>
               </tbody>
               <thead>
@@ -150,20 +150,21 @@
               <tbody>
                 <tr>
                   <td>dist&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
-                  <td></td>
+                  <td>Distance mapping that gets updated during relaxation</td>
                 </tr>
                 <tr>
                   <td>get_weight&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>Function to get edge weights</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>Cycle</td>
+                  <td>Cycle A vector of edges forming the negative cycle, empty if none found</td>
                 </tr>
               </tfoot>
             </table>
+<p>This is the main method that searches for negative cycles. It performs edge relaxations repeatedly and checks for cycles in the predecessor graph after each relaxation phase.</p><p>The algorithm continues until either:</p><ul><li>No more relaxations are possible (no negative cycles)</li><li>A negative cycle is found and returned</li></ul>
           </div></section>
         </section>
       </div>
@@ -210,7 +211,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

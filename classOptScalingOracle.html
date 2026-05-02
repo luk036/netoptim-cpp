@@ -61,15 +61,15 @@
           <tbody>
             <tr>
               <td style="width: 1%">Graph</td>
-              <td></td>
+              <td>Type of the directed graph representing matrix sparsity</td>
             </tr>
             <tr>
               <td>Mapping</td>
-              <td></td>
+              <td>Type of vertex potential mapping (scaling factors)</td>
             </tr>
             <tr>
               <td>Fn</td>
-              <td></td>
+              <td>Type of the cost function (edge -&gt; matrix entry)</td>
             </tr>
           </tbody>
         </table>
@@ -85,11 +85,7 @@
             </li>
           </ul>
         </nav>
-<p>This example is taken from [Orlin and Rothblum, 1985]:</p><pre>min     \pi/\phi
-s.t.    \phi \le utx[i] * |aij| * utx[j]^-1 \le \pi,
-        \forall aij != 0,
-        \pi, \phi, utx, positive
-</pre>
+<p>This class implements a separation oracle for the optimal matrix scaling problem. It uses a network oracle internally to handle the feasibility constraints and provides cutting planes for optimization.</p><p>The oracle maintains:</p><ul><li>A reference to the underlying graph structure</li><li>A cost function for matrix entries</li><li>A Ratio helper class for constraint evaluation</li><li>Network oracle for feasibility checking</li></ul>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
@@ -168,7 +164,7 @@ s.t.    \phi \le utx[i] * |aij| * utx[j]^-1 \le \pi,
               <tbody>
                 <tr>
                   <td style="width: 1%">x&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>(\pi, \phi) in log scale</td>
+                  <td>(pi, phi) in log scale</td>
                 </tr>
                 <tr>
                   <td>t&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
@@ -178,7 +174,7 @@ s.t.    \phi \le utx[i] * |aij| * utx[j]^-1 \le \pi,
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>std::tuple&lt;Cut, double&gt;</td>
+                  <td>std::tuple&lt;Cut, bool&gt;</td>
                 </tr>
               </tfoot>
             </table>
@@ -200,7 +196,7 @@ s.t.    \phi \le utx[i] * |aij| * utx[j]^-1 \le \pi,
               <tbody>
                 <tr>
                   <td style="width: 1%">x&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>(\pi, \phi) in log scale</td>
+                  <td>(pi, phi) in log scale</td>
                 </tr>
                 <tr>
                   <td>t&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
@@ -210,7 +206,7 @@ s.t.    \phi \le utx[i] * |aij| * utx[j]^-1 \le \pi,
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>std::tuple&lt;Cut, double&gt;</td>
+                  <td>std::tuple&lt;Cut, bool&gt;</td>
                 </tr>
               </tfoot>
             </table>
@@ -261,7 +257,7 @@ s.t.    \phi \le utx[i] * |aij| * utx[j]^-1 \le \pi,
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

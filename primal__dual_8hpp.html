@@ -51,7 +51,7 @@
         <h1>
           <span class="m-breadcrumb"><a href="dir_d0cbb37df914947cd117d8beaf5233cd.html">netoptim</a>/</span>primal_dual.hpp <span class="m-thin">file</span>
         </h1>
-        <p><span></span></p>
+        <p>Primal-dual approximation algorithms for graph problems.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -63,6 +63,7 @@
             </li>
           </ul>
         </nav>
+<p>This module implements primal-dual approximation algorithms for two fundamental graph optimization problems:</p><ol><li>Minimum weighted vertex cover</li><li>Minimum maximal independent set</li></ol><p>Both algorithms use the primal-dual paradigm which provides a 2-approximation guarantee for the vertex cover problem and good approximation ratios for the independent set problem.</p>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
@@ -72,7 +73,7 @@
               C1&amp; cover,
               const C2&amp; weight) -&gt; auto</span>
             </dt>
-            <dd>minimum weighted vertex cover problem</dd>
+            <dd>Minimum weighted vertex cover using primal-dual algorithm.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Graph, typename C1, typename C2&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a7093eddcf415ccd7cf5b025bfa507cea" class="m-doc">min_maximal_independant_set_pd</a>(</span><span class="m-doc-wrap">const Graph&amp; gra,
@@ -80,7 +81,7 @@
               C1&amp; dep,
               const C2&amp; weight) -&gt; auto</span>
             </dt>
-            <dd>minimum maximal independant set problem</dd>
+            <dd>Minimum maximal independent set using primal-dual algorithm.</dd>
           </dl>
         </section>
         <section>
@@ -94,7 +95,7 @@
               C1&amp; cover,
               const C2&amp; weight)</span></span>
             </h3>
-            <p>minimum weighted vertex cover problem</p>
+            <p>Minimum weighted vertex cover using primal-dual algorithm.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -102,15 +103,15 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">Graph</td>
-                  <td></td>
+                  <td>Type of the graph, must provide edges() and edge iteration</td>
                 </tr>
                 <tr>
                   <td>C1</td>
-                  <td></td>
+                  <td>Type of cover mapping (vertex -&gt; bool)</td>
                 </tr>
                 <tr>
                   <td>C2</td>
-                  <td></td>
+                  <td>Type of weight mapping (vertex -&gt; weight)</td>
                 </tr>
               </tbody>
               <thead>
@@ -119,25 +120,25 @@
               <tbody>
                 <tr>
                   <td>gra&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>input graph</td>
                 </tr>
                 <tr>
                   <td>cover&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
-                  <td></td>
+                  <td>vertex cover mapping (updated with solution)</td>
                 </tr>
                 <tr>
                   <td>weight&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>vertex weight mapping</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>auto</td>
+                  <td>auto total cost of the vertex cover</td>
                 </tr>
               </tfoot>
             </table>
-<p>This function solves minimum vertex cover problem using primal-dual approximation algorithm:</p>
+<p>This function implements a 2-approximation algorithm for the minimum weighted vertex cover problem. The algorithm maintains dual variables (gap values) and greedily selects vertices to cover edges.</p><p>The algorithm guarantees:</p><ul><li>Primal cost &le; 2 &times; Dual cost</li><li>2-approximation ratio for the optimal solution</li></ul>
           </div></section>
           <section class="m-doc-details" id="a7093eddcf415ccd7cf5b025bfa507cea"><div>
             <h3>
@@ -149,7 +150,7 @@
               C1&amp; dep,
               const C2&amp; weight)</span></span>
             </h3>
-            <p>minimum maximal independant set problem</p>
+            <p>Minimum maximal independent set using primal-dual algorithm.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -157,15 +158,15 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">Graph</td>
-                  <td></td>
+                  <td>Type of the graph, must provide vertex iteration</td>
                 </tr>
                 <tr>
                   <td>C1</td>
-                  <td></td>
+                  <td>Type of independent/dependent set mapping (vertex -&gt; bool)</td>
                 </tr>
                 <tr>
                   <td>C2</td>
-                  <td></td>
+                  <td>Type of weight mapping (vertex -&gt; weight)</td>
                 </tr>
               </tbody>
               <thead>
@@ -174,29 +175,29 @@
               <tbody>
                 <tr>
                   <td>gra&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>input graph</td>
                 </tr>
                 <tr>
-                  <td>indset</td>
-                  <td></td>
+                  <td>indset&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
+                  <td>independent set mapping (updated with solution)</td>
                 </tr>
                 <tr>
-                  <td>dep</td>
-                  <td></td>
+                  <td>dep&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
+                  <td>dependent set mapping (updated during algorithm)</td>
                 </tr>
                 <tr>
                   <td>weight&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>vertex weight mapping</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>auto</td>
+                  <td>auto total cost of the independent set</td>
                 </tr>
               </tfoot>
             </table>
-<p>This function solves minimum maximal independant set problem using primal-dual approximation algorithm:</p>
+<p>This function implements a primal-dual approximation algorithm for the minimum maximal independent set problem. The algorithm builds an independent set while maintaining maximal property by covering dependent vertices.</p><p>The algorithm works by:</p><ol><li>Maintaining gap values (dual variables)</li><li>Selecting vertices with minimum gap values</li><li>Marking selected vertices as independent</li><li>Marking neighbors as dependent</li><li>Updating gap values for remaining vertices</li></ol>
           </div></section>
         </section>
       </div>
@@ -243,7 +244,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

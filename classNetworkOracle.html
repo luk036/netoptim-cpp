@@ -53,7 +53,7 @@
           <div class="m-doc-template">template&lt;typename Graph, typename Mapping, typename Fn&gt;</div>
           NetworkOracle <span class="m-thin">class</span>
         </h1>
-        <p>Oracle for Parametric Network Problem.</p>
+        <p>Oracle for Parametric Network Problems.</p>
         <table class="m-table m-fullwidth m-flat">
           <thead>
             <tr><th colspan="2">Template parameters</th></tr>
@@ -61,15 +61,15 @@
           <tbody>
             <tr>
               <td style="width: 1%">Graph</td>
-              <td></td>
+              <td>Type of the directed graph</td>
             </tr>
             <tr>
               <td>Mapping</td>
-              <td></td>
+              <td>Type of vertex potential mapping</td>
             </tr>
             <tr>
               <td>Fn</td>
-              <td></td>
+              <td>Type of the constraint function h</td>
             </tr>
           </tbody>
         </table>
@@ -85,10 +85,7 @@
             </li>
           </ul>
         </nav>
-<p>This oracle solves the following feasibility problem:</p><pre>find    x, utx
-s.t.    utx[j] - utx[i] \le h(edge, x)
-        \forall edge(i, j) \in E
-</pre>
+<p>This class implements a separation oracle for network feasibility problems. It uses negative cycle detection to check feasibility and generate cutting planes when violations are found.</p><p>The oracle maintains:</p><ul><li>A reference to the graph structure</li><li>A mapping of vertex potentials (utx)</li><li>A negative cycle finder for violation detection</li><li>A function h that evaluates edge constraints</li></ul>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
@@ -111,17 +108,17 @@ s.t.    utx[j] - utx[i] \le h(edge, x)
               <div class="m-doc-template">template&lt;typename Num&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a4d61e86d1c2e000180d994b21abb2c1d" class="m-doc">update</a>(</span><span class="m-doc-wrap">const Num&amp; gamma) -&gt; void -&gt; auto</span>
             </dt>
-            <dd></dd>
+            <dd>Update the oracle with a new parameter value.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Arr&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab11970adf2594966409928d5d1474066" class="m-doc">assess_feas</a>(</span><span class="m-doc-wrap">const Arr&amp; xval) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0efba23d3188af7c1f35f4161795ff2e" class="m-doc">assess_feas</a>(</span><span class="m-doc-wrap">const Arr&amp; xval) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt; &gt; -&gt; auto</span>
             </dt>
-            <dd>Make object callable for cutting_plane_feas()</dd>
+            <dd>Assess feasibility and generate cutting plane if needed.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Arr&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a4d53a86b70e8f24898f265bb0dc7e621" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; xvar) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3f93c56d3f6234a2557debe39c6c4a7c" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; xvar) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt; &gt; -&gt; auto</span>
             </dt>
-            <dd>Make object callable for cutting_plane_feas()</dd>
+            <dd>Function call operator for cutting plane methods.</dd>
           </dl>
         </section>
         <section>
@@ -143,15 +140,15 @@ s.t.    utx[j] - utx[i] \le h(edge, x)
               <tbody>
                 <tr>
                   <td style="width: 1%">gra&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>a directed graph (V, E)</td>
+                  <td>a directed graph (V, E) representing the network</td>
                 </tr>
                 <tr>
                   <td>utx&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
-                  <td>list or dictionary</td>
+                  <td>vertex potential mapping (updated during operation)</td>
                 </tr>
                 <tr>
                   <td>h&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>function evaluation and gradient</td>
+                  <td>function for constraint evaluation and gradient computation</td>
                 </tr>
               </tbody>
             </table>
@@ -164,6 +161,7 @@ s.t.    utx[j] - utx[i] \le h(edge, x)
               </div>
               <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4d61e86d1c2e000180d994b21abb2c1d" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">const Num&amp; gamma) -&gt; void</span></span>
             </h3>
+            <p>Update the oracle with a new parameter value.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -171,46 +169,85 @@ s.t.    utx[j] - utx[i] \le h(edge, x)
               <tbody>
                 <tr>
                   <td style="width: 1%">gamma&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>the best-so-far optimal value</td>
+                  <td>the new parameter value (best-so-far optimal value)</td>
                 </tr>
               </tbody>
             </table>
+<p>This method updates the internal constraint function with a new parameter value, typically used in parametric optimization where the constraints depend on a parameter that changes during the algorithm.</p>
           </div></section>
-          <section class="m-doc-details" id="ab11970adf2594966409928d5d1474066"><div>
+          <section class="m-doc-details" id="a0efba23d3188af7c1f35f4161795ff2e"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Graph, typename Mapping, typename Fn&gt;
                 template&lt;typename Arr&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab11970adf2594966409928d5d1474066" class="m-doc-self">assess_feas</a>(</span><span class="m-doc-wrap">const Arr&amp; xval) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0efba23d3188af7c1f35f4161795ff2e" class="m-doc-self">assess_feas</a>(</span><span class="m-doc-wrap">const Arr&amp; xval) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt; &gt;</span></span>
             </h3>
-            <p>Make object callable for cutting_plane_feas()</p>
+            <p>Assess feasibility and generate cutting plane if needed.</p>
             <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Arr</td>
+                  <td>Type of the input array/vector</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>xval&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>input values to be assessed for feasibility</td>
+                </tr>
+              </tbody>
               <tfoot>
                 <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>std::optional&lt;std::tuple&lt;T, double&gt;&gt;</td>
+                  <th>Returns</th>
+                  <td>std::optional&lt;std::pair&lt;Arr, double&gt;&gt; Empty if feasible, otherwise a pair containing gradient and function value for cutting plane</td>
                 </tr>
               </tfoot>
             </table>
+<p>This is the main oracle method that checks if the current point xval is feasible with respect to the network constraints. If infeasible, it returns a cutting plane (gradient and function value) that separates the infeasible point from the feasible region.</p><p>The method works by:</p><ol><li>Computing edge weights using the constraint function</li><li>Searching for negative cycles using these weights</li><li>If found, computing the gradient and function value for the cut</li><li>Returning the cutting plane or empty if feasible</li></ol>
           </div></section>
-          <section class="m-doc-details" id="a4d53a86b70e8f24898f265bb0dc7e621"><div>
+          <section class="m-doc-details" id="a3f93c56d3f6234a2557debe39c6c4a7c"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Graph, typename Mapping, typename Fn&gt;
                 template&lt;typename Arr&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4d53a86b70e8f24898f265bb0dc7e621" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; xvar) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt;&gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto NetworkOracle&lt;Graph, Mapping, Fn&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3f93c56d3f6234a2557debe39c6c4a7c" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; xvar) -&gt; std::optional&lt; std::pair&lt; Arr, double &gt; &gt;</span></span>
             </h3>
-            <p>Make object callable for cutting_plane_feas()</p>
+            <p>Function call operator for cutting plane methods.</p>
             <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Arr</td>
+                  <td>Type of the input array/vector</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>xvar&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>input variables to be assessed</td>
+                </tr>
+              </tbody>
               <tfoot>
                 <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>std::optional&lt;std::tuple&lt;T, double&gt;&gt;</td>
+                  <th>Returns</th>
+                  <td>std::optional&lt;std::pair&lt;Arr, double&gt;&gt; Same as assess_feas</td>
                 </tr>
               </tfoot>
             </table>
+<p>This operator makes the oracle callable, which is convenient for use with cutting plane algorithms. It simply forwards to the assess_feas method.</p>
           </div></section>
         </section>
       </div>
@@ -257,7 +294,7 @@ s.t.    utx[j] - utx[i] \le h(edge, x)
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

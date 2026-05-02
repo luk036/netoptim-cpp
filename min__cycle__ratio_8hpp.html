@@ -51,7 +51,7 @@
         <h1>
           <span class="m-breadcrumb"><a href="dir_d0cbb37df914947cd117d8beaf5233cd.html">netoptim</a>/</span>min_cycle_ratio.hpp <span class="m-thin">file</span>
         </h1>
-        <p><span></span></p>
+        <p>Minimum cost-to-time cycle ratio problem solver.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -63,6 +63,7 @@
             </li>
           </ul>
         </nav>
+<p>This module implements an algorithm to find the minimum cycle ratio in a weighted directed graph where each edge has both a cost and a time value. The cycle ratio is defined as the total cost divided by the total time.</p><p>The problem formulation: max r s.t. dist[vtx] - dist[utx] &ge; cost(utx, vtx) - r * time(utx, vtx) &forall; edge(utx, vtx) &isin; gra(V, E)</p><p>This is equivalent to finding the cycle with minimum cost/time ratio. The algorithm uses a parametric search approach combined with negative cycle detection.</p>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
@@ -75,7 +76,7 @@
               Mapping&amp;&amp; dist,
               size_t max_iters = 1000) -&gt; auto</span>
             </dt>
-            <dd>minimum cost-to-time cycle ratio problem</dd>
+            <dd>Solve the minimum cost-to-time cycle ratio problem.</dd>
           </dl>
         </section>
         <section>
@@ -92,7 +93,7 @@
               Mapping&amp;&amp; dist,
               size_t max_iters = 1000)</span></span>
             </h3>
-            <p>minimum cost-to-time cycle ratio problem</p>
+            <p>Solve the minimum cost-to-time cycle ratio problem.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -100,23 +101,23 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">Graph</td>
-                  <td></td>
+                  <td>Type of the graph, must provide key_type and edge iteration</td>
                 </tr>
                 <tr>
                   <td>T</td>
-                  <td></td>
+                  <td>Numeric type for ratio values (e.g., double, float)</td>
                 </tr>
                 <tr>
                   <td>Fn1</td>
-                  <td></td>
+                  <td>Type of cost function (edge -&gt; cost)</td>
                 </tr>
                 <tr>
                   <td>Fn2</td>
-                  <td></td>
+                  <td>Type of time function (edge -&gt; time)</td>
                 </tr>
                 <tr>
                   <td>Mapping</td>
-                  <td></td>
+                  <td>Type of distance mapping (vertex -&gt; distance)</td>
                 </tr>
               </tbody>
               <thead>
@@ -125,40 +126,37 @@
               <tbody>
                 <tr>
                   <td>gra&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>The input graph</td>
                 </tr>
                 <tr>
                   <td>r0&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
-                  <td></td>
+                  <td>Initial ratio value, updated with optimal result</td>
                 </tr>
                 <tr>
                   <td>get_cost&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>Function to extract cost from edges</td>
                 </tr>
                 <tr>
                   <td>get_time&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>Function to extract time from edges</td>
                 </tr>
                 <tr>
                   <td>dist&nbsp;<span class="m-label m-flat m-danger">in/out</span></td>
-                  <td></td>
+                  <td>Distance mapping used in the algorithm</td>
                 </tr>
                 <tr>
-                  <td>max_iters</td>
-                  <td></td>
+                  <td>max_iters&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>Maximum number of iterations (default: 1000)</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>auto</td>
+                  <td>auto A cycle (vector of edges) with the minimum ratio</td>
                 </tr>
               </tfoot>
             </table>
-<p>This function solves the following network parametric problem:</p><pre>max  r
-s.t. dist[vtx] - dist[utx] \ge cost(utx, vtx) - r * time(utx, vtx)
-     \forall edge(utx, vtx) \in gra(V, E)
-</pre>
+<p>This function finds the cycle in a graph that minimizes the ratio of total cost to total time. It uses a parametric search algorithm that iteratively adjusts the ratio parameter and searches for negative cycles.</p><p>The algorithm works by:</p><ol><li>Converting the ratio problem to a parametric weight problem</li><li>Using negative cycle detection to find violating cycles</li><li>Adjusting the ratio based on the found cycles</li><li>Repeating until convergence</li></ol>
           </div></section>
         </section>
       </div>
@@ -205,7 +203,7 @@ s.t. dist[vtx] - dist[utx] \ge cost(utx, vtx) - r * time(utx, vtx)
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>NetOptim. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.8 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>
