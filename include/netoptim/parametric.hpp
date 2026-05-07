@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include <tuple>
+// #include <tuple>
 #include <vector>
 
 #include "neg_cycle.hpp"  // import NegCycleFinder

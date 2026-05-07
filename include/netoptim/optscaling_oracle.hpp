@@ -4,7 +4,7 @@
 #include <cassert>
 // #include <xtensor/xarray.hpp>
 
-#include <valarray>>
+#include <valarray>
 
 #include "network_oracle.hpp"
 
@@ -109,7 +109,7 @@ class OptScalingOracle {
          * @param[in] x vector containing (pi, phi) in log scale
          * @return Vec gradient vector [d/d(pi), d/d(phi)]
          */
-        auto grad(const edge_t& edge, const Vec& x) const -> Vec {
+        auto grad(const edge_t& edge, const Vec& /* x */) const -> Vec {
             // const auto [utx, vtx] = this->_gra.end_points(edge);
             const auto [utx, vtx] = edge;
             assert(utx != vtx);

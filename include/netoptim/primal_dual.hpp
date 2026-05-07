@@ -2,7 +2,7 @@
 #pragma once
 
 #include <algorithm>
-#include <numeric>
+// #include <numeric>
 #include <py2cpp/py2cpp.hpp>
 
 /*!
@@ -40,7 +40,7 @@
  */
 template <typename Graph, typename C1, typename C2>
 auto min_vertex_cover_pd(const Graph& gra, C1& cover, const C2& weight) {
-    using T = typename weight::value_type;
+    using T = typename C2::value_type;
 
     [[maybe_unused]] auto total_dual_cost = T(0);
     auto total_primal_cost = T(0);

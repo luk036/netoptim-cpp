@@ -2,7 +2,7 @@
 #pragma once
 
 #include <algorithm>
-#include <numeric>
+// #include <numeric>
 #include <py2cpp/py2cpp.hpp>
 
 #include "parametric.hpp"  // import max_parametric
