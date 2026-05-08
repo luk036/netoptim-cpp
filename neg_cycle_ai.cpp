@@ -158,13 +158,13 @@ int main() {
     NegCycleFinder ncf(digraph);
     Cycle cycle = ncf.find_neg_cycle(dist, [](edge_t p) { return p.second; });
     if (cycle.empty()) {
-        cout << "No negative cycle found." << endl;
+        cout << "No negative cycle found." << '\n';
     } else {
         cout << "Negative cycle found: ";
         for (auto it = cycle.begin(); it != cycle.end(); it++) {
             cout << "(" << it->first << ", " << it->second << ") ";
         }
-        cout << endl;
+        cout << '\n';
     }
     return 0;
 }
