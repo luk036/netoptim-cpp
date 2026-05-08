@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>  // for ResultBuilder, CHECK
 
-#include <array>    // for array
+#include <array>  // for array
 #include <iostream>
 #include <netoptim/min_cycle_ratio.hpp>       // for min_cycle_ratio
 #include <py2cpp/dict.hpp>                    // for dict
