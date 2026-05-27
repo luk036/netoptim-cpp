@@ -8,13 +8,6 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage(
-  NAME spdlog
-  GIT_TAG v1.17.0
-  GITHUB_REPOSITORY gabime/spdlog
-  OPTIONS "SPDLOG_INSTALL YES" # create an installable target
-)
-
 # find_package(Boost REQUIRED) if(Boost_FOUND) message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
 # # add_library(Boost::boost INTERFACE IMPORTED GLOBAL) target_include_directories(Boost::boost
 # SYSTEM INTERFACE ${Boost_INCLUDE_DIRS}) # Disable autolink target_compile_definitions(Boost::boost
@@ -33,41 +26,27 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG 1.6.0
+  GIT_TAG 1.5.2
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.7.3
+  GIT_TAG 1.7.1
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
 CPMAddPackage(
-  NAME MyWheel
-  GIT_TAG 1.1.3
-  GITHUB_REPOSITORY luk036/mywheel-cpp
-  OPTIONS "INSTALL_ONLY ON" # create an installable target
-)
-
-CPMAddPackage(
-  NAME DiGraphX
-  GIT_TAG 1.1.3
-  GITHUB_REPOSITORY luk036/digraphx-cpp
-  OPTIONS "INSTALL_ONLY ON" # create an installable target
-)
-
-CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.6.3
+  GIT_TAG 1.6.2
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
 
 set(SPECIFIC_LIBS
-  EllAlgo::EllAlgo DiGraphX::DiGraphX MyWheel::MyWheel XNetwork::XNetwork Py2Cpp::Py2Cpp spdlog::spdlog
+    EllAlgo::EllAlgo XNetwork::XNetwork Py2Cpp::Py2Cpp
     # cppcoro::cppcoro
     Threads::Threads fmt::fmt
 )
