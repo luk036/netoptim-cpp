@@ -2,6 +2,7 @@
 #include <doctest/doctest.h>
 
 #include <cmath>     // for log
+#include <cstdint>   // for uint32_t
 #include <limits>    // for infinity
 #include <list>
 #include <unordered_map>
