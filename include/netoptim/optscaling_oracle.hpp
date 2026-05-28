@@ -46,9 +46,8 @@
  */
 template <typename Graph, typename Mapping, typename Fn>  //
 class OptScalingOracle {
-    // using Vec = xt::xarray<double, xt::layout_type::row_major>;
     using Vec = std::valarray<double>;
-    using node_t = typename Graph::node_t;
+    using node_t = typename Graph::key_type;
     using edge_t = std::pair<node_t, node_t>;
     using Cut = std::pair<Vec, double>;
 
@@ -95,7 +94,7 @@ class OptScalingOracle {
             const auto cost = this->_get_cost(edge);
             const auto [utx, vtx] = edge;
             assert(utx != vtx);
-            return (utx < vtx) ? x[0] - cost : cost - x[1];
+            return (utx < vtx) ? x[0] - cost.first : cost.second - x[1];
         }
 
         /*!
@@ -135,9 +134,10 @@ class OptScalingOracle {
      *
      */
     explicit OptScalingOracle(const OptScalingOracle&) = default;
-
-    // OptScalingOracle& operator=(const OptScalingOracle&) = delete;
-    // OptScalingOracle(optscaling_oracle&&) = default;
+    OptScalingOracle(OptScalingOracle&&) = default;
+    OptScalingOracle& operator=(const OptScalingOracle&) = default;
+    OptScalingOracle& operator=(OptScalingOracle&&) = default;
+    ~OptScalingOracle() = default;
 
     /*!
      * @brief Make object callable for cutting_plane_optim()

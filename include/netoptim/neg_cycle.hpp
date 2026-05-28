@@ -21,6 +21,7 @@
 
 #include <cassert>
 #include <optional>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>  // for pair
 #include <vector>
@@ -49,6 +50,33 @@ template <typename DiGraph> class NegCycleFinder {
     using Cycle = std::vector<edge_t>;
 
   private:
+    // SFINAE trait to detect if a type has .first member (pair-like)
+    template <typename T, typename = void>
+    struct _has_first : std::false_type {};
+    template <typename T>
+    struct _has_first<T, std::void_t<decltype(std::declval<T>().first)>>
+        : std::true_type {};
+
+    // Extract node ID from iteration element:
+    // - For map iteration (pair<const K, V>): use .first
+    // - For direct node iteration (uint32_t): use as-is
+    template <typename T>
+    static constexpr auto& _node_id(T& val) noexcept {
+        if constexpr (_has_first<T>::value) {
+            return val.first;
+        } else {
+            return val;
+        }
+    }
+    template <typename T>
+    static constexpr const auto& _node_id(const T& val) noexcept {
+        if constexpr (_has_first<T>::value) {
+            return val.first;
+        } else {
+            return val;
+        }
+    }
+
     std::unordered_map<node_t, node_t> _pred{};
     const DiGraph& _digraph;
 
@@ -102,7 +130,8 @@ template <typename DiGraph> class NegCycleFinder {
      */
     auto _find_cycle() -> std::optional<node_t> {
         auto visited = std::unordered_map<node_t, node_t>{};
-        for (auto&& vtx : this->_digraph) {
+        for (auto&& vtx_entry : this->_digraph) {
+            auto&& vtx = _node_id(vtx_entry);
             if (visited.find(vtx) != visited.end()) {  // contains vtx
                 continue;
             }
@@ -145,8 +174,10 @@ template <typename DiGraph> class NegCycleFinder {
     template <typename Mapping, typename Callable>
     auto _relax(Mapping&& dist, Callable&& get_weight) -> bool {
         auto changed = false;
-        for (const auto& utx : this->_digraph) {
-            for (const auto& vtx : this->_digraph.at(utx)) {
+        for (const auto& utx_entry : this->_digraph) {
+            const auto& utx = _node_id(utx_entry);
+            for (const auto& vtx_entry : this->_digraph.at(utx)) {
+                const auto& vtx = _node_id(vtx_entry);
                 // Allow self-loop
                 const auto weight = get_weight(edge_t{utx, vtx});
                 const auto distance = dist[utx] + weight;

@@ -3,6 +3,7 @@
 
 // #include <ellalgo/utility.hpp>
 #include <optional>
+#include <type_traits>
 
 #include "neg_cycle.hpp"  // import negCycleFinder
 
@@ -42,7 +43,7 @@
  * @tparam Fn Type of the constraint function h
  */
 template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
-    using node_t = typename Graph::node_t;
+    using node_t = typename Graph::key_type;
     using edge_t = std::pair<node_t, node_t>;
 
   private:
@@ -111,13 +112,19 @@ template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
             return {};
         }
 
-        auto grad = zeros(xval);
+        auto grad = [&]() -> Arr {
+            if constexpr (std::is_arithmetic_v<Arr>) {
+                return Arr{};
+            } else {
+                return Arr(xval.size());
+            }
+        }();
         auto fval = 0.0;
         for (auto&& edge : C) {
             fval -= this->_h.eval(edge, xval);
             grad -= this->_h.grad(edge, xval);
         }
-        return {{std::move(grad), fval}};
+        return std::pair{std::move(grad), fval};
     }
 
     /*!
