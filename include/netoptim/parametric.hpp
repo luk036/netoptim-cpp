@@ -4,7 +4,7 @@
 // #include <tuple>
 #include <vector>
 
-#include "neg_cycle.hpp"  // import NegCycleFinder
+#include <digraphx/neg_cycle.hpp>  // import NegCycleFinder
 
 /*!
  * @file parametric.hpp

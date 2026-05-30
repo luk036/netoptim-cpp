@@ -1,11 +1,17 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-// #include <ellalgo/utility.hpp>
 #include <optional>
 #include <type_traits>
 
-#include "neg_cycle.hpp"  // import negCycleFinder
+#include <digraphx/neg_cycle.hpp>  // import negCycleFinder
+
+namespace {
+    template <typename T>
+    concept HasKeyType = requires {
+        typename T::key_type;
+    };
+}
 
 /*!
  * @file network_oracle.hpp
@@ -42,7 +48,9 @@
  * @tparam Mapping Type of vertex potential mapping
  * @tparam Fn Type of the constraint function h
  */
-template <typename Graph, typename Mapping, typename Fn> class NetworkOracle {
+template <typename Graph, typename Mapping, typename Fn>
+    requires HasKeyType<Graph>
+class NetworkOracle {
     using node_t = typename Graph::key_type;
     using edge_t = std::pair<node_t, node_t>;
 

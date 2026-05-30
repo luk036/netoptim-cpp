@@ -19,7 +19,7 @@ if is_plat("linux") then
         add_sysincludedirs(termux_prefix .. "/include", {public = true})
     end
 elseif is_plat("windows") then
-    add_cxflags("/EHsc /W4 /WX /wd4459 /wd4267", { force = true })
+    add_cxflags("/EHsc /W4 /WX /wd4244 /wd4459 /wd4267", { force = true })
 end
 
 -- header only
@@ -28,6 +28,7 @@ target("test_netoptim")
     set_kind("binary")
     -- add_deps("Py2Cpp")
     -- add_deps("NetOptim")
+    add_includedirs("../digraphx-cpp/include", {public = true})
     add_includedirs("../ellalgo-cpp/include", {public = true})
     add_includedirs("../py2cpp/include", {public = true})
     add_includedirs("../xnetwork-cpp/include", {public = true})

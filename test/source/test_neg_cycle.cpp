@@ -2,7 +2,7 @@
 #include <doctest/doctest.h>  // for ResultBuilder, TestCase
 
 #include <array>                              // for array
-#include <netoptim/neg_cycle.hpp>             // for NegCycleFinder
+#include <digraphx/neg_cycle.hpp>             // for NegCycleFinder
 #include <vector>                             // for vector
 #include <xnetwork/classes/digraphs.hpp>      // for DiGraphS
 #include <xnetwork/generators/testcases.hpp>  // for create_test_case1, crea...

@@ -32,9 +32,10 @@ elseif(MSVC)
   target_compile_options(
     ${PROJECT_NAME}
     INTERFACE /std:c++20
-              /await
+              /await:strict
               /W4
               /WX
+              /wd4244
               /wd4819
               /wd4146
               /wd4127

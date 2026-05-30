@@ -45,6 +45,7 @@
  * @tparam Fn Type of the cost function (edge -> matrix entry)
  */
 template <typename Graph, typename Mapping, typename Fn>  //
+    requires HasKeyType<Graph>
 class OptScalingOracle {
     using Vec = std::valarray<double>;
     using node_t = typename Graph::key_type;

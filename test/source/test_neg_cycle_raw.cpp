@@ -2,7 +2,7 @@
 #include <doctest/doctest.h>  // for ResultBuilder, TestCase
 
 #include <cstdint>                 // for uint32_t
-#include <netoptim/neg_cycle.hpp>  // for NegCycleFinder
+#include <digraphx/neg_cycle.hpp>  // for NegCycleFinder
 #include <py2cpp/dict.hpp>         // for dict
 
 /*!

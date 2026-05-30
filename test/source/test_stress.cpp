@@ -4,7 +4,7 @@
 #include <vector>
 #include <xnetwork/generators/testcases.hpp>
 
-#include "netoptim/neg_cycle.hpp"
+#include <digraphx/neg_cycle.hpp>
 
 /*!
  * @brief Stress test for negative cycle detection on large graph

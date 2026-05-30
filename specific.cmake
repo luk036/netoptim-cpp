@@ -26,27 +26,34 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG 1.5.2
+  GIT_TAG 1.6.1
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.7.1
+  GIT_TAG 1.7.3
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
 CPMAddPackage(
+  NAME DiGraphX
+  GIT_TAG 1.1.4
+  GITHUB_REPOSITORY luk036/digraphx-cpp
+  OPTIONS "INSTALL_ONLY ON" # create an installable target
+)
+
+CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.6.4
+  GIT_TAG 1.6.5
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
 
 set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo XNetwork::XNetwork Py2Cpp::Py2Cpp
+    EllAlgo::EllAlgo DiGraphX::DiGraphX XNetwork::XNetwork Py2Cpp::Py2Cpp
     # cppcoro::cppcoro
     Threads::Threads fmt::fmt
 )
