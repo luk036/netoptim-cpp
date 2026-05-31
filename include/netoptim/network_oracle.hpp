@@ -1,17 +1,14 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
+#include <digraphx/neg_cycle.hpp>  // import negCycleFinder
 #include <optional>
 #include <type_traits>
 
-#include <digraphx/neg_cycle.hpp>  // import negCycleFinder
-
 namespace {
     template <typename T>
-    concept HasKeyType = requires {
-        typename T::key_type;
-    };
-}
+    concept HasKeyType = requires { typename T::key_type; };
+}  // namespace
 
 /*!
  * @file network_oracle.hpp

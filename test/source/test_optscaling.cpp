@@ -1,19 +1,18 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>
 
-#include <cmath>     // for log
-#include <cstdint>   // for uint32_t
-#include <limits>    // for infinity
+#include <cmath>    // for log
+#include <cstdint>  // for uint32_t
+#include <limits>   // for infinity
 #include <list>
+#include <netoptim/optscaling_oracle.hpp>
 #include <unordered_map>
 #include <utility>   // for pair
 #include <valarray>  // for valarray
 
-#include <netoptim/optscaling_oracle.hpp>
-
 TEST_CASE("Test OptScalingOracle assess_optim") {
-    using CostGraph =
-        std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
+    using CostGraph
+        = std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
 
     const auto log10 = std::log(10.0);
     const auto log22 = std::log(22.0);

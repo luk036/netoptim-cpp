@@ -60,12 +60,13 @@ target_compile_options(${PROJECT_NAME} INTERFACE "$<$<COMPILE_LANG_AND_ID:CXX,MS
 # Link dependencies target_link_libraries(${PROJECT_NAME} INTERFACE ${SPECIFIC_LIBS})
 
 target_include_directories(
-  ${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-                            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../digraphx-cpp/include>
-                            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../py2cpp/include>
-                            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../xnetwork-cpp/include>
-                            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../ellalgo-cpp/include>
-                            $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+  ${PROJECT_NAME}
+  INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../digraphx-cpp/include>
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../py2cpp/include>
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../xnetwork-cpp/include>
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../ellalgo-cpp/include>
+            $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
 # ---- Create an installable target ----

@@ -2,9 +2,8 @@
 #pragma once
 
 // #include <tuple>
-#include <vector>
-
 #include <digraphx/neg_cycle.hpp>  // import NegCycleFinder
+#include <vector>
 
 /*!
  * @file parametric.hpp

@@ -4,10 +4,9 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <netoptim/network_oracle.hpp>
 #include <unordered_map>
 #include <utility>
-
-#include <netoptim/network_oracle.hpp>
 
 namespace {
 
@@ -35,8 +34,9 @@ namespace {
         void update(double gamma) { state->t = gamma; }
     };
 
-    using TestGraph =
-        std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<uint32_t, uint32_t>>>>;
+    using TestGraph
+        = std::unordered_map<uint32_t,
+                             std::list<std::pair<uint32_t, std::pair<uint32_t, uint32_t>>>>;
 
     auto create_cycle_graph() -> TestGraph {
         return {
@@ -104,10 +104,8 @@ TEST_CASE("Test NetworkOracle more complex graph") {
     };
 
     MockOracle oracle;
-    oracle.values = {
-        {{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 3}, 1.0}, {{3, 0}, -4.0}, {{0, 2}, 0.5}};
-    oracle.grads = {
-        {{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 3}, 1.0}, {{3, 0}, -1.0}, {{0, 2}, 1.0}};
+    oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 3}, 1.0}, {{3, 0}, -4.0}, {{0, 2}, 0.5}};
+    oracle.grads = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 3}, 1.0}, {{3, 0}, -1.0}, {{0, 2}, 1.0}};
 
     std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}, {3, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
