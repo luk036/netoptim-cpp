@@ -43,6 +43,28 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
+# Patch xnetwork testcases.hpp for MSVC v14.51+ strict anonymous enum type traits
+# (error C2139: 'create_test_case1::nodes': an undefined class is not allowed as an
+#  argument to compiler intrinsic type trait '__is_constructible')
+if(MSVC AND xnetwork_SOURCE_DIR)
+  set(_tc_file "${xnetwork_SOURCE_DIR}/include/xnetwork/generators/testcases.hpp")
+  if(EXISTS "${_tc_file}")
+    file(READ "${_tc_file}" _tc_content)
+    string(REPLACE
+      "enum nodes { A, B, C, D, E };"
+      "constexpr uint32_t A = 0, B = 1, C = 2, D = 3, E = 4;"
+      _tc_content "${_tc_content}")
+    string(REPLACE
+      "enum nodes { A, B, C };"
+      "constexpr uint32_t A = 0, B = 1, C = 2;"
+      _tc_content "${_tc_content}")
+    file(WRITE "${_tc_file}" "${_tc_content}")
+    message(STATUS "Patched xnetwork testcases.hpp for MSVC C2139 compatibility")
+    unset(_tc_file)
+    unset(_tc_content)
+  endif()
+endif()
+
 CPMAddPackage(
   NAME DiGraphX
   GIT_TAG 1.1.4
