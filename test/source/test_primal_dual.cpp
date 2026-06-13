@@ -10,8 +10,7 @@
 namespace {
 
     /// Minimal edge type with end_points() required by min_vertex_cover_pd
-    template <typename Node>
-    struct PdEdge : std::pair<Node, Node> {
+    template <typename Node> struct PdEdge : std::pair<Node, Node> {
         using std::pair<Node, Node>::pair;
         [[nodiscard]] auto end_points() const { return *this; }
     };
@@ -151,8 +150,6 @@ TEST_CASE("Test Min Vertex Cover - Pre-covered Node") {
     const auto cost = min_vertex_cover_pd(gra, cover, weight);
     CHECK_EQ(cost, 0);
 }
-
-
 
 TEST_CASE("Test Min Maximal Independent Set - Single Edge") {
     auto gra = PdGraph(2, {{0, 1}});
