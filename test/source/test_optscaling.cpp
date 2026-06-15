@@ -5,8 +5,8 @@
 #include <cstdint>  // for uint32_t
 #include <limits>   // for infinity
 #include <list>
-#include <numbers>
 #include <netoptim/optscaling_oracle.hpp>
+#include <numbers>
 #include <unordered_map>
 #include <utility>   // for pair
 #include <valarray>  // for valarray

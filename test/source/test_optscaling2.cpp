@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <limits>
 #include <list>
-#include <numbers>
 #include <netoptim/optscaling_oracle.hpp>
+#include <numbers>
 #include <unordered_map>
 #include <utility>
 #include <valarray>

@@ -64,8 +64,8 @@ if(MSVC AND xnetwork_SOURCE_DIR)
   endif()
 endif()
 
-# spdlog must be added before DiGraphX (which also adds spdlog) to ensure SPDLOG_FMT_EXTERNAL
-# is set, avoiding linker conflicts with fmt when local fmt package is a shared library
+# spdlog must be added before DiGraphX (which also adds spdlog) to ensure SPDLOG_FMT_EXTERNAL is
+# set, avoiding linker conflicts with fmt when local fmt package is a shared library
 CPMAddPackage(
   NAME spdlog
   GIT_TAG v1.17.0
