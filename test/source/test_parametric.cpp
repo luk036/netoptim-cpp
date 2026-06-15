@@ -9,7 +9,7 @@
 #include <xnetwork/generators/testcases.hpp>
 
 TEST_CASE("Test max_parametric with positive weights (no neg cycles)") {
-    const auto indices = std::array<size_t, 5>{0, 1, 2, 3, 4};
+    const auto indices = std::array<uint32_t, 5>{0, 1, 2, 3, 4};
     auto gra = create_test_case1(indices);
 
     const auto cost = std::array<int, 5>{2, 1, 1, 1, 1};

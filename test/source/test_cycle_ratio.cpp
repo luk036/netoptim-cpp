@@ -18,7 +18,7 @@
  * for a simple graph with equal time values for all edges.
  */
 TEST_CASE("Test Cycle Ratio") {
-    const auto indices = std::array<size_t, 5>{0, 1, 2, 3, 4};
+    const auto indices = std::array<uint32_t, 5>{0, 1, 2, 3, 4};
     auto gra = create_test_case1(indices);
 
     const auto cost = std::array<int, 5>{5, 1, 1, 1, 1};
@@ -46,7 +46,7 @@ TEST_CASE("Test Cycle Ratio") {
 TEST_CASE("Test Cycle Ratio of Timing Graph") {
     // make sure no parallel edges!!!
 
-    const auto indices = std::array<size_t, 6>{0, 1, 2, 3, 4, 5};
+    const auto indices = std::array<uint32_t, 6>{0, 1, 2, 3, 4, 5};
     auto gra = create_test_case2(indices);
 
     const auto cost = std::array<int, 6>{7, -1, 3, 0, 2, 4};
