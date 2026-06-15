@@ -35,8 +35,7 @@ elseif(MSVC)
               /W4
               /WX
               /wd4244
-              /wd4819
-              /wd4146
+                 /wd4146
               /wd4127
               /wd4267
   )
