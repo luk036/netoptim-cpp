@@ -5,6 +5,7 @@
 #include <cstdint>  // for uint32_t
 #include <limits>   // for infinity
 #include <list>
+#include <numbers>
 #include <netoptim/optscaling_oracle.hpp>
 #include <unordered_map>
 #include <utility>   // for pair
@@ -14,7 +15,7 @@ TEST_CASE("Test OptScalingOracle assess_optim") {
     using CostGraph
         = std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
 
-    const auto log10 = std::log(10.0);
+    const auto log10 = std::numbers::ln10;
     const auto log22 = std::log(22.0);
     const auto log125 = std::log(125.0);
 
