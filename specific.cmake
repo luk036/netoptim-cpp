@@ -38,7 +38,7 @@ endif()
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.7.3
+  GIT_TAG 1.7.4
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
@@ -73,7 +73,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.6.5
+  GIT_TAG 1.6.6
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )

@@ -32,7 +32,6 @@ elseif(MSVC)
   target_compile_options(
     ${PROJECT_NAME}
     INTERFACE /std:c++20
-              /await:strict
               /W4
               /WX
               /wd4244
@@ -41,7 +40,7 @@ elseif(MSVC)
               /wd4127
               /wd4267
   )
-  target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
+  # target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
 # ---- Add ${PROJECT_NAME}Tests ----
