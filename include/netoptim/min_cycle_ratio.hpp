@@ -7,7 +7,7 @@
 
 #include "parametric.hpp"  // import max_parametric
 
-/*!
+/**
  * @file min_cycle_ratio.hpp
  * @brief Minimum cost-to-time cycle ratio problem solver
  *
@@ -25,7 +25,7 @@
  * cycle detection.
  */
 
-/*!
+/**
  * @brief Solve the minimum cost-to-time cycle ratio problem
  *
  * This function finds the cycle in a graph that minimizes the ratio of

@@ -5,7 +5,7 @@
 #include <digraphx/neg_cycle.hpp>  // import NegCycleFinder
 #include <vector>
 
-/*!
+/**
  * @file parametric.hpp
  * @brief Maximum parametric problem solver for network optimization
  *
@@ -24,7 +24,7 @@
  * other parametric flow problems.
  */
 
-/*!
+/**
  * @brief Solve the maximum parametric problem
  *
  * This function implements an iterative algorithm to find the maximum

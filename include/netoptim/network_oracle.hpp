@@ -10,7 +10,7 @@ namespace {
     concept HasKeyType = requires { typename T::key_type; };
 }  // namespace
 
-/*!
+/**
  * @file network_oracle.hpp
  * @brief Oracle for Parametric Network Problems
  *
@@ -28,7 +28,7 @@ namespace {
  * This is commonly used in cutting-plane methods for network optimization.
  */
 
-/*!
+/**
  * @brief Oracle for Parametric Network Problems
  *
  * This class implements a separation oracle for network feasibility problems.
@@ -58,13 +58,10 @@ class NetworkOracle {
     Fn _h;
 
   public:
-    /*!
-     * @brief Construct a new network oracle object
-     *
+    /** @brief Construct a new network oracle object
      * @param[in] gra a directed graph (V, E) representing the network
      * @param[in,out] utx vertex potential mapping (updated during operation)
-     * @param[in] h function for constraint evaluation and gradient computation
-     */
+     * @param[in] h function for constraint evaluation and gradient computation */
     NetworkOracle(const Graph& gra, Mapping& utx, Fn h)
         : _gra{gra}, _u{utx}, _S(gra), _h{std::move(h)} {}
 
@@ -77,36 +74,21 @@ class NetworkOracle {
     // NetworkOracle& operator=(const NetworkOracle&) = delete;
     // NetworkOracle(network_oracle&&) = default;
 
-    /*!
-     * @brief Update the oracle with a new parameter value
-     *
-     * This method updates the internal constraint function with a new
+    /** @brief Update the oracle with a new parameter value
+     * @details Updates the internal constraint function with a new
      * parameter value, typically used in parametric optimization where
      * the constraints depend on a parameter that changes during the algorithm.
-     *
-     * @param[in] gamma the new parameter value (best-so-far optimal value)
-     */
+     * @param[in] gamma the new parameter value (best-so-far optimal value) */
     template <typename Num> auto update(const Num& gamma) -> void { this->_h.update(gamma); }
 
-    /*!
-     * @brief Assess feasibility and generate cutting plane if needed
-     *
-     * This is the main oracle method that checks if the current point xval
+    /** @brief Assess feasibility and generate cutting plane if needed
+     * @details This is the main oracle method that checks if the current point xval
      * is feasible with respect to the network constraints. If infeasible,
      * it returns a cutting plane (gradient and function value) that separates
      * the infeasible point from the feasible region.
-     *
-     * The method works by:
-     * 1. Computing edge weights using the constraint function
-     * 2. Searching for negative cycles using these weights
-     * 3. If found, computing the gradient and function value for the cut
-     * 4. Returning the cutting plane or empty if feasible
-     *
      * @tparam Arr Type of the input array/vector
      * @param[in] xval input values to be assessed for feasibility
-     * @return std::optional<std::pair<Arr, double>> Empty if feasible,
-     *         otherwise a pair containing gradient and function value for cutting plane
-     */
+     * @return Empty if feasible, otherwise a pair containing gradient and function value */
     template <typename Arr> auto assess_feas(const Arr& xval)
         -> std::optional<std::pair<Arr, double>> {
         auto get_weight
@@ -132,17 +114,12 @@ class NetworkOracle {
         return std::pair{std::move(grad), fval};
     }
 
-    /*!
-     * @brief Function call operator for cutting plane methods
-     *
-     * This operator makes the oracle callable, which is convenient for use
-     * with cutting plane algorithms. It simply forwards to the assess_feas
-     * method.
-     *
+    /** @brief Function call operator for cutting plane methods
+     * @details Makes the oracle callable for use with cutting plane algorithms.
+     * Forwards to the assess_feas method.
      * @tparam Arr Type of the input array/vector
      * @param[in] xvar input variables to be assessed
-     * @return std::optional<std::pair<Arr, double>> Same as assess_feas
-     */
+     * @return Same as assess_feas */
     template <typename Arr> auto operator()(const Arr& xvar)
         -> std::optional<std::pair<Arr, double>> {
         return this->assess_feas(xvar);

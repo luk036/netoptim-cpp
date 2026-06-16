@@ -1,4 +1,4 @@
-/*!
+/**
  * @file test_cases2_boost.hpp
  * @brief Alternative test case generators with edge IDs
  *
@@ -38,7 +38,7 @@ using Vertex = typename boost::graph_traits<graph_t>::vertex_descriptor;
 /// Type alias for edge iterator
 using edge_t = typename boost::graph_traits<graph_t>::edge_iterator;
 
-/*!
+/**
  * @brief Create a simple 5-node cycle test graph with edge IDs
  *
  * This function creates the same 5-node cycle as in test_cases_boost.hpp
@@ -65,7 +65,7 @@ template <typename Mapping> inline auto create_test_case1(const Mapping& weights
     return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
-/*!
+/**
  * @brief Create a 3-node timing test graph with parallel edges and edge IDs
  *
  * This function creates the same complex 3-node graph as in test_cases_boost.hpp

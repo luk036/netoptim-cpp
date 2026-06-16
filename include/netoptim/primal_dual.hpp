@@ -5,7 +5,7 @@
 // #include <numeric>
 #include <py2cpp/py2cpp.hpp>
 
-/*!
+/**
  * @file primal_dual.hpp
  * @brief Primal-dual approximation algorithms for graph problems
  *
@@ -19,7 +19,7 @@
  * approximation ratios for the independent set problem.
  */
 
-/*!
+/**
  * @brief Minimum weighted vertex cover using primal-dual algorithm
  *
  * This function implements a 2-approximation algorithm for the minimum
@@ -65,7 +65,7 @@ auto min_vertex_cover_pd(const Graph& gra, C1& cover, const C2& weight) {
     return total_primal_cost;
 }
 
-/*!
+/**
  * @brief Minimum maximal independent set using primal-dual algorithm
  *
  * This function implements a primal-dual approximation algorithm for the

@@ -8,7 +8,7 @@
 
 #include "network_oracle.hpp"
 
-/*!
+/**
  * @file optscaling_oracle.hpp
  * @brief Oracle for Optimal Matrix Scaling Problem
  *
@@ -27,7 +27,7 @@
  * and phi is the minimum scaled entry.
  */
 
-/*!
+/**
  * @brief Oracle for Optimal Matrix Scaling
  *
  * This class implements a separation oracle for the optimal matrix scaling
@@ -52,63 +52,38 @@ class OptScalingOracle {
     using edge_t = std::pair<node_t, node_t>;
     using Cut = std::pair<Vec, double>;
 
-    /*!
-     * @brief Helper class for evaluating scaling ratio constraints
-     *
-     * This nested class provides the constraint evaluation and gradient
-     * computation functions needed by the network oracle. It implements
-     * the constraint functions for the matrix scaling problem.
-     */
+    /** @brief Helper class for evaluating scaling ratio constraints
+     * @details Provides constraint evaluation and gradient computation
+     * functions needed by the network oracle for the matrix scaling problem. */
     class Ratio {
       private:
         const Graph& _gra;
         Fn _get_cost;
 
       public:
-        /*!
-         * @brief Construct a new Ratio object
-         *
+        /** @brief Construct a new Ratio object
          * @param[in] gra graph representing matrix sparsity pattern
-         * @param[in] get_cost function to extract matrix entries
-         */
+         * @param[in] get_cost function to extract matrix entries */
         Ratio(const Graph& gra, Fn get_cost) : _gra{gra}, _get_cost{std::move(get_cost)} {}
 
-        /*!
-         * @brief Copy constructor (explicitly defined)
-         */
+        /** @brief Copy constructor */
         explicit Ratio(const Ratio&) = default;
 
-        /*!
-         * @brief Evaluate the constraint function for an edge
-         *
-         * This function evaluates the scaling constraint for a given edge
-         * based on the current values of pi and phi (in log scale).
-         * The constraint ensures that scaled matrix entries stay within
-         * the bounds defined by pi and phi.
-         *
+        /** @brief Evaluate the constraint function for an edge
          * @param[in] edge the matrix entry (edge) to evaluate
          * @param[in] x vector containing (pi, phi) in log scale
-         * @return double constraint value (negative if violated)
-         */
+         * @return constraint value (negative if violated) */
         auto eval(const edge_t& edge, const Vec& x) const -> double {
-            // const auto [utx, vtx] = this->_gra.end_points(edge);
             const auto cost = this->_get_cost(edge);
             const auto [utx, vtx] = edge;
             assert(utx != vtx);
             return (utx < vtx) ? x[0] - cost.first : cost.second - x[1];
         }
 
-        /*!
-         * @brief Compute the gradient of the constraint function
-         *
-         * This function computes the gradient of the scaling constraint
-         * with respect to pi and phi. The gradient is used to construct
-         * cutting planes in the optimization algorithm.
-         *
+        /** @brief Compute the gradient of the constraint function
          * @param[in] edge the matrix entry (edge) for gradient computation
-         * @param[in] x vector containing (pi, phi) in log scale
-         * @return Vec gradient vector [d/d(pi), d/d(phi)]
-         */
+         * @param[in] x vector containing (pi, phi) in log scale (unused)
+         * @return gradient vector [d/d(pi), d/d(phi)] */
         auto grad(const edge_t& edge, const Vec& /* x */) const -> Vec {
             // const auto [utx, vtx] = this->_gra.end_points(edge);
             const auto [utx, vtx] = edge;
@@ -120,35 +95,25 @@ class OptScalingOracle {
     NetworkOracle<Graph, Mapping, Ratio> _network;
 
   public:
-    /*!
-     * @brief Construct a new optscaling oracle object
-     *
-     * @param[in] gra
-     * @param[in,out] utx
-     * @param[in] get_cost
-     */
+    /** @brief Construct a new optscaling oracle object
+     * @param[in] gra The graph representing matrix sparsity
+     * @param[in,out] utx Vertex potential mapping (scaling factors)
+     * @param[in] get_cost Function to extract matrix entries */
     OptScalingOracle(const Graph& gra, Mapping& utx, Fn get_cost)
         : _network(gra, utx, Ratio{gra, get_cost}) {}
 
-    /**
-     * @brief Construct a new optscaling oracle object
-     *
-     */
+    /** @brief Copy constructor */
     explicit OptScalingOracle(const OptScalingOracle&) = default;
     OptScalingOracle(OptScalingOracle&&) = default;
     OptScalingOracle& operator=(const OptScalingOracle&) = default;
     OptScalingOracle& operator=(OptScalingOracle&&) = default;
     ~OptScalingOracle() = default;
 
-    /*!
-     * @brief Make object callable for cutting_plane_optim()
-     *
+    /** @brief Assess optimality at point x (cutting plane interface)
      * @param[in] x (pi, phi) in log scale
      * @param[in,out] t the best-so-far optimal value
-     * @return std::tuple<Cut, bool>
-     *
-     * @see cutting_plane_optim
-     */
+     * @return tuple of (cut, whether gamma was updated)
+     * @see cutting_plane_optim */
     auto assess_optim(const Vec& x, double& t) -> std::tuple<Cut, bool> {
         const auto cut = this->_network.assess_feas(x);
         if (cut) {
@@ -163,14 +128,10 @@ class OptScalingOracle {
         return {{Vec{1., -1.}, fj}, false};
     }
 
-    /*!
-     * @brief Make object callable for cutting_plane_optim()
-     *
+    /** @brief Function call operator for cutting_plane_optim()
      * @param[in] x (pi, phi) in log scale
      * @param[in,out] t the best-so-far optimal value
-     * @return std::tuple<Cut, bool>
-     *
-     * @see cutting_plane_optim
-     */
+     * @return tuple of (cut, whether gamma was updated)
+     * @see cutting_plane_optim */
     auto operator()(const Vec& x, double& t) -> std::tuple<Cut, bool> { return assess_optim(x, t); }
 };

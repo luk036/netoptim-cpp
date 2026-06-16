@@ -1,4 +1,4 @@
-/*!
+/**
  * @file test_cases_boost.hpp
  * @brief Test case generators using Boost Graph Library
  *
@@ -11,8 +11,6 @@
  */
 
 #pragma once
-
-// -*- coding: utf-8 -*-
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <py2cpp/nx2bgl.hpp>
@@ -27,7 +25,7 @@ using Vertex = boost::graph_traits<graph_t>::vertex_descriptor;
 /// Type alias for edge iterator
 using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
-/*!
+/**
  * @brief Create a simple 5-node cycle test graph
  *
  * This function creates a simple directed cycle with 5 vertices.
@@ -51,7 +49,7 @@ template <typename Mapping> inline auto create_test_case1(const Mapping& weights
     return py::GraphAdaptor<graph_t>{std::move(g)};
 }
 
-/*!
+/**
  * @brief Create a 3-node timing test graph with parallel edges
  *
  * This function creates a more complex graph with 3 vertices and multiple
