@@ -23,10 +23,10 @@ set_target_properties(${PROJECT_NAME}Tests PROPERTIES CXX_STANDARD 20)
 # enable compiler warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # target_compile_options(${PROJECT_NAME} INTERFACE -fcoroutines -Wall -Wpedantic -Wextra -Werror)
-  target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra -Wno-deprecated-literal-operator)
+  target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_options(
-    ${PROJECT_NAME} INTERFACE -stdlib=libc++ -Wall -Wextra -Wno-deprecated-literal-operator
+    ${PROJECT_NAME} INTERFACE -stdlib=libc++ -Wall -Wextra
   )
 elseif(MSVC)
   target_compile_options(${PROJECT_NAME} INTERFACE /std:c++20 /utf-8 /W4 /WX)
