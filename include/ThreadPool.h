@@ -84,13 +84,12 @@ class ThreadPool {
 
 // the constructor just launches some amount of workers
 /*!
+ * @overload
  * @brief Construct a new thread pool
  *
  * Creates worker threads that wait for tasks to be enqueued. Each worker
  * runs in an infinite loop, waiting on a condition variable for tasks
  * to become available.
- *
- * @param[in] threads Number of worker threads to create
  */
 inline ThreadPool::ThreadPool(size_t threads) : stop(false) {
     for (size_t i = 0; i < threads; ++i)
@@ -114,17 +113,9 @@ inline ThreadPool::ThreadPool(size_t threads) : stop(false) {
 
 // add new work item to the pool
 /*!
- * @brief Enqueue a task for asynchronous execution
+ * @overload
  *
- * Wraps the callable and its arguments into a packaged_task and adds it
- * to the task queue. A future is returned that will contain the result
- * when the task completes.
- *
- * @tparam F Type of the callable object
- * @tparam Args Types of the arguments
- * @param[in] f The callable object to execute
- * @param[in] args Arguments to pass to the callable
- * @return std::future<typename std::result_of<F(Args...)>::type> Future containing the result
+ * @return A future containing the result of the task
  * @throws std::runtime_error if enqueue is called after the pool has been stopped
  */
 template <class F, class... Args> auto ThreadPool::enqueue(F&& f, Args&&... args)

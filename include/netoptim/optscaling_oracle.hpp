@@ -82,7 +82,6 @@ class OptScalingOracle {
 
         /** @brief Compute the gradient of the constraint function
          * @param[in] edge the matrix entry (edge) for gradient computation
-         * @param[in] x vector containing (pi, phi) in log scale (unused)
          * @return gradient vector [d/d(pi), d/d(phi)] */
         auto grad(const edge_t& edge, const Vec& /* x */) const -> Vec {
             // const auto [utx, vtx] = this->_gra.end_points(edge);
