@@ -29,7 +29,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     ${PROJECT_NAME} INTERFACE -stdlib=libc++ -Wall -Wextra
   )
 elseif(MSVC)
-  target_compile_options(${PROJECT_NAME} INTERFACE /std:c++20 /utf-8 /W4 /WX)
+  target_compile_options(${PROJECT_NAME} INTERFACE /std:c++20 /W4 /WX)
   # target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
