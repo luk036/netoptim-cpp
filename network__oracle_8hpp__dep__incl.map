@@ -1,0 +1,5 @@
+<map id="netoptim/network_oracle.hpp" name="netoptim/network_oracle.hpp">
+<area shape="rect" id="Node000001" title="Oracle for Parametric Network Problems." alt="" coords="5,5,219,31"/>
+<area shape="rect" id="Node000002" href="$optscaling__oracle_8hpp.html" title="Oracle for Optimal Matrix Scaling Problem." alt="" coords="36,79,188,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,44,115,79,109,79,109,44"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="netoptim/optscaling_oracle.hpp" name="netoptim/optscaling_oracle.hpp">
+<area shape="rect" id="Node000001" title="Oracle for Optimal Matrix Scaling Problem." alt="" coords="61,5,213,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,75,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,48,67,87,63,82,112,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="99,93,175,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="140,46,140,79,135,79,135,46"/>
+<area shape="rect" id="Node000004" href="$network__oracle_8hpp.html" title="Oracle for Parametric Network Problems." alt="" coords="199,93,350,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,43,244,84,241,89,169,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="37,167,213,192"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="252,121,163,163,161,158,250,116"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="237,167,312,192"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="277,119,277,153,272,153,272,119"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="337,167,429,192"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="293,116,355,157,352,161,291,121"/>
+</map>

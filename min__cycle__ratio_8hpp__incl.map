@@ -1,0 +1,13 @@
+<map id="netoptim/min_cycle_ratio.hpp" name="netoptim/min_cycle_ratio.hpp">
+<area shape="rect" id="Node000001" title="Minimum cost&#45;to&#45;time cycle ratio problem solver." alt="" coords="114,5,265,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,91,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,48,82,89,80,84,154,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="115,93,263,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,46,192,79,187,79,187,46"/>
+<area shape="rect" id="Node000004" href="$parametric_8hpp.html" title="Maximum parametric problem solver for network optimization." alt="" coords="287,93,409,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,43,314,85,311,90,226,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="188,167,364,192"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="338,121,299,159,296,155,334,117"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="389,167,451,192"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="362,117,400,155,397,159,358,121"/>
+</map>

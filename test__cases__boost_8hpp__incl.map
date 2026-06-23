@@ -1,0 +1,11 @@
+<map id="netoptim/test_cases_boost.hpp" name="netoptim/test_cases_boost.hpp">
+<area shape="rect" id="Node000001" title="Test case generators using Boost Graph Library." alt="" coords="326,5,481,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,175,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="335,48,173,92,171,87,334,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="199,101,408,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="383,48,329,93,326,89,379,44"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="432,101,577,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="428,44,482,89,478,93,424,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="601,101,661,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="461,43,591,91,596,93,594,98,589,96,459,48"/>
+</map>

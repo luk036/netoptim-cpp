@@ -1,0 +1,15 @@
+<map id="netoptim/test_cases2_boost.hpp" name="netoptim/test_cases2_boost.hpp">
+<area shape="rect" id="Node000001" title="Alternative test case generators with edge IDs." alt="" coords="550,5,713,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,175,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="550,40,189,96,188,90,549,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="199,101,408,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="560,48,361,100,359,95,559,43"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="433,101,630,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="611,48,557,93,554,89,607,44"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="655,93,808,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="655,44,701,82,697,86,652,48"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="832,101,977,126"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="692,43,856,94,855,99,691,48"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="1001,101,1061,126"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="713,33,845,55,918,71,991,91,997,93,995,98,989,96,917,76,844,60,712,39"/>
+</map>

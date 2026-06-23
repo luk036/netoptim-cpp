@@ -1,0 +1,5 @@
+<map id="netoptim/parametric.hpp" name="netoptim/parametric.hpp">
+<area shape="rect" id="Node000001" title="Maximum parametric problem solver for network optimization." alt="" coords="5,5,189,31"/>
+<area shape="rect" id="Node000002" href="$min__cycle__ratio_8hpp.html" title="Minimum cost&#45;to&#45;time cycle ratio problem solver." alt="" coords="22,79,173,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,44,100,79,95,79,95,44"/>
+</map>
