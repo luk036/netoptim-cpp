@@ -1,27 +1,20 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>  // for ResultBuilder, TestCase
+#include <doctest/doctest.h>
 
-#include <cstdint>                 // for uint32_t
-#include <digraphx/neg_cycle.hpp>  // for NegCycleFinder
-#include <py2cpp/dict.hpp>         // for dict
+#include <cstdint>
+#include <digraphx/neg_cycle.hpp>
+#include <py2cpp/dict.hpp>
 
-/*!
- * @brief Test negative cycle detection with py::dict graph representation
- *
- * Tests that no negative cycle is found in a simple three-node graph
- * using the raw py::dict container for graph representation.
- */
 TEST_CASE("Test Negative Cycle 2") {
     py::dict<uint32_t, py::dict<uint32_t, int>> gra{
         {0, {{1, 7}, {2, 5}}}, {1, {{0, 0}, {2, 3}}}, {2, {{1, 1}, {0, 2}}}};
 
-    const auto get_weight = [&](const auto& edge) -> int {
-        const auto [utx, vtx] = edge;
-        return gra.at(utx).at(vtx);
-    };
+    // ponytail: edge data is int (the weight itself)
     auto dist = py::dict<uint32_t, int>{{0, 0}, {1, 0}, {2, 0}};
-    NegCycleFinder ncf(gra);
-    const auto cycle = ncf.find_neg_cycle(dist, get_weight);
-    CHECK(cycle.empty());
+    auto ncf = NegCycleFinder(gra);
+    auto get_weight = [](int w) -> int { return w; };
+    // howard yields nothing for this graph (no negative cycle)
+    for ([[maybe_unused]] const auto& _ : ncf.howard(dist, get_weight)) {
+        CHECK(false);  // should not reach here
+    }
 }
-

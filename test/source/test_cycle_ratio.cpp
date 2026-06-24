@@ -11,23 +11,15 @@
 #include <xnetwork/classes/digraphs.hpp>      // for DiGraphS
 #include <xnetwork/generators/testcases.hpp>  // for create_test_case1,
 
-/*!
- * @brief Test minimum cycle ratio calculation with test case 1
- *
- * Tests that the minimum cost-to-time cycle ratio is correctly computed
- * for a simple graph with equal time values for all edges.
- */
 TEST_CASE("Test Cycle Ratio") {
     const auto indices = std::array<uint32_t, 5>{0, 1, 2, 3, 4};
     auto gra = create_test_case1(indices);
 
     const auto cost = std::array<int, 5>{5, 1, 1, 1, 1};
 
-    const auto get_cost = [&](const auto& edge) -> int {
-        const auto [utx, vtx] = edge;
-        return cost[size_t(gra[utx][vtx])];
-    };
-    const auto get_time = [&](const auto& /*edge*/) -> int { return 1; };
+    // ponytail: edge data is int (index into cost array)
+    const auto get_cost = [&](int edge_idx) -> int { return cost[edge_idx]; };
+    const auto get_time = [](int /*edge_idx*/) -> int { return 1; };
 
     auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
@@ -37,25 +29,15 @@ TEST_CASE("Test Cycle Ratio") {
     CHECK_EQ(r, fun::Fraction<int>(9, 5));
 }
 
-/*!
- * @brief Test minimum cycle ratio on timing test graph
- *
- * Tests that the minimum cycle ratio is correctly computed for a
- * timing graph where edge costs vary and includes negative costs.
- */
 TEST_CASE("Test Cycle Ratio of Timing Graph") {
-    // make sure no parallel edges!!!
-
     const auto indices = std::array<uint32_t, 6>{0, 1, 2, 3, 4, 5};
     auto gra = create_test_case2(indices);
 
     const auto cost = std::array<int, 6>{7, -1, 3, 0, 2, 4};
 
-    const auto get_cost = [&](const auto& edge) -> int {
-        const auto [utx, vtx] = edge;
-        return cost[size_t(gra[utx][vtx])];
-    };
-    const auto get_time = [&](const auto& /*edge*/) -> int { return 1; };
+    // ponytail: edge data is int (index into cost array)
+    const auto get_cost = [&](int edge_idx) -> int { return cost[edge_idx]; };
+    const auto get_time = [](int /*edge_idx*/) -> int { return 1; };
 
     auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(7);
