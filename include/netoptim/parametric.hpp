@@ -19,16 +19,33 @@
  *     s.t. dist[vtx] - dist[utx] &ge; distance(utx, vtx, r)
  *          &forall; edge(utx, vtx) &isin; gra(V, E)
  *
+ * This is a fundamental building block for many network optimization
+ * algorithms including minimum cycle ratio, minimum mean cycle, and
+ * other parametric flow problems.
+ *
  * Edge weights are accessed via a callable that receives the actual edge
  * data object from the graph's adjacency structure (the "get_weight"
- * method), rather than synthesized (u,v) node pairs.
+ * method), rather than synthesized (u,v) node pairs. This eliminates the
+ * duplication present in the previous node-pair-based approach and
+ * matches the Python sibling implementation.
  */
 
 /**
  * @brief Solve the maximum parametric problem
  *
- * Uses Howard's policy iteration for negative cycle detection. The distance
- * and zero_cancel callables operate on the graph's native edge data type.
+ * This function implements an iterative algorithm to find the maximum
+ * parameter value r for which the system of constraints is feasible.
+ * The algorithm uses Howard's policy iteration for negative cycle
+ * detection to identify violations and adjusts the parameter accordingly.
+ *
+ * The algorithm proceeds as follows:
+ * 1. For the current parameter value, compute edge weights via the
+ *    distance callable operating on the graph's native edge data
+ * 2. Find negative cycles using Howard's method
+ * 3. If no negative cycles exist, the current parameter is optimal
+ * 4. Otherwise, compute a new parameter value from the violating cycle
+ *    using the zero_cancel callable
+ * 5. Repeat until convergence or max_iters reached
  *
  * @tparam Graph Type of the directed graph
  * @tparam T Numeric type for the parameter r

@@ -24,6 +24,9 @@ namespace {
  *     s.t.    utx[j] - utx[i] &le; h(edge, x)
  *             &forall; edge(i, j) &isin; E
  *
+ * where h is a function that depends on the decision variables x.
+ * This is commonly used in cutting-plane methods for network optimization.
+ *
  * Edge weights are accessed via the actual edge data from the graph's
  * adjacency structure (the "get_weight" method), rather than synthesized
  * (u,v) node pairs. This matches the Python sibling implementation.
@@ -36,9 +39,16 @@ namespace {
  * It uses Howard's method for negative cycle detection to check feasibility
  * and generate cutting planes when violations are found.
  *
+ * The oracle maintains:
+ * - A reference to the graph structure
+ * - A mapping of vertex potentials (utx)
+ * - A negative cycle finder for violation detection
+ * - A function h that evaluates edge constraints
+ *
  * @tparam Graph Type of the directed graph
  * @tparam Mapping Type of vertex potential mapping
- * @tparam Fn Type of the constraint function h
+ * @tparam Fn Type of the constraint function h, providing eval(edge, x) and
+ *            grad(edge, x) methods operating on the graph's native edge data
  */
 template <typename Graph, typename Mapping, typename Fn>
     requires HasKeyType<Graph>
@@ -47,24 +57,47 @@ class NetworkOracle {
 
   private:
     const Graph& _gra;
-    Mapping& _u;
+    Mapping& _u;  // vertex potentials
     NegCycleFinder<Graph> _S;
     Fn _h;
 
   public:
+    /** @brief Construct a new network oracle object
+     * @param[in] gra a directed graph (V, E) representing the network
+     * @param[in,out] utx vertex potential mapping (updated during operation)
+     * @param[in] h function for constraint evaluation and gradient computation */
     NetworkOracle(const Graph& gra, Mapping& utx, Fn h)
         : _gra{gra}, _u{utx}, _S(gra), _h{std::move(h)} {}
 
+    /** @brief Copy constructor */
     explicit NetworkOracle(const NetworkOracle&) = default;
 
+    /** @brief Update the oracle with a new parameter value
+     * @details Updates the internal constraint function with a new
+     * parameter value, typically used in parametric optimization where
+     * the constraints depend on a parameter that changes during the algorithm.
+     * @param[in] gamma the new parameter value (best-so-far optimal value) */
     template <typename Num> auto update(const Num& gamma) -> void { this->_h.update(gamma); }
 
+    /** @brief Assess feasibility and generate cutting plane if needed
+     * @details This is the main oracle method that checks if the current point
+     * xval is feasible with respect to the network constraints. Uses Howard's
+     * method for negative cycle detection operating on the graph's native edge
+     * data. If infeasible, returns a cutting plane (gradient and function value)
+     * that separates the infeasible point from the feasible region.
+     * @tparam Arr Type of the input array/vector
+     * @param[in] xval input values to be assessed for feasibility
+     * @return Empty if feasible, otherwise a pair containing gradient and
+     *         function value */
     template <typename Arr> auto assess_feas(const Arr& xval)
         -> std::optional<std::pair<Arr, double>> {
-        using Nbrs1 = decltype((*std::declval<const Graph&>().begin()).second);
-        using Nbrs = std::remove_cv_t<std::remove_reference_t<Nbrs1>>;
-        using Edge1 = decltype((*std::declval<const Nbrs&>().begin()).second);
-        using Edge = std::remove_cv_t<std::remove_reference_t<Edge1>>;
+        // ponytail: deduce Edge type using NegCycleFinder helpers
+        using Elem = decltype(*std::declval<const Graph&>().begin());
+        using Nbrs = std::remove_cv_t<std::remove_reference_t<
+            decltype(_get_val(std::declval<Elem>(), std::declval<const Graph&>()))>>;
+        using NbrElem = decltype(*std::declval<const Nbrs&>().begin());
+        using Edge = std::remove_cv_t<std::remove_reference_t<
+            decltype(_get_val(std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
 
         auto get_weight = [this, &xval](const Edge& edge) -> double {
             return this->_h.eval(edge, xval);
@@ -88,6 +121,12 @@ class NetworkOracle {
         return {};
     }
 
+    /** @brief Function call operator for cutting plane methods
+     * @details Makes the oracle callable for use with cutting plane algorithms.
+     * Forwards to the assess_feas method.
+     * @tparam Arr Type of the input array/vector
+     * @param[in] xvar input variables to be assessed
+     * @return Same as assess_feas */
     template <typename Arr> auto operator()(const Arr& xvar)
         -> std::optional<std::pair<Arr, double>> {
         return this->assess_feas(xvar);
