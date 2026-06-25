@@ -21,11 +21,12 @@ TEST_CASE("Test Stress Negative Cycle") {
     auto dist = std::vector<int>(gra.number_of_nodes(), 0);
     auto ncf = NegCycleFinder(gra);
 
-    const auto get_weight = [&](const auto& edge) -> int {
-        const auto [utx, vtx] = edge;
-        return gra[utx][vtx];
-    };
+    // ponytail: edge data is int (the weight)
+    auto get_weight = [](int w) -> int { return w; };
 
-    auto cycle = ncf.find_neg_cycle(dist, get_weight);
-    CHECK_FALSE(cycle.empty());
+    auto found = false;
+    for ([[maybe_unused]] const auto& _ : ncf.howard(dist, get_weight)) {
+        found = true;
+    }
+    CHECK(found);
 }
