@@ -30,6 +30,29 @@
  * - Primal cost &le; 2 &times; Dual cost
  * - 2-approximation ratio for the optimal solution
  *
+ * The primal-dual algorithm maintains dual variables (gaps) and satisfies:
+ * @f[
+ *     \sum_{v \in C} w_v \le 2 \sum_{v \in V} y_v
+ * @f]
+ * where @f$C@f$ is the vertex cover, @f$w_v@f$ are weights, and @f$y_v@f$ are dual variables.
+ * Gap updates: @f$y_u \leftarrow y_u - y_v@f$ for each selected edge @f$(u, v)@f$.
+ *
+ * @dot
+ *   digraph vertex_cover {
+ *     rankdir=LR; bgcolor="transparent";
+ *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+ *     edge_pair [label="Uncovered edge\n(u, v)", fillcolor="#a9cce3"];
+ *     compare [label="Compare gaps\ngap[u] vs gap[v]", shape=diamond, fillcolor="#f9e79f"];
+ *     select [label="Cover vertex\nwith smaller gap"];
+ *     update [label="Update gap:\ngap[u] -= gap[v]"];
+ *     total [label="Accumulate\nprimal cost", fillcolor="#7fb3d8"];
+ *     edge_pair -> compare;
+ *     compare -> select [label="v has min gap", color="#27ae60"];
+ *     select -> update;
+ *     update -> total;
+ *   }
+ * @enddot
+ *
  * @tparam Graph Type of the graph, must provide edges() and edge iteration
  * @tparam C1 Type of cover mapping (vertex -> bool)
  * @tparam C2 Type of weight mapping (vertex -> weight)
@@ -79,6 +102,31 @@ auto min_vertex_cover_pd(const Graph& gra, C1& cover, const C2& weight) {
  * 3. Marking selected vertices as independent
  * 4. Marking neighbors as dependent
  * 5. Updating gap values for remaining vertices
+ *
+ * The algorithm maintains gap values @f$y_v@f$ and selects vertices with minimum gap:
+ * @f[
+ *     \min_{v \in N[u]} y_v
+ * @f]
+ * where @f$N[u]@f$ is the closed neighborhood of vertex @f$u@f$.
+ * Gaps are updated: @f$y_v \leftarrow y_v - \min_{k \in N[u]} y_k@f$.
+ *
+ * @dot
+ *   digraph indep_set {
+ *     rankdir=LR; bgcolor="transparent";
+ *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+ *     vertex [label="Vertex u", fillcolor="#a9cce3"];
+ *     neighbor [label="Scan neighbors\nfind min gap v", shape=diamond, fillcolor="#f9e79f"];
+ *     select [label="Select v\ninto independent set"];
+ *     cover [label="Cover v\nand all neighbors", fillcolor="#fadbd8"];
+ *     update_gap [label="Update gaps\nof N(u)"];
+ *     done [label="Accumulate\ncost", fillcolor="#7fb3d8"];
+ *     vertex -> neighbor;
+ *     neighbor -> select;
+ *     select -> cover;
+ *     cover -> update_gap;
+ *     update_gap -> done;
+ *   }
+ * @enddot
  *
  * @tparam Graph Type of the graph, must provide vertex iteration
  * @tparam C1 Type of independent/dependent set mapping (vertex -> bool)

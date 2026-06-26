@@ -39,9 +39,32 @@
  * 3. Adjusting the ratio based on the found cycles
  * 4. Repeating until convergence
  *
- * Edge cost and time functions receive the graph's native edge data
- * (e.g., an edge index for SimpleDiGraphS, or the weight value for
- * dict-based graphs), rather than synthesized (u,v) node pairs.
+ * Given a directed graph @f$G = (V, E)@f$ with cost and time on each edge,
+ * the minimum cycle ratio problem finds:
+ * @f[
+ *     r^* = \min_{C \in \text{cycles}(G)} \frac{\sum_{e \in C} \text{cost}(e)}{\sum_{e \in C} \text{time}(e)}
+ * @f]
+ * The algorithm uses parametric weights @f$w_r(e) = \text{cost}(e) - r \cdot \text{time}(e)@f$
+ * and searches for the smallest @f$r@f$ such that no negative cycles exist.
+ *
+ * @dot
+ *   digraph mcr {
+ *     rankdir=TB; bgcolor="transparent";
+ *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+ *     init [label="Initialize r0,\ndist, max_iters", fillcolor="#a9cce3"];
+ *     weight [label="Compute\nw_r(e) = cost(e)\n- r * time(e)"];
+ *     neg_cycle [label="Find negative\ncycle via\nHoward's method", shape=diamond, fillcolor="#f9e79f"];
+ *     ratio [label="Compute\ncycle ratio\ncost / time"];
+ *     update [label="Update\nr = min ratio"];
+ *     done [label="Return\noptimal cycle", fillcolor="#7fb3d8"];
+ *     init -> weight;
+ *     weight -> neg_cycle;
+ *     neg_cycle -> ratio [label="found", color="#27ae60"];
+ *     neg_cycle -> done [label="none found", color="#e74c3c"];
+ *     ratio -> update;
+ *     update -> weight [style=dashed, label="iterate", color="#888"];
+ *   }
+ * @enddot
  *
  * @tparam Graph Type of the graph, must provide key_type and edge iteration
  * @tparam T Numeric type for ratio values (e.g., double, Fraction)

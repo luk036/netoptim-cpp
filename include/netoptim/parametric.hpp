@@ -47,6 +47,13 @@
  *    using the zero_cancel callable
  * 5. Repeat until convergence or max_iters reached
  *
+ * The parametric problem is defined as:
+ * @f[
+ *     \max \; r \quad \text{s.t.} \quad d_v - d_u \ge w(u, v, r) \; \forall (u, v) \in E
+ * @f]
+ * where @f$w(u, v, r)@f$ is a monotone decreasing function of @f$r@f$.
+ * The algorithm finds the maximum @f$r@f$ such that no negative cycles exist.
+ *
  * @tparam Graph Type of the directed graph
  * @tparam T Numeric type for the parameter r
  * @tparam Fn1 Type of the distance function (parameter, edge) -> weight
