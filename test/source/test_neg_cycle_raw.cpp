@@ -24,4 +24,3 @@ TEST_CASE("Test Negative Cycle 2") {
     const auto cycle = ncf.find_neg_cycle(dist, get_weight);
     CHECK(cycle.empty());
 }
-

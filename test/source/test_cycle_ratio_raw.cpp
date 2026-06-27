@@ -34,7 +34,6 @@ TEST_CASE("Test Cycle Ratio (raw, dict)") {
     CHECK_EQ(r, fun::Fraction<int>(1, 1));
 }
 
-
 // TEST_CASE("Test Cycle Ratio of Timing Graph") {
 //   // make sure no parallel edges!!!
 
