@@ -18,7 +18,8 @@ TEST_CASE("Test max_parametric with positive weights (no neg cycles)") {
     auto dist = std::vector<int>(gra.number_of_nodes(), 0);
     auto r = 0;
 
-    auto calc_weight = [&](const int& r, int edge_idx) -> int { return get_cost(edge_idx) - r * 1; };
+    auto calc_weight
+        = [&](const int& r, int edge_idx) -> int { return get_cost(edge_idx) - r * 1; };
     auto calc_ratio = [&](const auto& /*C*/) -> int { return 0; };
 
     const auto c = max_parametric(gra, r, std::move(calc_weight), std::move(calc_ratio), dist);

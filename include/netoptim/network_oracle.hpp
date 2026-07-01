@@ -83,35 +83,36 @@ class NetworkOracle {
      * @details This is the main oracle method that checks if the current point
      * xval is feasible with respect to the network constraints. Uses Howard's
      * method for negative cycle detection operating on the graph's native edge
- * data. If infeasible, returns a cutting plane (gradient and function value)
- * that separates the infeasible point from the feasible region.
- *
- * The oracle solves the feasibility problem:
- * @f[
- *     \text{find } x, u \quad \text{s.t.} \quad u_j - u_i \le h(\text{edge}_{ij}, x) \; \forall (i, j) \in E
- * @f]
- * If infeasible, it returns a cutting plane @f$(g, f)@f$ from a violating cycle @f$C@f$:
- * @f[
- *     g = -\sum_{e \in C} \nabla h(e, x), \quad f = -\sum_{e \in C} h(e, x)
- * @f]
- *
- * @dot
- *   digraph oracle_flow {
- *     rankdir=LR; bgcolor="transparent";
- *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
- *     input [label="Input x", fillcolor="#a9cce3"];
- *     check [label="Check\nfeasibility\n(neg cycles)", shape=diamond, fillcolor="#f9e79f"];
- *     feasible [label="Feasible!", fillcolor="#d5f5e3"];
- *     cut_gen [label="Generate\ncutting plane\ng, f"];
- *     done [label="Return\n(g, ep) or null", fillcolor="#7fb3d8"];
- *     input -> check;
- *     check -> feasible [label="Yes", color="#27ae60"];
- *     check -> cut_gen [label="infeasible", color="#e74c3c"];
- *     feasible -> done;
- *     cut_gen -> done;
- *   }
- * @enddot
- *
+     * data. If infeasible, returns a cutting plane (gradient and function value)
+     * that separates the infeasible point from the feasible region.
+     *
+     * The oracle solves the feasibility problem:
+     * @f[
+     *     \text{find } x, u \quad \text{s.t.} \quad u_j - u_i \le h(\text{edge}_{ij}, x) \; \forall
+     * (i, j) \in E
+     * @f]
+     * If infeasible, it returns a cutting plane @f$(g, f)@f$ from a violating cycle @f$C@f$:
+     * @f[
+     *     g = -\sum_{e \in C} \nabla h(e, x), \quad f = -\sum_{e \in C} h(e, x)
+     * @f]
+     *
+     * @dot
+     *   digraph oracle_flow {
+     *     rankdir=LR; bgcolor="transparent";
+     *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+     *     input [label="Input x", fillcolor="#a9cce3"];
+     *     check [label="Check\nfeasibility\n(neg cycles)", shape=diamond, fillcolor="#f9e79f"];
+     *     feasible [label="Feasible!", fillcolor="#d5f5e3"];
+     *     cut_gen [label="Generate\ncutting plane\ng, f"];
+     *     done [label="Return\n(g, ep) or null", fillcolor="#7fb3d8"];
+     *     input -> check;
+     *     check -> feasible [label="Yes", color="#27ae60"];
+     *     check -> cut_gen [label="infeasible", color="#e74c3c"];
+     *     feasible -> done;
+     *     cut_gen -> done;
+     *   }
+     * @enddot
+     *
      * @tparam Arr Type of the input array/vector
      * @param[in] xval input values to be assessed for feasibility
      * @return Empty if feasible, otherwise a pair containing gradient and
@@ -120,15 +121,14 @@ class NetworkOracle {
         -> std::optional<std::pair<Arr, double>> {
         // ponytail: deduce Edge type using NegCycleFinder helpers
         using Elem = decltype(*std::declval<const Graph&>().begin());
-        using Nbrs = std::remove_cv_t<std::remove_reference_t<
-            decltype(_get_val(std::declval<Elem>(), std::declval<const Graph&>()))>>;
+        using Nbrs = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
+            std::declval<Elem>(), std::declval<const Graph&>()))>>;
         using NbrElem = decltype(*std::declval<const Nbrs&>().begin());
-        using Edge = std::remove_cv_t<std::remove_reference_t<
-            decltype(_get_val(std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
+        using Edge = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
+            std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
 
-        auto get_weight = [this, &xval](const Edge& edge) -> double {
-            return this->_h.eval(edge, xval);
-        };
+        auto get_weight
+            = [this, &xval](const Edge& edge) -> double { return this->_h.eval(edge, xval); };
 
         for (auto&& C : this->_S.howard(this->_u, get_weight)) {
             auto grad = [&]() -> Arr {
