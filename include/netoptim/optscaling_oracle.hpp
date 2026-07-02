@@ -16,13 +16,14 @@
  * maximum and minimum scaled matrix entries.
  *
  * The problem formulation:
- *     min     pi/phi
- *     s.t.    phi &le; utx[i] * |aij| * utx[j]^-1 &le; pi,
- *             &forall; aij != 0,
- *             pi, phi, utx, positive
+ * @f[
+ *     \min \frac{\pi}{\phi} \quad \text{s.t.} \quad
+ *     \phi \le u_i |a_{ij}| u_j^{-1} \le \pi \; \forall a_{ij} \neq 0,
+ * \quad \pi, \phi, u_i > 0
+ * @f]
  *
- * where utx are the scaling factors, pi is the maximum scaled entry,
- * and phi is the minimum scaled entry.
+ * where @f$ u_i @f$ are the scaling factors, @f$ \pi @f$ is the maximum scaled entry,
+ * and @f$ \phi @f$ is the minimum scaled entry.
  */
 
 /**
