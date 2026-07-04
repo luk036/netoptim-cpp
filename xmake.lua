@@ -1,5 +1,6 @@
 add_rules("mode.debug", "mode.release", "mode.coverage")
 add_requires("doctest", {alias = "doctest"})
+add_requires("abseil", {alias = "abseil"})
 -- add_requires("conan::andreasbuhr-cppcoro/cci.20210113", {alias = "cppcoro"})
 
 set_languages("c++20")
@@ -35,7 +36,7 @@ target("test_netoptim")
     add_includedirs("../xnetwork-cpp/include", {public = true})
     add_includedirs("include", {public = true})
     add_files("test/source/*.cpp")
-    add_packages("doctest")
+    add_packages("doctest", "abseil")
     add_tests("default")
 
 --

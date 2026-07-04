@@ -7,13 +7,13 @@
 #include <list>
 #include <netoptim/optscaling_oracle.hpp>
 #include <numbers>
-#include <unordered_map>
+#include <absl/container/flat_hash_map.h>
 #include <utility>   // for pair
 #include <valarray>  // for valarray
 
 TEST_CASE("Test OptScalingOracle assess_optim") {
     using CostGraph
-        = std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
+        = absl::flat_hash_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
 
     const auto log10 = std::numbers::ln10;
     const auto log22 = std::log(22.0);
@@ -30,7 +30,7 @@ TEST_CASE("Test OptScalingOracle assess_optim") {
     };
 
     auto x = std::valarray<double>{log125, log10};
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto omega = OptScalingOracle(gra, dist, get_cost);
     auto gamma = std::numeric_limits<double>::infinity();
 

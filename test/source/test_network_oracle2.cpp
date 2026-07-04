@@ -5,7 +5,7 @@
 #include <map>
 #include <memory>
 #include <netoptim/network_oracle.hpp>
-#include <unordered_map>
+#include <absl/container/flat_hash_map.h>
 #include <utility>
 
 namespace {
@@ -35,7 +35,7 @@ namespace {
     };
 
     using TestGraph
-        = std::unordered_map<uint32_t,
+        = absl::flat_hash_map<uint32_t,
                              std::list<std::pair<uint32_t, std::pair<uint32_t, uint32_t>>>>;
 
     auto create_cycle_graph() -> TestGraph {
@@ -55,7 +55,7 @@ TEST_CASE("Test NetworkOracle operator() with negative cycle") {
     oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, -3.0}};
     oracle.grads = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, -1.0}};
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     const auto xval = 0.0;
@@ -74,7 +74,7 @@ TEST_CASE("Test NetworkOracle operator() no negative cycle") {
     oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, 1.0}};
     oracle.grads = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, 1.0}};
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     const auto xval = 0.0;
@@ -88,7 +88,7 @@ TEST_CASE("Test NetworkOracle update then assess") {
     MockOracle oracle;
     oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, -3.0}};
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     network.update(2.0);
