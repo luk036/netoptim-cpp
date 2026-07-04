@@ -22,13 +22,17 @@ set_target_properties(${PROJECT_NAME}Tests PROPERTIES CXX_STANDARD 20)
 
 # enable compiler warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-  # target_compile_options(${PROJECT_NAME} INTERFACE -fcoroutines -Wall -Wpedantic -Wextra -Werror)
   target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra)
+  # DiGraphX (fetched via CPM) propagates -Wall -Wpedantic -Wextra -Werror as PUBLIC.
+  # Suppress abseil header warnings on the test target (order: strict first, then suppress).
+  target_compile_options(${PROJECT_NAME}Tests PRIVATE -Wall -Wpedantic -Wextra -Werror)
+  target_compile_options(${PROJECT_NAME}Tests PRIVATE -Wno-pedantic -Wno-overflow)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_options(${PROJECT_NAME} INTERFACE -stdlib=libc++ -Wall -Wextra)
+  target_compile_options(${PROJECT_NAME}Tests PRIVATE -Wall -Wpedantic -Wextra -Werror)
+  target_compile_options(${PROJECT_NAME}Tests PRIVATE -Wno-nullability-extension -Wno-gcc-compat)
 elseif(MSVC)
   target_compile_options(${PROJECT_NAME} INTERFACE /std:c++20 /W4 /WX /wd4702 /wd4100)
-  # target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
 # ---- Add ${PROJECT_NAME}Tests ----
