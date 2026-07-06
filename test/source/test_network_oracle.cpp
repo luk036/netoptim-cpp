@@ -1,11 +1,11 @@
 // -*- coding: utf-8 -*-
+#include <absl/container/flat_hash_map.h>
 #include <doctest/doctest.h>
 
 #include <list>
 #include <map>
 #include <memory>
 #include <netoptim/network_oracle.hpp>
-#include <absl/container/flat_hash_map.h>
 #include <utility>
 
 namespace {
@@ -36,7 +36,7 @@ namespace {
 
     using TestGraph
         = absl::flat_hash_map<uint32_t,
-                             std::list<std::pair<uint32_t, std::pair<uint32_t, uint32_t>>>>;
+                              std::list<std::pair<uint32_t, std::pair<uint32_t, uint32_t>>>>;
 
     auto create_cycle_graph() -> TestGraph {
         return {

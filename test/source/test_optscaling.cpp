@@ -1,4 +1,5 @@
 // -*- coding: utf-8 -*-
+#include <absl/container/flat_hash_map.h>
 #include <doctest/doctest.h>
 
 #include <cmath>    // for log
@@ -7,7 +8,6 @@
 #include <list>
 #include <netoptim/optscaling_oracle.hpp>
 #include <numbers>
-#include <absl/container/flat_hash_map.h>
 #include <utility>   // for pair
 #include <valarray>  // for valarray
 
