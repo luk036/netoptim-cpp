@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.4;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.5;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -93,14 +93,7 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for primal_dual.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="primal__dual_8hpp__incl.png" border="0" usemap="#anetoptim_2primal__dual_8hpp" alt=""/></div>
-<map name="anetoptim_2primal__dual_8hpp" id="anetoptim_2primal__dual_8hpp">
-<area shape="rect" title="Primal&#45;dual approximation algorithms for graph problems." alt="" coords="23,5,214,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,91,104"/>
-<area shape="poly" title=" " alt="" coords="109,33,71,71,67,67,105,29"/>
-<area shape="rect" title=" " alt="" coords="115,79,263,104"/>
-<area shape="poly" title=" " alt="" coords="132,29,170,67,166,71,128,33"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="primal__dual_8hpp__incl.svg" width="270" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="primal__dual_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -173,6 +166,14 @@ template&lt;typename Graph , typename C1 , typename C2 &gt; </div>
 <li>Marking neighbors as dependent</li>
 <li>Updating gap values for remaining vertices</li>
 </ol>
+<p>The algorithm maintains gap values \(y_v\) and selects vertices with minimum gap:  </p><p class="formulaDsp">
+\[
+    \min_{v \in N[u]} y_v
+\]
+</p>
+<p> where \(N[u]\) is the closed neighborhood of vertex \(u\). Gaps are updated: \(y_v \leftarrow y_v - \min_{k \in N[u]} y_k\).</p>
+<div class="dotgraph">
+<iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_2.svg" width="1374" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Graph</td><td>Type of the graph, must provide vertex iteration </td></tr>
@@ -234,6 +235,14 @@ template&lt;typename Graph , typename C1 , typename C2 &gt; </div>
 <li>Primal cost &le; 2 &times; Dual cost</li>
 <li>2-approximation ratio for the optimal solution</li>
 </ul>
+<p>The primal-dual algorithm maintains dual variables (gaps) and satisfies:  </p><p class="formulaDsp">
+\[
+    \sum_{v \in C} w_v \le 2 \sum_{v \in V} y_v
+\]
+</p>
+<p> where \(C\) is the vertex cover, \(w_v\) are weights, and \(y_v\) are dual variables. Gap updates: \(y_u \leftarrow y_u - y_v\) for each selected edge \((u, v)\).</p>
+<div class="dotgraph">
+<iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_3.svg" width="1363" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Graph</td><td>Type of the graph, must provide edges() and edge iteration </td></tr>

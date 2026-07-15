@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.4;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.5;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -127,7 +127,7 @@ class OptScalingOracle&lt; Graph, Mapping, Fn &gt;</div><p>Oracle for Optimal Ma
   <table class="tparams">
     <tr><td class="paramname">Graph</td><td>Type of the directed graph representing matrix sparsity </td></tr>
     <tr><td class="paramname">Mapping</td><td>Type of vertex potential mapping (scaling factors) </td></tr>
-    <tr><td class="paramname">Fn</td><td>Type of the cost function (edge -&gt; matrix entry) </td></tr>
+    <tr><td class="paramname">Fn</td><td>Type of the cost function (edge -&gt; matrix entry pair) </td></tr>
   </table>
   </dd>
 </dl>
@@ -179,7 +179,7 @@ template&lt;typename Graph , typename Mapping , typename Fn &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">gra</td><td>The graph representing matrix sparsity </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">utx</td><td>Vertex potential mapping (scaling factors) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">get_cost</td><td>Function to extract matrix entries </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">get_cost</td><td>Function to extract matrix entry pairs from edge data </td></tr>
   </table>
   </dd>
 </dl>
@@ -309,9 +309,17 @@ template&lt;typename Graph , typename Mapping , typename Fn &gt; </div>
 </div><div class="memdoc">
 
 <p>Assess optimality at point x (cutting plane interface) </p>
+<p>The optimal scaling problem minimizes the ratio \(\pi / \psi\). In log scale, the objective is \(s = \pi - \psi\). The algorithm maintains \(t\) as the best-so-far optimal value:  </p><p class="formulaDsp">
+\[
+    f(x) = s - t = (\pi - \psi) - t
+\]
+</p>
+<p> If \(f(x) &lt; 0\), the solution improves; otherwise a cutting plane \((1, -1)\) is returned.</p>
+<div class="dotgraph">
+<iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_5.svg" width="1122" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>(pi, phi) in log scale </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>(pi, psi) in log scale </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">t</td><td>the best-so-far optimal value </td></tr>
   </table>
   </dd>
@@ -360,13 +368,12 @@ template&lt;typename Graph , typename Mapping , typename Fn &gt; </div>
 <p>Function call operator for cutting_plane_optim() </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>(pi, phi) in log scale </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>(pi, psi) in log scale </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">t</td><td>the best-so-far optimal value </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>tuple of (cut, whether gamma was updated) </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>cutting_plane_optim </dd></dl>
 
 </div>
 </div>

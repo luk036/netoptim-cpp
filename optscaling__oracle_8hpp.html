@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.4;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.5;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -94,22 +94,7 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for optscaling_oracle.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="optscaling__oracle_8hpp__incl.png" border="0" usemap="#anetoptim_2optscaling__oracle_8hpp" alt=""/></div>
-<map name="anetoptim_2optscaling__oracle_8hpp" id="anetoptim_2optscaling__oracle_8hpp">
-<area shape="rect" title="Oracle for Optimal Matrix Scaling Problem." alt="" coords="61,5,213,45"/>
-<area shape="rect" title=" " alt="" coords="5,93,75,119"/>
-<area shape="poly" title=" " alt="" coords="115,48,67,87,63,82,112,43"/>
-<area shape="rect" title=" " alt="" coords="99,93,175,119"/>
-<area shape="poly" title=" " alt="" coords="140,46,140,79,135,79,135,46"/>
-<area shape="rect" href="network__oracle_8hpp.html" title="Oracle for Parametric Network Problems." alt="" coords="199,93,350,119"/>
-<area shape="poly" title=" " alt="" coords="172,43,244,84,241,89,169,48"/>
-<area shape="rect" title=" " alt="" coords="37,167,213,192"/>
-<area shape="poly" title=" " alt="" coords="252,121,163,163,161,158,250,116"/>
-<area shape="rect" title=" " alt="" coords="237,167,312,192"/>
-<area shape="poly" title=" " alt="" coords="277,119,277,153,272,153,272,119"/>
-<area shape="rect" title=" " alt="" coords="337,167,429,192"/>
-<area shape="poly" title=" " alt="" coords="293,116,355,157,352,161,291,121"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="optscaling__oracle_8hpp__incl.svg" width="435" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="optscaling__oracle_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -123,8 +108,14 @@ Classes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Oracle for Optimal Matrix Scaling Problem. </p>
 <p>This module implements an oracle for solving the optimal matrix scaling problem as formulated by Orlin and Rothblum (1985). The problem involves finding diagonal scaling factors that minimize the ratio between the maximum and minimum scaled matrix entries.</p>
-<p>The problem formulation: min pi/phi s.t. phi &le; utx[i] * |aij| * utx[j]^-1 &le; pi, &forall; aij != 0, pi, phi, utx, positive</p>
-<p>where utx are the scaling factors, pi is the maximum scaled entry, and phi is the minimum scaled entry. </p>
+<p>The problem formulation:  </p><p class="formulaDsp">
+\[
+    \min \frac{\pi}{\phi} \quad \text{s.t.} \quad
+    \phi \le u_i |a_{ij}| u_j^{-1} \le \pi \; \forall a_{ij} \neq 0,
+\quad \pi, \phi, u_i &gt; 0
+\]
+</p>
+<p>where \( u_i \) are the scaling factors, \( \pi \) is the maximum scaled entry, and \( \phi \) is the minimum scaled entry. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

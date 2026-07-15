@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.4;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.5;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -94,7 +94,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a51d94d47df96aa3eff4042825317d233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new network oracle object.  <br /></td></tr>
 <tr class="separator:a51d94d47df96aa3eff4042825317d233"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24f0a38ffaf98ff42636c81b455ec892" id="r_a24f0a38ffaf98ff42636c81b455ec892"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetworkOracle.html#a24f0a38ffaf98ff42636c81b455ec892">NetworkOracle</a> (const <a class="el" href="classNetworkOracle.html">NetworkOracle</a> &amp;)=default</td></tr>
-<tr class="memdesc:a24f0a38ffaf98ff42636c81b455ec892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new network oracle object.  <br /></td></tr>
+<tr class="memdesc:a24f0a38ffaf98ff42636c81b455ec892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <br /></td></tr>
 <tr class="separator:a24f0a38ffaf98ff42636c81b455ec892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d61e86d1c2e000180d994b21abb2c1d" id="r_a4d61e86d1c2e000180d994b21abb2c1d"><td class="memTemplParams" colspan="2">template&lt;typename Num &gt; </td></tr>
 <tr class="memitem:a4d61e86d1c2e000180d994b21abb2c1d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classNetworkOracle.html#a4d61e86d1c2e000180d994b21abb2c1d">update</a> (const Num &amp;gamma) -&gt; void</td></tr>
@@ -113,7 +113,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename Graph, typename Mapping, typename Fn&gt;<br />
 requires HasKeyType&lt;Graph&gt;<br />
 class NetworkOracle&lt; Graph, Mapping, Fn &gt;</div><p>Oracle for Parametric Network Problems. </p>
-<p>This class implements a separation oracle for network feasibility problems. It uses negative cycle detection to check feasibility and generate cutting planes when violations are found.</p>
+<p>This class implements a separation oracle for network feasibility problems. It uses Howard's method for negative cycle detection to check feasibility and generate cutting planes when violations are found.</p>
 <p>The oracle maintains:</p><ul>
 <li>A reference to the graph structure</li>
 <li>A mapping of vertex potentials (utx)</li>
@@ -124,7 +124,7 @@ class NetworkOracle&lt; Graph, Mapping, Fn &gt;</div><p>Oracle for Parametric Ne
   <table class="tparams">
     <tr><td class="paramname">Graph</td><td>Type of the directed graph </td></tr>
     <tr><td class="paramname">Mapping</td><td>Type of vertex potential mapping </td></tr>
-    <tr><td class="paramname">Fn</td><td>Type of the constraint function h </td></tr>
+    <tr><td class="paramname">Fn</td><td>Type of the constraint function h, providing eval(edge, x) and grad(edge, x) methods operating on the graph's native edge data </td></tr>
   </table>
   </dd>
 </dl>
@@ -209,7 +209,7 @@ template&lt;typename Graph , typename Mapping , typename Fn &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Construct a new network oracle object. </p>
+<p>Copy constructor. </p>
 
 </div>
 </div>
@@ -243,7 +243,21 @@ template&lt;typename Arr &gt; </div>
 </div><div class="memdoc">
 
 <p>Assess feasibility and generate cutting plane if needed. </p>
-<p>This is the main oracle method that checks if the current point xval is feasible with respect to the network constraints. If infeasible, it returns a cutting plane (gradient and function value) that separates the infeasible point from the feasible region. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>This is the main oracle method that checks if the current point xval is feasible with respect to the network constraints. Uses Howard's method for negative cycle detection operating on the graph's native edge data. If infeasible, returns a cutting plane (gradient and function value) that separates the infeasible point from the feasible region.</p>
+<p>The oracle solves the feasibility problem:  </p><p class="formulaDsp">
+\[
+    \text{find } x, u \quad \text{s.t.} \quad u_j - u_i \le h(\text{edge}_{ij}, x) \; \forall
+(i, j) \in E
+\]
+</p>
+<p> If infeasible, it returns a cutting plane \((g, f)\) from a violating cycle \(C\):  </p><p class="formulaDsp">
+\[
+    g = -\sum_{e \in C} \nabla h(e, x), \quad f = -\sum_{e \in C} h(e, x)
+\]
+</p>
+<div class="dotgraph">
+<iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_4.svg" width="910" height="159"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Arr</td><td>Type of the input array/vector </td></tr>
   </table>

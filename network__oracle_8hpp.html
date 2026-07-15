@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.4;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.5;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -95,26 +95,12 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for network_oracle.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="network__oracle_8hpp__incl.png" border="0" usemap="#anetoptim_2network__oracle_8hpp" alt=""/></div>
-<map name="anetoptim_2network__oracle_8hpp" id="anetoptim_2network__oracle_8hpp">
-<area shape="rect" title="Oracle for Parametric Network Problems." alt="" coords="136,5,349,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,181,104"/>
-<area shape="poly" title=" " alt="" coords="220,33,131,75,129,70,218,28"/>
-<area shape="rect" title=" " alt="" coords="205,79,280,104"/>
-<area shape="poly" title=" " alt="" coords="245,31,245,65,240,65,240,31"/>
-<area shape="rect" title=" " alt="" coords="305,79,397,104"/>
-<area shape="poly" title=" " alt="" coords="261,28,323,69,320,73,259,33"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="network__oracle_8hpp__incl.svg" width="403" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="network__oracle_8hpp__dep__incl.png" border="0" usemap="#anetoptim_2network__oracle_8hppdep" alt=""/></div>
-<map name="anetoptim_2network__oracle_8hppdep" id="anetoptim_2network__oracle_8hppdep">
-<area shape="rect" title="Oracle for Parametric Network Problems." alt="" coords="5,5,219,31"/>
-<area shape="rect" href="optscaling__oracle_8hpp.html" title="Oracle for Optimal Matrix Scaling Problem." alt="" coords="36,79,188,119"/>
-<area shape="poly" title=" " alt="" coords="115,44,115,79,109,79,109,44"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="network__oracle_8hpp__dep__incl.svg" width="224" height="124"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="network__oracle_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -134,7 +120,8 @@ Concepts</h2></td></tr>
 <div class="textblock"><p>Oracle for Parametric Network Problems. </p>
 <p>This module provides an oracle implementation for solving feasibility problems in network optimization. The oracle acts as a separation oracle that can determine if a given point x is feasible with respect to the network constraints, and if not, provides a cutting plane.</p>
 <p>The feasibility problem formulation: find x, utx s.t. utx[j] - utx[i] &le; h(edge, x) &forall; edge(i, j) &isin; E</p>
-<p>where h is a function that depends on the decision variables x. This is commonly used in cutting-plane methods for network optimization. </p>
+<p>where h is a function that depends on the decision variables x. This is commonly used in cutting-plane methods for network optimization.</p>
+<p>Edge weights are accessed via the actual edge data from the graph's adjacency structure (the "get_weight" method), rather than synthesized (u,v) node pairs. This matches the Python sibling implementation. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.4;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.5;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -89,28 +89,17 @@ $(function() {
 <p>Maximum parametric problem solver for network optimization.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;digraphx/neg_cycle.hpp&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for parametric.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="parametric_8hpp__incl.png" border="0" usemap="#anetoptim_2parametric_8hpp" alt=""/></div>
-<map name="anetoptim_2parametric_8hpp" id="anetoptim_2parametric_8hpp">
-<area shape="rect" title="Maximum parametric problem solver for network optimization." alt="" coords="73,5,257,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,181,104"/>
-<area shape="poly" title=" " alt="" coords="155,33,117,71,113,67,152,29"/>
-<area shape="rect" title=" " alt="" coords="206,79,269,104"/>
-<area shape="poly" title=" " alt="" coords="179,29,218,67,214,71,175,33"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="parametric_8hpp__incl.svg" width="391" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="parametric_8hpp__dep__incl.png" border="0" usemap="#anetoptim_2parametric_8hppdep" alt=""/></div>
-<map name="anetoptim_2parametric_8hppdep" id="anetoptim_2parametric_8hppdep">
-<area shape="rect" title="Maximum parametric problem solver for network optimization." alt="" coords="5,5,189,31"/>
-<area shape="rect" href="min__cycle__ratio_8hpp.html" title="Minimum cost&#45;to&#45;time cycle ratio problem solver." alt="" coords="22,79,173,119"/>
-<area shape="poly" title=" " alt="" coords="100,44,100,79,95,79,95,44"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="parametric_8hpp__dep__incl.svg" width="195" height="124"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="parametric_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -126,7 +115,8 @@ Functions</h2></td></tr>
 <div class="textblock"><p>Maximum parametric problem solver for network optimization. </p>
 <p>This module implements a general algorithm for solving parametric network optimization problems. The algorithm finds the maximum parameter value r such that a system of inequalities holds, which is equivalent to finding the most violated cycle in a weighted graph.</p>
 <p>The problem formulation: max r s.t. dist[vtx] - dist[utx] &ge; distance(utx, vtx, r) &forall; edge(utx, vtx) &isin; gra(V, E)</p>
-<p>This is a fundamental building block for many network optimization algorithms including minimum cycle ratio, minimum mean cycle, and other parametric flow problems. </p>
+<p>This is a fundamental building block for many network optimization algorithms including minimum cycle ratio, minimum mean cycle, and other parametric flow problems.</p>
+<p>Edge weights are accessed via a callable that receives the actual edge data object from the graph's adjacency structure (the "get_weight" method), rather than synthesized (u,v) node pairs. This eliminates the duplication present in the previous node-pair-based approach and matches the Python sibling implementation. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a18c6aaeb92a4a215cfb890efae77fedc" name="a18c6aaeb92a4a215cfb890efae77fedc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18c6aaeb92a4a215cfb890efae77fedc">&#9670;&#160;</a></span>max_parametric()</h2>
@@ -181,14 +171,20 @@ template&lt;typename Graph , typename T , typename Fn1 , typename Fn2 , typename
 </div><div class="memdoc">
 
 <p>Solve the maximum parametric problem. </p>
-<p>This function implements an iterative algorithm to find the maximum parameter value r for which the system of constraints is feasible. The algorithm uses negative cycle detection to identify violations and adjusts the parameter accordingly.</p>
+<p>This function implements an iterative algorithm to find the maximum parameter value r for which the system of constraints is feasible. The algorithm uses Howard's policy iteration for negative cycle detection to identify violations and adjusts the parameter accordingly.</p>
 <p>The algorithm proceeds as follows:</p><ol type="1">
-<li>For the current parameter value, compute edge weights</li>
-<li>Find negative cycles using these weights</li>
+<li>For the current parameter value, compute edge weights via the distance callable operating on the graph's native edge data</li>
+<li>Find negative cycles using Howard's method</li>
 <li>If no negative cycles exist, the current parameter is optimal</li>
-<li>Otherwise, compute a new parameter value from the violating cycle</li>
-<li>Update distances and repeat until convergence</li>
+<li>Otherwise, compute a new parameter value from the violating cycle using the zero_cancel callable</li>
+<li>Repeat until convergence or max_iters reached</li>
 </ol>
+<p>The parametric problem is defined as:  </p><p class="formulaDsp">
+\[
+    \max \; r \quad \text{s.t.} \quad d_v - d_u \ge w(u, v, r) \; \forall (u, v) \in E
+\]
+</p>
+<p> where \(w(u, v, r)\) is a monotone decreasing function of \(r\). The algorithm finds the maximum \(r\) such that no negative cycles exist.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Graph</td><td>Type of the directed graph </td></tr>
