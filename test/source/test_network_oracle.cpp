@@ -1,11 +1,11 @@
 // -*- coding: utf-8 -*-
+#include <absl/container/flat_hash_map.h>
 #include <doctest/doctest.h>
 
 #include <list>
 #include <map>
 #include <memory>
 #include <netoptim/network_oracle.hpp>
-#include <unordered_map>
 #include <utility>
 
 namespace {
@@ -35,8 +35,8 @@ namespace {
     };
 
     using TestGraph
-        = std::unordered_map<uint32_t,
-                             std::list<std::pair<uint32_t, std::pair<uint32_t, uint32_t>>>>;
+        = absl::flat_hash_map<uint32_t,
+                              std::list<std::pair<uint32_t, std::pair<uint32_t, uint32_t>>>>;
 
     auto create_cycle_graph() -> TestGraph {
         return {
@@ -51,7 +51,7 @@ namespace {
 TEST_CASE("Test NetworkOracle update") {
     auto gra = create_cycle_graph();
     MockOracle oracle;
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     network.update(1.0);
@@ -65,7 +65,7 @@ TEST_CASE("Test NetworkOracle assess_feas with negative cycle") {
     oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, -3.0}};
     oracle.grads = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, -1.0}};
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     const auto xval = 0.0;
@@ -87,7 +87,7 @@ TEST_CASE("Test NetworkOracle assess_feas no negative cycle") {
     oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, 1.0}};
     oracle.grads = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, 1.0}};
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     const auto xval = 0.0;
@@ -107,7 +107,7 @@ TEST_CASE("Test NetworkOracle more complex graph") {
     oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 3}, 1.0}, {{3, 0}, -4.0}, {{0, 2}, 0.5}};
     oracle.grads = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 3}, 1.0}, {{3, 0}, -1.0}, {{0, 2}, 1.0}};
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}, {3, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}, {3, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     const auto xval = 0.0;
@@ -127,7 +127,7 @@ TEST_CASE("Test NetworkOracle gradient") {
     oracle.values = {{{0, 1}, 1.0}, {{1, 2}, 1.0}, {{2, 0}, -3.0}};
     oracle.grads = {{{0, 1}, 2.0}, {{1, 2}, 3.0}, {{2, 0}, -4.0}};
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto network = NetworkOracle(gra, dist, oracle);
 
     const auto xval = 0.0;

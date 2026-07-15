@@ -72,11 +72,11 @@ auto max_parametric(const Graph& gra, T& r_opt, Fn1&& distrance, Fn2&& zero_canc
                     size_t max_iters = 1000) {
     // ponytail: deduce Edge type using the same helpers as NegCycleFinder
     using Elem = decltype(*std::declval<const Graph&>().begin());
-    using Nbrs = std::remove_cv_t<std::remove_reference_t<
-        decltype(_get_val(std::declval<Elem>(), std::declval<const Graph&>()))>>;
+    using Nbrs = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
+        std::declval<Elem>(), std::declval<const Graph&>()))>>;
     using NbrElem = decltype(*std::declval<const Nbrs&>().begin());
-    using Edge = std::remove_cv_t<std::remove_reference_t<
-        decltype(_get_val(std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
+    using Edge = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
+        std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
     using Cycle = std::vector<Edge>;
 
     auto get_weight = [&distrance, &r_opt](const Edge& edge) -> T {

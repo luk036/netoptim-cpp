@@ -42,7 +42,8 @@
  * Given a directed graph @f$G = (V, E)@f$ with cost and time on each edge,
  * the minimum cycle ratio problem finds:
  * @f[
- *     r^* = \min_{C \in \text{cycles}(G)} \frac{\sum_{e \in C} \text{cost}(e)}{\sum_{e \in C} \text{time}(e)}
+ *     r^* = \min_{C \in \text{cycles}(G)} \frac{\sum_{e \in C} \text{cost}(e)}{\sum_{e \in C}
+ * \text{time}(e)}
  * @f]
  * The algorithm uses parametric weights @f$w_r(e) = \text{cost}(e) - r \cdot \text{time}(e)@f$
  * and searches for the smallest @f$r@f$ such that no negative cycles exist.
@@ -53,16 +54,12 @@
  *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
  *     init [label="Initialize r0,\ndist, max_iters", fillcolor="#a9cce3"];
  *     weight [label="Compute\nw_r(e) = cost(e)\n- r * time(e)"];
- *     neg_cycle [label="Find negative\ncycle via\nHoward's method", shape=diamond, fillcolor="#f9e79f"];
- *     ratio [label="Compute\ncycle ratio\ncost / time"];
- *     update [label="Update\nr = min ratio"];
- *     done [label="Return\noptimal cycle", fillcolor="#7fb3d8"];
- *     init -> weight;
- *     weight -> neg_cycle;
- *     neg_cycle -> ratio [label="found", color="#27ae60"];
- *     neg_cycle -> done [label="none found", color="#e74c3c"];
- *     ratio -> update;
- *     update -> weight [style=dashed, label="iterate", color="#888"];
+ *     neg_cycle [label="Find negative\ncycle via\nHoward's method", shape=diamond,
+ * fillcolor="#f9e79f"]; ratio [label="Compute\ncycle ratio\ncost / time"]; update [label="Update\nr
+ * = min ratio"]; done [label="Return\noptimal cycle", fillcolor="#7fb3d8"]; init -> weight; weight
+ * -> neg_cycle; neg_cycle -> ratio [label="found", color="#27ae60"]; neg_cycle -> done [label="none
+ * found", color="#e74c3c"]; ratio -> update; update -> weight [style=dashed, label="iterate",
+ * color="#888"];
  *   }
  * @enddot
  *
@@ -84,11 +81,11 @@ auto min_cycle_ratio(const Graph& gra, T& r0, Fn1&& get_cost, Fn2&& get_time, Ma
                      size_t max_iters = 1000) {
     // ponytail: deduce Edge type using the same helpers as NegCycleFinder
     using Elem = decltype(*std::declval<const Graph&>().begin());
-    using Nbrs = std::remove_cv_t<std::remove_reference_t<
-        decltype(_get_val(std::declval<Elem>(), std::declval<const Graph&>()))>>;
+    using Nbrs = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
+        std::declval<Elem>(), std::declval<const Graph&>()))>>;
     using NbrElem = decltype(*std::declval<const Nbrs&>().begin());
-    using Edge = std::remove_cv_t<std::remove_reference_t<
-        decltype(_get_val(std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
+    using Edge = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
+        std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
     using edge_t = Edge;
 
     auto calc_ratio = [&](const auto& C) -> T {
@@ -103,8 +100,9 @@ auto min_cycle_ratio(const Graph& gra, T& r0, Fn1&& get_cost, Fn2&& get_time, Ma
         return T(total_cost) / total_time;
     };
 
-    auto calc_weight
-        = [&](const T& r, const edge_t& edge) -> T { return get_cost(edge) - r * T(get_time(edge)); };
+    auto calc_weight = [&](const T& r, const edge_t& edge) -> T {
+        return get_cost(edge) - r * T(get_time(edge));
+    };
 
     return max_parametric(gra, r0, std::move(calc_weight), std::move(calc_ratio),
                           std::forward<Mapping>(dist), max_iters);

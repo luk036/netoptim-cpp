@@ -10,7 +10,7 @@ option(INSTALL_ONLY "Enable for installation only" OFF)
 # Note: update this to your new project's name and version
 project(
   NetOptim
-  VERSION 1.2.4
+  VERSION 1.2.5
   LANGUAGES CXX
 )
 
@@ -55,9 +55,9 @@ add_library(${PROJECT_NAME} INTERFACE)
 # set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
-target_compile_options(${PROJECT_NAME} INTERFACE
-    "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->"
-    "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4702>"
+target_compile_options(
+  ${PROJECT_NAME} INTERFACE "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->"
+                            "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4702>"
 )
 
 # Link dependencies target_link_libraries(${PROJECT_NAME} INTERFACE ${SPECIFIC_LIBS})

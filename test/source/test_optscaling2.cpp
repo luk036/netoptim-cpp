@@ -1,4 +1,5 @@
 // -*- coding: utf-8 -*-
+#include <absl/container/flat_hash_map.h>
 #include <doctest/doctest.h>
 
 #include <cmath>
@@ -7,13 +8,12 @@
 #include <list>
 #include <netoptim/optscaling_oracle.hpp>
 #include <numbers>
-#include <unordered_map>
 #include <utility>
 #include <valarray>
 
 TEST_CASE("Test OptScalingOracle assess_optim with negative cycle") {
     using CostGraph
-        = std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
+        = absl::flat_hash_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
 
     // 3-cycle 0->1->2->0 with eval sum = -7 < 0 triggers negative cycle
     CostGraph gra{
@@ -27,7 +27,7 @@ TEST_CASE("Test OptScalingOracle assess_optim with negative cycle") {
     };
 
     auto x = std::valarray<double>{0.0, 0.0};
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto omega = OptScalingOracle(gra, dist, get_cost);
     auto gamma = std::numeric_limits<double>::infinity();
 
@@ -39,7 +39,7 @@ TEST_CASE("Test OptScalingOracle assess_optim with negative cycle") {
 
 TEST_CASE("Test OptScalingOracle assess_optim feasible not better") {
     using CostGraph
-        = std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
+        = absl::flat_hash_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
 
     const auto log10 = std::numbers::ln10;
     const auto log22 = std::log(22.0);
@@ -55,7 +55,7 @@ TEST_CASE("Test OptScalingOracle assess_optim feasible not better") {
         return edge_data;
     };
 
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto omega = OptScalingOracle(gra, dist, get_cost);
 
     // First call: feasible, better than inf -> sets t
@@ -76,7 +76,7 @@ TEST_CASE("Test OptScalingOracle assess_optim feasible not better") {
 
 TEST_CASE("Test OptScalingOracle operator()") {
     using CostGraph
-        = std::unordered_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
+        = absl::flat_hash_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
 
     const auto log10 = std::numbers::ln10;
     const auto log125 = std::log(125.0);
@@ -92,7 +92,7 @@ TEST_CASE("Test OptScalingOracle operator()") {
     };
 
     auto x = std::valarray<double>{log125, log10};
-    std::unordered_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}, {1, 0.0}, {2, 0.0}};
     auto omega = OptScalingOracle(gra, dist, get_cost);
     auto gamma = std::numeric_limits<double>::infinity();
 

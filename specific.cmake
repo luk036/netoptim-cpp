@@ -26,7 +26,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG 1.6.1
+  GIT_TAG v1.6.3
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
@@ -38,7 +38,7 @@ endif()
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.7.4
+  GIT_TAG v1.7.6
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
@@ -75,17 +75,33 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME DiGraphX
-  GIT_TAG 1.1.4
+  GIT_TAG v1.1.6
   GITHUB_REPOSITORY luk036/digraphx-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.6.6
+  GIT_TAG v1.6.8
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
+
+# Set C++ standard at project level (abseil requires this at configure time)
+set(CMAKE_CXX_STANDARD 20)
+
+# Add abseil for flat_hash_map (used in test files)
+CPMAddPackage(
+  NAME abseil-cpp
+  GIT_TAG 20260107.1
+  GITHUB_REPOSITORY abseil/abseil-cpp
+  OPTIONS "ABSL_PROPAGATE_CXX_STD ON"
+)
+
+# flat_hash_map needs abseil include dirs (headers) plus abseil libs at link time
+list(APPEND SPECIFIC_INCLUDES "${abseil-cpp_SOURCE_DIR}")
+# Abseil targets to link to executables (not the library, to avoid export set conflicts)
+set(SPECIFIC_ABSEIL_LIBS absl::flat_hash_map)
 
 set(SPECIFIC_LIBS
     EllAlgo::EllAlgo DiGraphX::DiGraphX XNetwork::XNetwork Py2Cpp::Py2Cpp
