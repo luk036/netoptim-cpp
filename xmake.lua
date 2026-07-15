@@ -39,6 +39,18 @@ target("test_netoptim")
     add_packages("doctest", "abseil")
     add_tests("default")
 
+target("bench_neg_cycle")
+    set_kind("binary")
+    set_languages("c++20")
+    add_includedirs("../digraphx-cpp/include", {public = true})
+    add_includedirs("../py2cpp/include", {public = true})
+    add_includedirs("include", {public = true})
+    add_files("benchmark/source/bench_neg_cycle.cpp")
+    add_packages("abseil")
+    if is_plat("windows") then
+        add_cxflags("/EHsc /W4 /wd4702", { force = true })
+    end
+
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
