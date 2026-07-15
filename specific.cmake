@@ -26,7 +26,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG 1.6.1
+  GIT_TAG v1.6.3
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
@@ -38,7 +38,7 @@ endif()
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG 1.7.4
+  GIT_TAG v1.7.6
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
@@ -75,14 +75,14 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME DiGraphX
-  GIT_TAG 1.1.4
+  GIT_TAG v1.1.6
   GITHUB_REPOSITORY luk036/digraphx-cpp
   OPTIONS "INSTALL_ONLY ON" # create an installable target
 )
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.6.6
+  GIT_TAG v1.6.8
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
