@@ -1,9 +1,12 @@
 add_rules("mode.debug", "mode.release", "mode.coverage")
 add_requires("doctest", {alias = "doctest"})
 add_requires("abseil", {alias = "abseil"})
--- add_requires("conan::andreasbuhr-cppcoro/cci.20210113", {alias = "cppcoro"})
 
 set_languages("c++20")
+
+if is_mode("release") then
+    set_optimize("fastest")
+end
 -- require std::optional
 
 if is_mode("coverage") then
@@ -46,6 +49,18 @@ target("bench_neg_cycle")
     add_includedirs("../py2cpp/include", {public = true})
     add_includedirs("include", {public = true})
     add_files("benchmark/source/bench_neg_cycle.cpp")
+    add_packages("abseil")
+    if is_plat("windows") then
+        add_cxflags("/EHsc /W4 /wd4702", { force = true })
+    end
+
+target("bench_network_oracle")
+    set_kind("binary")
+    set_languages("c++20")
+    add_includedirs("../digraphx-cpp/include", {public = true})
+    add_includedirs("../py2cpp/include", {public = true})
+    add_includedirs("include", {public = true})
+    add_files("benchmark/source/bench_network_oracle.cpp")
     add_packages("abseil")
     if is_plat("windows") then
         add_cxflags("/EHsc /W4 /wd4702", { force = true })
