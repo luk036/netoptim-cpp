@@ -71,8 +71,7 @@ int main() {
         }
         double avg = total_ms / n_runs;
         if (ref_ms == 0.0) ref_ms = avg;
-        std::printf("%-12zu %-10zu %-6s %-12.2f\n",
-                    n, edge_count, found ? "yes" : "no", avg);
+        std::printf("%-12zu %-10zu %-6s %-12.2f\n", n, edge_count, found ? "yes" : "no", avg);
     }
     return 0;
 }
