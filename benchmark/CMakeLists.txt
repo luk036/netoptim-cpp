@@ -22,7 +22,7 @@ endif()
 # ---- bench_neg_cycle ----
 
 add_executable(bench_neg_cycle source/bench_neg_cycle.cpp)
-target_link_libraries(bench_neg_cycle NetOptim::NetOptim ${SPECIFIC_LIBS})
+target_link_libraries(bench_neg_cycle NetOptim::NetOptim ${SPECIFIC_LIBS} ${SPECIFIC_ABSEIL_LIBS})
 target_include_directories(bench_neg_cycle PRIVATE ../include)
 set_target_properties(bench_neg_cycle PROPERTIES CXX_STANDARD 20)
 
