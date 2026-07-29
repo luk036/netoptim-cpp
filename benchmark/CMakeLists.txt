@@ -22,7 +22,7 @@ endif()
 # ---- bench_neg_cycle ----
 
 add_executable(bench_neg_cycle source/bench_neg_cycle.cpp)
-target_link_libraries(bench_neg_cycle NetOptim::NetOptim ${SPECIFIC_LIBS})
+target_link_libraries(bench_neg_cycle NetOptim::NetOptim ${SPECIFIC_LIBS} ${SPECIFIC_ABSEIL_LIBS})
 target_include_directories(bench_neg_cycle PRIVATE ../include)
 set_target_properties(bench_neg_cycle PROPERTIES CXX_STANDARD 20)
 
@@ -38,10 +38,14 @@ set_target_properties(bench_network_oracle PROPERTIES CXX_STANDARD 20)
 # enable compiler warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   target_compile_options(bench_neg_cycle PRIVATE -Wall -Wpedantic -Wextra -Werror)
+  target_compile_options(bench_neg_cycle PRIVATE -Wno-pedantic -Wno-overflow)
   target_compile_options(bench_network_oracle PRIVATE -Wall -Wpedantic -Wextra -Werror)
+  target_compile_options(bench_network_oracle PRIVATE -Wno-pedantic -Wno-overflow)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_options(bench_neg_cycle PRIVATE -Wall -Wpedantic -Wextra -Werror)
+  target_compile_options(bench_neg_cycle PRIVATE -Wno-nullability-extension -Wno-gcc-compat)
   target_compile_options(bench_network_oracle PRIVATE -Wall -Wpedantic -Wextra -Werror)
+  target_compile_options(bench_network_oracle PRIVATE -Wno-nullability-extension -Wno-gcc-compat)
 elseif(MSVC)
   target_compile_options(bench_neg_cycle PRIVATE /utf-8 /W4 /WX /wd4702)
   target_compile_options(bench_network_oracle PRIVATE /utf-8 /W4 /WX /wd4702)
