@@ -1,12 +1,19 @@
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 12.1.0
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES" # create an installable target
-)
+# Try system-installed fmt first (Ubuntu: libfmt-dev, macOS: brew install fmt, Termux: fmt)
+find_package(fmt CONFIG QUIET)
+
+if(fmt_FOUND)
+  message(STATUS "Found system fmt: ${fmt_DIR}")
+else()
+  CPMAddPackage(
+    NAME fmt
+    GIT_TAG 12.1.0
+    GITHUB_REPOSITORY fmtlib/fmt
+    OPTIONS "FMT_INSTALL YES" # create an installable target
+  )
+endif()
 
 # find_package(Boost REQUIRED) if(Boost_FOUND) message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
 # # add_library(Boost::boost INTERFACE IMPORTED GLOBAL) target_include_directories(Boost::boost
@@ -66,12 +73,19 @@ endif()
 
 # spdlog must be added before DiGraphX (which also adds spdlog) to ensure SPDLOG_FMT_EXTERNAL is
 # set, avoiding linker conflicts with fmt when local fmt package is a shared library
-CPMAddPackage(
-  NAME spdlog
-  GIT_TAG v1.17.0
-  GITHUB_REPOSITORY gabime/spdlog
-  OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
-)
+# Try system-installed spdlog first (Ubuntu: libspdlog-dev, macOS: brew install spdlog, Termux: spdlog)
+find_package(spdlog CONFIG QUIET)
+
+if(spdlog_FOUND)
+  message(STATUS "Found system spdlog: ${spdlog_DIR}")
+else()
+  CPMAddPackage(
+    NAME spdlog
+    GIT_TAG v1.17.0
+    GITHUB_REPOSITORY gabime/spdlog
+    OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
+  )
+endif()
 
 CPMAddPackage(
   NAME DiGraphX
