@@ -29,7 +29,9 @@ set_target_properties(bench_neg_cycle PROPERTIES CXX_STANDARD 20)
 # ---- bench_network_oracle ----
 
 add_executable(bench_network_oracle source/bench_network_oracle.cpp)
-target_link_libraries(bench_network_oracle NetOptim::NetOptim ${SPECIFIC_LIBS} ${SPECIFIC_ABSEIL_LIBS})
+target_link_libraries(
+  bench_network_oracle NetOptim::NetOptim ${SPECIFIC_LIBS} ${SPECIFIC_ABSEIL_LIBS}
+)
 target_include_directories(bench_network_oracle PRIVATE ../include)
 set_target_properties(bench_network_oracle PROPERTIES CXX_STANDARD 20)
 
