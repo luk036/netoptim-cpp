@@ -15,11 +15,23 @@ project(NetOptim LANGUAGES CXX)
 
 include(../cmake/tools.cmake)
 
-# ---- Dependencies ----
+# ---- Dependencies (all installed by the parent build) ----
 
 include(../cmake/CPM.cmake)
-include(../specific.cmake)
 
+# Find dependencies first — transitive dep configs reference fmt::fmt, spdlog::spdlog etc.
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+find_package(fmt REQUIRED)
+find_package(spdlog REQUIRED)
+find_package(Py2Cpp REQUIRED)
+find_package(XNetwork REQUIRED)
+find_package(DiGraphX REQUIRED)
+find_package(EllAlgo REQUIRED)
 find_package(${PROJECT_NAME} REQUIRED)
+
+set(SPECIFIC_LIBS EllAlgo::EllAlgo DiGraphX::DiGraphX XNetwork::XNetwork Py2Cpp::Py2Cpp
+                  Threads::Threads fmt::fmt
+)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)
