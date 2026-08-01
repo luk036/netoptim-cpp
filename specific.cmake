@@ -6,6 +6,12 @@ find_package(fmt CONFIG QUIET)
 
 if(fmt_FOUND)
   message(STATUS "Found system fmt: ${fmt_DIR}")
+  # Tell CPM that fmt is already handled (CPM checks CPM_PACKAGES list). Write the CACHE
+  # variable directly: list(APPEND ...) creates a normal-variable shadow that does not
+  # propagate into FetchContent subdirectory scopes.
+  if(NOT fmt IN_LIST CPM_PACKAGES)
+    set(CPM_PACKAGES "${CPM_PACKAGES};fmt" CACHE INTERNAL "" FORCE)
+  endif()
 else()
   CPMAddPackage(
     NAME fmt
@@ -78,6 +84,10 @@ find_package(spdlog CONFIG QUIET)
 
 if(spdlog_FOUND)
   message(STATUS "Found system spdlog: ${spdlog_DIR}")
+  # Tell CPM that spdlog is already handled (write CACHE directly, see fmt above)
+  if(NOT spdlog IN_LIST CPM_PACKAGES)
+    set(CPM_PACKAGES "${CPM_PACKAGES};spdlog" CACHE INTERNAL "" FORCE)
+  endif()
 else()
   CPMAddPackage(
     NAME spdlog
@@ -104,24 +114,31 @@ CPMAddPackage(
 # Set C++ standard at project level (abseil requires this at configure time)
 set(CMAKE_CXX_STANDARD 20)
 
-# Try system-installed abseil first (Ubuntu: libabsl-dev, macOS: brew install abseil,
-# Termux: pkg install abseil-cpp). Falls back to CPM build on Windows or when no system
-# package is available.
-find_package(absl CONFIG QUIET)
-
-if(absl_FOUND)
-  message(STATUS "Found system abseil: ${absl_DIR}")
+# DiGraphX (fetched above) already adds abseil via CPM — use its REAL targets if present
+# instead of mixing with find_package IMPORTED targets (IMPORTED vs ALIAS conflict).
+if(TARGET absl::flat_hash_map)
+  message(STATUS "Using CPM-provided abseil (from DiGraphX)")
   set(SPECIFIC_ABSEIL_LIBS absl::flat_hash_map)
 else()
-  # Add abseil for flat_hash_map (used in test/benchmark files)
-  CPMAddPackage(
-    NAME abseil-cpp
-    GIT_TAG 20260107.1
-    GITHUB_REPOSITORY abseil/abseil-cpp
-    OPTIONS "ABSL_PROPAGATE_CXX_STD ON"
-  )
-  # Abseil targets to link to executables (not the library, to avoid export set conflicts)
-  set(SPECIFIC_ABSEIL_LIBS absl::flat_hash_map)
+  # Try system-installed abseil first (Ubuntu: libabsl-dev, macOS: brew install abseil,
+  # Termux: pkg install abseil-cpp). Falls back to CPM build on Windows or when no system
+  # package is available.
+  find_package(absl CONFIG QUIET)
+
+  if(absl_FOUND)
+    message(STATUS "Found system abseil: ${absl_DIR}")
+    set(SPECIFIC_ABSEIL_LIBS absl::flat_hash_map)
+  else()
+    # Add abseil for flat_hash_map (used in test/benchmark files)
+    CPMAddPackage(
+      NAME abseil-cpp
+      GIT_TAG 20260107.1
+      GITHUB_REPOSITORY abseil/abseil-cpp
+      OPTIONS "ABSL_PROPAGATE_CXX_STD ON"
+    )
+    # Abseil targets to link to executables (not the library, to avoid export set conflicts)
+    set(SPECIFIC_ABSEIL_LIBS absl::flat_hash_map)
+  endif()
 endif()
 
 set(SPECIFIC_LIBS
