@@ -6,11 +6,14 @@ find_package(fmt CONFIG QUIET)
 
 if(fmt_FOUND)
   message(STATUS "Found system fmt: ${fmt_DIR}")
-  # Tell CPM that fmt is already handled (CPM checks CPM_PACKAGES list). Write the CACHE
-  # variable directly: list(APPEND ...) creates a normal-variable shadow that does not
-  # propagate into FetchContent subdirectory scopes.
+  # Tell CPM that fmt is already handled (CPM checks CPM_PACKAGES list). Write the CACHE variable
+  # directly: list(APPEND ...) creates a normal-variable shadow that does not propagate into
+  # FetchContent subdirectory scopes.
   if(NOT fmt IN_LIST CPM_PACKAGES)
-    set(CPM_PACKAGES "${CPM_PACKAGES};fmt" CACHE INTERNAL "" FORCE)
+    set(CPM_PACKAGES
+        "${CPM_PACKAGES};fmt"
+        CACHE INTERNAL "" FORCE
+    )
   endif()
 else()
   CPMAddPackage(
@@ -78,15 +81,18 @@ if(MSVC AND xnetwork_SOURCE_DIR)
 endif()
 
 # spdlog must be added before DiGraphX (which also adds spdlog) to ensure SPDLOG_FMT_EXTERNAL is
-# set, avoiding linker conflicts with fmt when local fmt package is a shared library
-# Try system-installed spdlog first (Ubuntu: libspdlog-dev, macOS: brew install spdlog, Termux: spdlog)
+# set, avoiding linker conflicts with fmt when local fmt package is a shared library Try
+# system-installed spdlog first (Ubuntu: libspdlog-dev, macOS: brew install spdlog, Termux: spdlog)
 find_package(spdlog CONFIG QUIET)
 
 if(spdlog_FOUND)
   message(STATUS "Found system spdlog: ${spdlog_DIR}")
   # Tell CPM that spdlog is already handled (write CACHE directly, see fmt above)
   if(NOT spdlog IN_LIST CPM_PACKAGES)
-    set(CPM_PACKAGES "${CPM_PACKAGES};spdlog" CACHE INTERNAL "" FORCE)
+    set(CPM_PACKAGES
+        "${CPM_PACKAGES};spdlog"
+        CACHE INTERNAL "" FORCE
+    )
   endif()
 else()
   CPMAddPackage(
@@ -114,15 +120,14 @@ CPMAddPackage(
 # Set C++ standard at project level (abseil requires this at configure time)
 set(CMAKE_CXX_STANDARD 20)
 
-# DiGraphX (fetched above) already adds abseil via CPM — use its REAL targets if present
-# instead of mixing with find_package IMPORTED targets (IMPORTED vs ALIAS conflict).
+# DiGraphX (fetched above) already adds abseil via CPM — use its REAL targets if present instead of
+# mixing with find_package IMPORTED targets (IMPORTED vs ALIAS conflict).
 if(TARGET absl::flat_hash_map)
   message(STATUS "Using CPM-provided abseil (from DiGraphX)")
   set(SPECIFIC_ABSEIL_LIBS absl::flat_hash_map)
 else()
-  # Try system-installed abseil first (Ubuntu: libabsl-dev, macOS: brew install abseil,
-  # Termux: pkg install abseil-cpp). Falls back to CPM build on Windows or when no system
-  # package is available.
+  # Try system-installed abseil first (Ubuntu: libabsl-dev, macOS: brew install abseil, Termux: pkg
+  # install abseil-cpp). Falls back to CPM build on Windows or when no system package is available.
   find_package(absl CONFIG QUIET)
 
   if(absl_FOUND)
