@@ -370,7 +370,9 @@ endif()
 # ---------------------------------------------------------------------------
 
 if(NETOPTIM_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
-  foreach(COVERAGE_TARGET NetOptim NetOptimTests NetOptimStandalone)
+  # NetOptim is a header-only INTERFACE library - coverage flags go on the executables that
+  # instantiate the templates.
+  foreach(COVERAGE_TARGET NetOptimTests NetOptimStandalone)
     if(TARGET ${COVERAGE_TARGET})
       target_compile_options(${COVERAGE_TARGET} PRIVATE -O0 -g -fprofile-arcs -ftest-coverage)
     endif()
