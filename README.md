@@ -46,12 +46,12 @@ During development it is usually convenient to build all subprojects at once.
 
 ### Build and run the standalone target
 
-Use the following command to build and run the executable target.
+Use the following command from the project's root directory to build and run the executable target.
 
 ```bash
-cmake -S. -B build
+cmake -B build
 cmake --build build
-./build/standalone/NetOptim --help
+./build/NetOptim --help
 ```
 
 ### Build and run test suite
@@ -59,16 +59,15 @@ cmake --build build
 Use the following commands from the project's root directory to run the test suite.
 
 ```bash
-cmake -S. -B build
+cmake -B build
 cmake --build build
-cd build/test
-CTEST_OUTPUT_ON_FAILURE=1 ctest
+ctest --test-dir build --output-on-failure
 
 # or maybe simply call the executable:
-./build/test/NetOptimTests
+./build/NetOptimTests
 ```
 
-To collect code coverage information, run CMake with the `-DENABLE_TEST_COVERAGE=1` option.
+To collect code coverage information, run CMake with the `-DNETOPTIM_ENABLE_COVERAGE=1` option.
 
 ### Run clang-format
 
@@ -76,7 +75,7 @@ Use the following commands from the project's root directory to check and fix C+
 This requires _clang-format_, _cmake-format_ and _pyyaml_ to be installed on the current system.
 
 ```bash
-cmake -S. -B build/test
+cmake -B build
 
 # view changes
 cmake --build build --target format
@@ -93,13 +92,13 @@ The documentation is automatically built and [published](https://luk036.github.i
 To manually build documentation, call the following command.
 
 ```bash
-cmake -S . -B build
+cmake -B build -DNETOPTIM_BUILD_DOCS=ON
 cmake --build build --target GenerateDocs
 # view the docs
-open build/documentation/doxygen/html/index.html
+open build/doxygen/html/index.html
 ```
 
-To build the documentation locally, you will need Doxygen, jinja2 and Pygments on installed your system.
+To build the documentation locally, you will need Doxygen and Graphviz installed on your system.
 
 ### Additional tools
 
@@ -122,6 +121,7 @@ Ccache can be enabled by configuring with `-DUSE_CCACHE=<ON | OFF>`.
 
 ## Related projects and alternatives
 
+- [**netoptim-fast**](https://github.com/luk036/netoptim-fast): Fast specialized variant (focused separation oracles)
 - [**ModernCppStarter & PVS-Studio Static Code Analyzer**](https://github.com/viva64/pvs-studio-cmake-examples/tree/master/modern-cpp-starter): Official instructions on how to use the ModernCppStarter with the PVS-Studio Static Code Analyzer.
 - [**lefticus/cpp_starter_project**](https://github.com/lefticus/cpp_starter_project/): A popular C++ starter project, created in 2017.
 - [**filipdutescu/modern-cpp-template**](https://github.com/filipdutescu/modern-cpp-template): A recent starter using a more traditional approach for CMake structure and dependency management.

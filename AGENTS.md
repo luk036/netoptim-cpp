@@ -31,20 +31,19 @@ netoptim-cpp/
 ### Full Build (all targets)
 
 ```bash
-cmake -S. -B build
+cmake -B build
 cmake --build build
 ```
 
 ### Build and Run Tests
 
 ```bash
-cmake -S. -B build
+cmake -B build
 cmake --build build
-cd build/test
-CTEST_OUTPUT_ON_FAILURE=1 ctest
+ctest --test-dir build --output-on-failure
 
 # Or run executable directly:
-./build/test/NetOptimTests
+./build/NetOptimTests
 ```
 
 ### Run a Single Test
@@ -52,28 +51,28 @@ CTEST_OUTPUT_ON_FAILURE=1 ctest
 The test executable supports doctest's test case filtering. Use the `-tc` option:
 
 ```bash
-./build/test/NetOptimTests -tc="Test Negative Cycle"
+./build/NetOptimTests -tc="Test Negative Cycle"
 ```
 
 Or with wildcards:
 
 ```bash
-./build/test/NetOptimTests -tc="Test *"
+./build/NetOptimTests -tc="Test *"
 ```
 
 ### Build with Code Coverage
 
 ```bash
-cmake -S. -B build -DENABLE_TEST_COVERAGE=1
+cmake -B build -DNETOPTIM_ENABLE_COVERAGE=1
 cmake --build build
 ```
 
 ### Build Documentation
 
 ```bash
-cmake -S. -B build
+cmake -B build -DNETOPTIM_BUILD_DOCS=ON
 cmake --build build --target GenerateDocs
-# View: open build/documentation/doxygen/html/index.html
+# View: open build/doxygen/html/index.html
 ```
 
 ### Enable Sanitizers

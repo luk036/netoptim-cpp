@@ -25,8 +25,8 @@ auto create_cycle_graph(uint32_t n) -> py::dict<uint32_t, py::dict<uint32_t, int
     return gra;
 }
 
-template <typename F>
-double time_howard(const py::dict<uint32_t, py::dict<uint32_t, int>>& gra, uint32_t n, F get_weight, int iterations) {
+template <typename F> double time_howard(const py::dict<uint32_t, py::dict<uint32_t, int>>& gra,
+                                         uint32_t n, F get_weight, int iterations) {
     // Warmup
     {
         auto dist = py::dict<uint32_t, int>{};
@@ -55,8 +55,7 @@ double time_howard(const py::dict<uint32_t, py::dict<uint32_t, int>>& gra, uint3
 
 int main() {
     std::cout << "=== C++ NegCycleFinder Benchmark ===" << std::endl;
-    std::cout << std::left << std::setw(12) << "Nodes"
-              << std::setw(20) << "Time (ns)" << std::endl;
+    std::cout << std::left << std::setw(12) << "Nodes" << std::setw(20) << "Time (ns)" << std::endl;
     std::cout << "----------------------------------------" << std::endl;
 
     auto sizes = {10u, 50u, 100u, 200u};
@@ -67,9 +66,8 @@ int main() {
         // More iterations for smaller graphs to get stable measurements
         int iters = (n <= 10) ? 50000 : (n <= 50) ? 10000 : 5000;
         auto avg_ns = time_howard(gra, n, get_weight, iters);
-        std::cout << std::left << std::setw(12) << n
-                  << std::fixed << std::setprecision(2) << std::setw(20) << avg_ns
-                  << std::endl;
+        std::cout << std::left << std::setw(12) << n << std::fixed << std::setprecision(2)
+                  << std::setw(20) << avg_ns << std::endl;
     }
 
     return 0;
