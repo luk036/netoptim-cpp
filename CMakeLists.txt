@@ -131,21 +131,17 @@ if(MSVC AND xnetwork_SOURCE_DIR)
   endif()
 endif()
 
-# spdlog must be added before DiGraphX (which also adds spdlog) to ensure SPDLOG_FMT_EXTERNAL is
-# set, avoiding linker conflicts with fmt when local fmt package is a shared library Try
-# system-installed spdlog first (Ubuntu: libspdlog-dev, macOS: brew install spdlog, Termux: spdlog)
-find_package(spdlog CONFIG QUIET)
-if(spdlog_FOUND)
-  message(STATUS "Found system spdlog: ${spdlog_DIR}")
-  set(CPM_spdlog_ADDED YES)
-else()
-  CPMAddPackage(
-    NAME spdlog
-    GIT_TAG v1.17.0
-    GITHUB_REPOSITORY gabime/spdlog
-    OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
-  )
-endif()
+# spdlog must be added before DiGraphX and EllAlgo (which also add spdlog) to ensure
+# SPDLOG_FMT_EXTERNAL is set, avoiding linker conflicts with fmt when local fmt package is a shared
+# library. spdlog is always built from source rather than found on the system: EllAlgo v1.6.9
+# unconditionally FetchContent-declares spdlog, so building it first here marks it populated and lets
+# EllAlgo reuse it, avoiding an ALIAS/IMPORTED target collision with a system-provided spdlog::spdlog.
+CPMAddPackage(
+  NAME spdlog
+  GIT_TAG v1.17.0
+  GITHUB_REPOSITORY gabime/spdlog
+  OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
+)
 
 CPMAddPackage(
   NAME DiGraphX
