@@ -70,6 +70,11 @@ if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
 endif()
 include(${CPM_DOWNLOAD_LOCATION})
 
+# Always build dependencies from source. EllAlgo declares spdlog itself via FetchContent and assumes
+# the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would swap in an
+# imported spdlog::spdlog and break that assumption, so spdlog needs no special handling here.
+set(CPM_USE_LOCAL_PACKAGES OFF)
+
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 
@@ -131,11 +136,8 @@ if(MSVC AND xnetwork_SOURCE_DIR)
   endif()
 endif()
 
-# spdlog must be added before DiGraphX and EllAlgo (which also add spdlog) to ensure
-# SPDLOG_FMT_EXTERNAL is set, avoiding linker conflicts with fmt when local fmt package is a shared
-# library. spdlog is always built from source rather than found on the system: EllAlgo v1.6.9
-# unconditionally FetchContent-declares spdlog, so building it first here marks it populated and lets
-# EllAlgo reuse it, avoiding an ALIAS/IMPORTED target collision with a system-provided spdlog::spdlog.
+# spdlog is used by the dependencies' logger sources. SPDLOG_FMT_EXTERNAL is always set so spdlog uses
+# the external fmt and avoids duplicate symbols.
 CPMAddPackage(
   NAME spdlog
   GIT_TAG v1.17.0
