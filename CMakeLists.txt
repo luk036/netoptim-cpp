@@ -299,6 +299,28 @@ endif()
 # ---------------------------------------------------------------------------
 
 if(NETOPTIM_BUILD_BENCHMARKS)
+  # nanobench is a header-only benchmarking library
+  set(NANOBENCH_VERSION 4.3.11)
+  set(NANOBENCH_DIR "${CMAKE_BINARY_DIR}/_deps/nanobench")
+  set(NANOBENCH_HEADER "${NANOBENCH_DIR}/nanobench.h")
+
+  if(NOT EXISTS "${NANOBENCH_HEADER}")
+    file(MAKE_DIRECTORY "${NANOBENCH_DIR}")
+    file(
+      DOWNLOAD
+      "https://raw.githubusercontent.com/martinus/nanobench/v${NANOBENCH_VERSION}/src/include/nanobench.h"
+      "${NANOBENCH_HEADER}"
+      STATUS download_status
+    )
+    list(GET download_status 0 status_code)
+    if(NOT status_code EQUAL 0)
+      message(FATAL_ERROR "Failed to download nanobench (status ${status_code})")
+    endif()
+  endif()
+
+  add_library(nanobench INTERFACE)
+  target_include_directories(nanobench SYSTEM INTERFACE "${NANOBENCH_DIR}")
+
   file(GLOB_RECURSE ALL_BENCH_CPP CONFIGURE_DEPENDS "benchmark/source/*.cpp")
   foreach(ONE_BENCH_CPP ${ALL_BENCH_CPP})
     get_filename_component(ONE_BENCH_EXEC ${ONE_BENCH_CPP} NAME_WE)
@@ -306,12 +328,13 @@ if(NETOPTIM_BUILD_BENCHMARKS)
 
     add_executable(${TARGET_NAME} ${ONE_BENCH_CPP})
     set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME ${ONE_BENCH_EXEC} CXX_STANDARD 20)
-    target_link_libraries(${TARGET_NAME} PRIVATE NetOptim::NetOptim ${SPECIFIC_LIBS}
+    target_link_libraries(${TARGET_NAME} PRIVATE nanobench NetOptim::NetOptim ${SPECIFIC_LIBS}
                                                 ${SPECIFIC_ABSEIL_LIBS}
     )
     target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     target_enable_warnings(${TARGET_NAME})
     target_enable_abseil_suppressions(${TARGET_NAME})
+    add_test(NAME ${ONE_BENCH_EXEC} COMMAND ${TARGET_NAME})
   endforeach()
 endif()
 
