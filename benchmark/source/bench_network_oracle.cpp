@@ -4,7 +4,7 @@
 #include <absl/container/flat_hash_map.h>
 
 #include <cstdint>
-#include <cstdio>
+#include <fmt/format.h>
 #include <list>
 #include <netoptim/network_oracle.hpp>
 #include <string>
@@ -55,7 +55,7 @@ int main() {
         for (uint32_t i = 0; i < n; ++i) dist[i] = 0.0;
         auto network = NetworkOracle(gra, dist, oracle);
         bool found = network.assess_feas(0.0).has_value();
-        std::printf("n=%-8zu edges=%-9zu cut=%-3s\n", n, edge_count, found ? "yes" : "no");
+        fmt::print("n={:<8} edges={:<9} cut={:<3}\n", n, edge_count, found ? "yes" : "no");
     }
 
     ankerl::nanobench::Bench bench;

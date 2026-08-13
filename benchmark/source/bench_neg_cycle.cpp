@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <digraphx/neg_cycle.hpp>
+#include <fmt/format.h>
 #include <py2cpp/dict.hpp>
 #include <string>
 #include <vector>
@@ -32,7 +33,7 @@ int main() {
         for ([[maybe_unused]] const auto& _ : ncf0.howard(dist0, get_weight)) {
             found = true;
         }
-        std::printf("n=%u found=%s\n", n, found ? "yes" : "no");
+        fmt::print("n={} found={}\n", n, found ? "yes" : "no");
     }
 
     ankerl::nanobench::Bench bench;
