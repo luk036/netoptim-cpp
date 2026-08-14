@@ -1,9 +1,9 @@
 #define ANKERL_NANOBENCH_IMPLEMENT
+#include <fmt/format.h>
 #include <nanobench.h>
 
 #include <cstdint>
 #include <digraphx/neg_cycle.hpp>
-#include <fmt/format.h>
 #include <py2cpp/dict.hpp>
 #include <string>
 #include <vector>

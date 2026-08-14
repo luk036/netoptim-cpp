@@ -1,10 +1,9 @@
 #define ANKERL_NANOBENCH_IMPLEMENT
+#include <absl/container/flat_hash_map.h>
+#include <fmt/format.h>
 #include <nanobench.h>
 
-#include <absl/container/flat_hash_map.h>
-
 #include <cstdint>
-#include <fmt/format.h>
 #include <list>
 #include <netoptim/network_oracle.hpp>
 #include <string>

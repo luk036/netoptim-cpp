@@ -28,8 +28,8 @@ function(target_enable_warnings TARGET)
 endfunction()
 
 # Abseil headers emit warnings that -Werror escalates to errors. Suppress on targets that include
-# abseil headers. GCC coroutine frames also mis-link at -O2 (pre-existing test issue), so the
-# tests build at -O0.
+# abseil headers. GCC coroutine frames also mis-link at -O2 (pre-existing test issue), so the tests
+# build at -O0.
 function(target_enable_abseil_suppressions TARGET)
   if(MSVC)
     target_compile_options(${TARGET} PRIVATE /wd4100 /wd4324)
@@ -55,24 +55,23 @@ option(NETOPTIM_ENABLE_COVERAGE "Enable coverage reporting" OFF)
 # Dependencies
 # ---------------------------------------------------------------------------
 
-# Download CPM.cmake for reproducible dependency management
-# see https://github.com/cpm-cmake/CPM.cmake for more info
+# Download CPM.cmake for reproducible dependency management see
+# https://github.com/cpm-cmake/CPM.cmake for more info
 set(CPM_DOWNLOAD_VERSION 0.38.5)
 set(CPM_HASH_SUM "192aa0ccdc57dfe75bd9e4b176bf7fb5692fd2b3e3f7b09c74856fc39572b31c")
 set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
 if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
   message(STATUS "Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
-  file(
-    DOWNLOAD https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
-             ${CPM_DOWNLOAD_LOCATION}
-    EXPECTED_HASH SHA256=${CPM_HASH_SUM}
+  file(DOWNLOAD
+       https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
+       ${CPM_DOWNLOAD_LOCATION} EXPECTED_HASH SHA256=${CPM_HASH_SUM}
   )
 endif()
 include(${CPM_DOWNLOAD_LOCATION})
 
 # Always build dependencies from source. EllAlgo declares spdlog itself via FetchContent and assumes
-# the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would swap in an
-# imported spdlog::spdlog and break that assumption, so spdlog needs no special handling here.
+# the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would swap in
+# an imported spdlog::spdlog and break that assumption, so spdlog needs no special handling here.
 set(CPM_USE_LOCAL_PACKAGES OFF)
 
 # PackageProject.cmake will be used to make our target installable
@@ -136,8 +135,8 @@ if(MSVC AND xnetwork_SOURCE_DIR)
   endif()
 endif()
 
-# spdlog is used by the dependencies' logger sources. SPDLOG_FMT_EXTERNAL is always set so spdlog uses
-# the external fmt and avoids duplicate symbols.
+# spdlog is used by the dependencies' logger sources. SPDLOG_FMT_EXTERNAL is always set so spdlog
+# uses the external fmt and avoids duplicate symbols.
 CPMAddPackage(
   NAME spdlog
   GIT_TAG v1.17.0
@@ -182,8 +181,8 @@ else()
   endif()
 endif()
 
-set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo DiGraphX::DiGraphX XNetwork::XNetwork Py2Cpp::Py2Cpp Threads::Threads fmt::fmt
+set(SPECIFIC_LIBS EllAlgo::EllAlgo DiGraphX::DiGraphX XNetwork::XNetwork Py2Cpp::Py2Cpp
+                  Threads::Threads fmt::fmt
 )
 
 # ellalgo v1.6.9+ compiles spdlog headers in its library but does not link fmt. With
@@ -199,8 +198,7 @@ endif()
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files
 # automatically. Keep that in mind when changing files, or explicitly mention them here.
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS
-     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
+file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
      "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp"
 )
 
@@ -259,8 +257,8 @@ if(NETOPTIM_BUILD_STANDALONE)
   add_executable(NetOptimStandalone ${NETOPTIM_STANDALONE_SOURCES})
   set_target_properties(NetOptimStandalone PROPERTIES OUTPUT_NAME "NetOptim" CXX_STANDARD 20)
   target_include_directories(NetOptimStandalone SYSTEM PRIVATE ${CXXOPTS_INCLUDE_DIRS})
-  target_link_libraries(NetOptimStandalone PRIVATE NetOptim::NetOptim cxxopts::cxxopts
-                                                 ${SPECIFIC_LIBS}
+  target_link_libraries(
+    NetOptimStandalone PRIVATE NetOptim::NetOptim cxxopts::cxxopts ${SPECIFIC_LIBS}
   )
   target_enable_warnings(NetOptimStandalone)
   target_enable_abseil_suppressions(NetOptimStandalone)
@@ -291,8 +289,9 @@ if(NETOPTIM_BUILD_TESTS)
 
   file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS "test/source/*.cpp")
   add_executable(NetOptimTests ${TEST_SOURCES})
-  target_link_libraries(NetOptimTests PRIVATE doctest::doctest NetOptim::NetOptim ${SPECIFIC_LIBS}
-                                              ${SPECIFIC_ABSEIL_LIBS}
+  target_link_libraries(
+    NetOptimTests PRIVATE doctest::doctest NetOptim::NetOptim ${SPECIFIC_LIBS}
+                          ${SPECIFIC_ABSEIL_LIBS}
   )
   set_target_properties(NetOptimTests PROPERTIES CXX_STANDARD 20)
   target_enable_warnings(NetOptimTests)
@@ -334,8 +333,8 @@ if(NETOPTIM_BUILD_BENCHMARKS)
 
     add_executable(${TARGET_NAME} ${ONE_BENCH_CPP})
     set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME ${ONE_BENCH_EXEC} CXX_STANDARD 20)
-    target_link_libraries(${TARGET_NAME} PRIVATE nanobench NetOptim::NetOptim ${SPECIFIC_LIBS}
-                                                ${SPECIFIC_ABSEIL_LIBS}
+    target_link_libraries(
+      ${TARGET_NAME} PRIVATE nanobench NetOptim::NetOptim ${SPECIFIC_LIBS} ${SPECIFIC_ABSEIL_LIBS}
     )
     target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     target_enable_warnings(${TARGET_NAME})
@@ -353,8 +352,7 @@ if(NETOPTIM_ENABLE_CLANG_TIDY)
   if(CLANG_TIDY)
     add_custom_target(
       clang-tidy
-      COMMAND ${CLANG_TIDY} --extra-arg=-std=c++20
-              --extra-arg=-I${CMAKE_CURRENT_SOURCE_DIR}/include
+      COMMAND ${CLANG_TIDY} --extra-arg=-std=c++20 --extra-arg=-I${CMAKE_CURRENT_SOURCE_DIR}/include
               ${CMAKE_CURRENT_SOURCE_DIR}/include/netoptim/*.hpp
       COMMENT "Running clang-tidy static analysis"
     )
@@ -423,13 +421,15 @@ if(NETOPTIM_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleCl
       coverage
       COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
       COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/coverage
-      COMMAND ${GCOVR_PATH} --root ${PROJECT_SOURCE_DIR} --html-details
-              ${CMAKE_BINARY_DIR}/coverage/index.html --exclude test/ --exclude build/
-              ${extra_gcovr_args}
+      COMMAND
+        ${GCOVR_PATH} --root ${PROJECT_SOURCE_DIR} --html-details
+        ${CMAKE_BINARY_DIR}/coverage/index.html --exclude test/ --exclude build/ ${extra_gcovr_args}
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
       COMMENT "Generating coverage report in ${CMAKE_BINARY_DIR}/coverage/index.html"
     )
   else()
-    message(WARNING "gcovr not found - coverage target unavailable. Install with: pip install gcovr")
+    message(
+      WARNING "gcovr not found - coverage target unavailable. Install with: pip install gcovr"
+    )
   endif()
 endif()
