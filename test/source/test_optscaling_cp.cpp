@@ -4,14 +4,13 @@
 
 #include <cmath>
 #include <cstdint>
+#include <ellalgo/cutting_plane.hpp>  // for cutting_plane_optim
+#include <ellalgo/ell.hpp>            // for Ell
 #include <list>
 #include <netoptim/optscaling_oracle.hpp>
 #include <numbers>
 #include <utility>
 #include <valarray>
-
-#include <ellalgo/cutting_plane.hpp>  // for cutting_plane_optim
-#include <ellalgo/ell.hpp>            // for Ell
 
 namespace {
 
@@ -39,10 +38,18 @@ namespace {
 
         return {
             {0, {{{2, {log22, log125}}, {3, {log16, log18}}, {4, {log15, log11}}}}},
-            {1, {{{1, {log10, log10}}, {2, {log20, log19}}, {3, {log14, log12}}, {4, {100.0, log21}}}}},
+            {1,
+             {{{1, {log10, log10}},
+               {2, {log20, log19}},
+               {3, {log14, log12}},
+               {4, {100.0, log21}}}}},
             {2, {{{0, {log125, log22}}, {1, {log19, log20}}, {2, {log13, log13}}}}},
             {3, {{{0, {log18, log16}}, {1, {log12, log14}}, {4, {log24, log23}}}}},
-            {4, {{{0, {log11, log15}}, {1, {log21, -100.0}}, {3, {log23, log24}}, {4, {log17, log17}}}}},
+            {4,
+             {{{0, {log11, log15}},
+               {1, {log21, -100.0}},
+               {3, {log23, log24}},
+               {4, {log17, log17}}}}},
         };
     }
 

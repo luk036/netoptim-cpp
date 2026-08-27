@@ -159,9 +159,9 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY ON" "DIGRAPHX_BUILD_TESTS OFF"
 )
 
-# EllAlgo provides the cutting-plane driver (cutting_plane_optim) that drives
-# this repo's oracles (Strategy instances). netoptim oracles use valarray-based
-# cuts compatible with Ell<valarray<double>>.
+# EllAlgo provides the cutting-plane driver (cutting_plane_optim) that drives this repo's oracles
+# (Strategy instances). netoptim oracles use valarray-based cuts compatible with
+# Ell<valarray<double>>.
 CPMAddPackage(
   NAME EllAlgo
   GIT_TAG v1.6.12
