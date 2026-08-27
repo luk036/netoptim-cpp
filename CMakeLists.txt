@@ -164,7 +164,7 @@ CPMAddPackage(
 # cuts compatible with Ell<valarray<double>>.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.11
+  GIT_TAG v1.6.12
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" "ELLALGO_BUILD_TESTS OFF"
 )
