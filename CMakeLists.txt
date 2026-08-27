@@ -69,9 +69,10 @@ if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
 endif()
 include(${CPM_DOWNLOAD_LOCATION})
 
-# Always build dependencies from source. EllAlgo declares spdlog itself via FetchContent and assumes
-# the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would swap in
-# an imported spdlog::spdlog and break that assumption, so spdlog needs no special handling here.
+# Always build dependencies from source. DiGraphX declares spdlog itself via FetchContent and
+# assumes the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would
+# swap in an imported spdlog::spdlog and break that assumption, so spdlog needs no special handling
+# here.
 set(CPM_USE_LOCAL_PACKAGES OFF)
 
 # PackageProject.cmake will be used to make our target installable
@@ -158,9 +159,12 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY ON" "DIGRAPHX_BUILD_TESTS OFF"
 )
 
+# EllAlgo provides the cutting-plane driver (cutting_plane_optim) that drives
+# this repo's oracles (Strategy instances). netoptim oracles use valarray-based
+# cuts compatible with Ell<valarray<double>>.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.10
+  GIT_TAG v1.6.11
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" "ELLALGO_BUILD_TESTS OFF"
 )

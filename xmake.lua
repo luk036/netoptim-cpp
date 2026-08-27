@@ -3,6 +3,7 @@ add_requires("doctest", {alias = "doctest"})
 add_requires("abseil", {alias = "abseil"})
 add_requires("fmt", {alias = "fmt"})
 add_requires("nanobench", {alias = "nanobench"})
+add_requires("spdlog", {alias = "spdlog"})
 
 set_languages("c++20")
 
@@ -26,8 +27,19 @@ if is_plat("linux") then
         add_sysincludedirs(termux_prefix .. "/include", {public = true})
     end
 elseif is_plat("windows") then
-    add_cxflags("/EHsc /W4 /WX /wd4702", { force = true })
+    add_cxflags("/EHsc /utf-8 /W4 /WX /wd4702", { force = true })
 end
+
+-- ellalgo-cpp include (cutting-plane driver lives here)
+local ellalgo_dir = path.join(os.projectdir(), "../ellalgo-cpp")
+local ellalgo_inc = path.join(ellalgo_dir, "include")
+
+target("EllAlgo")
+set_kind("static")
+add_includedirs(ellalgo_inc, { public = true })
+add_files(path.join(ellalgo_dir, "source/*.cpp"))
+add_packages("fmt", "spdlog")
+set_group("Dependencies")
 
 -- header only
 
@@ -35,6 +47,7 @@ target("test_netoptim")
     set_kind("binary")
     -- add_deps("Py2Cpp")
     -- add_deps("NetOptim")
+    add_deps("EllAlgo")
     add_includedirs("../digraphx-cpp/include", {public = true})
     add_includedirs("../ellalgo-cpp/include", {public = true})
     add_includedirs("../py2cpp/include", {public = true})
