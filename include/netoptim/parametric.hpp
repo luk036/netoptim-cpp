@@ -3,7 +3,10 @@
 
 #include <digraphx/neg_cycle.hpp>  // import NegCycleFinder
 #include <type_traits>
+#include <utility>
 #include <vector>
+
+#include "netoptim_detail.hpp"  // import netoptim_detail helpers
 
 /**
  * @file parametric.hpp
@@ -70,35 +73,7 @@
 template <typename Graph, typename T, typename Fn1, typename Fn2, typename Mapping>
 auto max_parametric(const Graph& gra, T& r_opt, Fn1&& distrance, Fn2&& zero_cancel, Mapping&& dist,
                     size_t max_iters = 1000) {
-    // ponytail: deduce Edge type using the same helpers as NegCycleFinder
-    using Elem = decltype(*std::declval<const Graph&>().begin());
-    using Nbrs = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
-        std::declval<Elem>(), std::declval<const Graph&>()))>>;
-    using NbrElem = decltype(*std::declval<const Nbrs&>().begin());
-    using Edge = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
-        std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
-    using Cycle = std::vector<Edge>;
-
-    auto get_weight = [&distrance, &r_opt](const Edge& edge) -> T {
-        return static_cast<T>(distrance(r_opt, edge));
-    };
-
-    auto ncf = NegCycleFinder<Graph>(gra);
-    auto r_min = r_opt;
-    auto c_min = Cycle{};
-    auto c_opt = Cycle{};
-
-    for (auto niter = 0U; niter != max_iters; ++niter) {
-        for (auto&& ci : ncf.howard(dist, get_weight)) {
-            auto ri = static_cast<T>(zero_cancel(ci));
-            if (r_min > ri) {
-                r_min = ri;
-                c_min = std::move(ci);
-            }
-        }
-        if (r_min >= r_opt) break;
-        c_opt = std::move(c_min);
-        r_opt = r_min;
-    }
-    return c_opt;
+    return netoptim_detail::parametric_search(gra, r_opt, std::forward<Fn1>(distrance),
+                                              std::forward<Fn2>(zero_cancel),
+                                              std::forward<Mapping>(dist), max_iters);
 }

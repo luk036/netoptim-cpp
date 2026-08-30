@@ -10,7 +10,6 @@
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
-#define _SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING
 
 #include <condition_variable>
 #include <functional>
@@ -20,6 +19,7 @@
 #include <queue>
 #include <stdexcept>
 #include <thread>
+#include <type_traits>
 #include <vector>
 
 /*!
@@ -56,11 +56,11 @@ class ThreadPool {
      * @tparam Args Types of the arguments
      * @param[in] f The callable object to execute
      * @param[in] args Arguments to pass to the callable
-     * @return std::future<typename std::result_of<F(Args...)>::type> A future
+     * @return std::future<typename std::invoke_result<F, Args...>::type> A future
      *         containing the result of the task
      */
     template <class F, class... Args> auto enqueue(F&& f, Args&&... args)
-        -> std::future<typename std::result_of<F(Args...)>::type>;
+        -> std::future<typename std::invoke_result<F, Args...>::type>;
 
     /*!
      * @brief Destroy the thread pool
@@ -119,8 +119,8 @@ inline ThreadPool::ThreadPool(size_t threads) : stop(false) {
  * @throws std::runtime_error if enqueue is called after the pool has been stopped
  */
 template <class F, class... Args> auto ThreadPool::enqueue(F&& f, Args&&... args)
-    -> std::future<typename std::result_of<F(Args...)>::type> {
-    using return_type = typename std::result_of<F(Args...)>::type;
+    -> std::future<typename std::invoke_result<F, Args...>::type> {
+    using return_type = typename std::invoke_result<F, Args...>::type;
 
     auto task = std::make_shared<std::packaged_task<return_type()>>(
         std::bind(std::forward<F>(f), std::forward<Args>(args)...));

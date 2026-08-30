@@ -2,9 +2,10 @@
 #pragma once
 
 #include <algorithm>
-#include <py2cpp/py2cpp.hpp>
+#include <utility>
 
-#include "parametric.hpp"  // import max_parametric
+#include "netoptim_detail.hpp"  // import netoptim_detail helpers
+#include "parametric.hpp"       // import max_parametric
 
 /**
  * @file min_cycle_ratio.hpp
@@ -79,13 +80,7 @@
 template <typename Graph, typename T, typename Fn1, typename Fn2, typename Mapping>
 auto min_cycle_ratio(const Graph& gra, T& r0, Fn1&& get_cost, Fn2&& get_time, Mapping&& dist,
                      size_t max_iters = 1000) {
-    // ponytail: deduce Edge type using the same helpers as NegCycleFinder
-    using Elem = decltype(*std::declval<const Graph&>().begin());
-    using Nbrs = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
-        std::declval<Elem>(), std::declval<const Graph&>()))>>;
-    using NbrElem = decltype(*std::declval<const Nbrs&>().begin());
-    using Edge = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
-        std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
+    using Edge = typename netoptim_detail::graph_traits<Graph>::Edge;
     using edge_t = Edge;
 
     auto calc_ratio = [&](const auto& C) -> T {

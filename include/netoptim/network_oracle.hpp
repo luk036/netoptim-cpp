@@ -5,10 +5,7 @@
 #include <optional>
 #include <type_traits>
 
-namespace {
-    template <typename T>
-    concept HasKeyType = requires { typename T::key_type; };
-}  // namespace
+#include "netoptim_detail.hpp"  // import netoptim_detail helpers
 
 /**
  * @file network_oracle.hpp
@@ -51,7 +48,7 @@ namespace {
  *            grad(edge, x) methods operating on the graph's native edge data
  */
 template <typename Graph, typename Mapping, typename Fn>
-    requires HasKeyType<Graph>
+    requires netoptim_detail::HasKeyType<Graph>
 class NetworkOracle {
     using node_t = typename Graph::key_type;
 
@@ -70,7 +67,7 @@ class NetworkOracle {
         : _gra{gra}, _u{utx}, _S(gra), _h{std::move(h)} {}
 
     /** @brief Copy constructor */
-    explicit NetworkOracle(const NetworkOracle&) = default;
+    NetworkOracle(const NetworkOracle&) = default;
 
     /** @brief Update the oracle with a new parameter value
      * @details Updates the internal constraint function with a new
@@ -119,13 +116,9 @@ class NetworkOracle {
      *         function value */
     template <typename Arr> auto assess_feas(const Arr& xval)
         -> std::optional<std::pair<Arr, double>> {
-        // ponytail: deduce Edge type using NegCycleFinder helpers
-        using Elem = decltype(*std::declval<const Graph&>().begin());
-        using Nbrs = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
-            std::declval<Elem>(), std::declval<const Graph&>()))>>;
-        using NbrElem = decltype(*std::declval<const Nbrs&>().begin());
-        using Edge = std::remove_cv_t<std::remove_reference_t<decltype(_get_val(
-            std::declval<NbrElem>(), std::declval<const Nbrs&>()))>>;
+        static_assert(netoptim_detail::OracleFeas<NetworkOracle<Graph, Mapping, Fn>, Arr>,
+                      "NetworkOracle must model the feasibility-oracle contract");
+        using Edge = typename netoptim_detail::graph_traits<Graph>::Edge;
 
         auto get_weight
             = [this, &xval](const Edge& edge) -> double { return this->_h.eval(edge, xval); };
