@@ -132,7 +132,8 @@ function(netoptim_patch_xnetwork_testcases xnetwork_src_dir)
   set(_tc_file "${xnetwork_src_dir}/include/xnetwork/generators/testcases.hpp")
   file(READ "${_tc_file}" _tc_content)
   string(REPLACE "enum nodes { A, B, C, D, E };"
-                 "constexpr uint32_t A = 0, B = 1, C = 2, D = 3, E = 4;" _tc_content "${_tc_content}"
+                 "constexpr uint32_t A = 0, B = 1, C = 2, D = 3, E = 4;" _tc_content
+                 "${_tc_content}"
   )
   string(REPLACE "enum nodes { A, B, C };" "constexpr uint32_t A = 0, B = 1, C = 2;" _tc_content
                  "${_tc_content}"

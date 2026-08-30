@@ -162,8 +162,9 @@ class OptScalingOracle {
      * @return tuple of (cut, whether gamma was updated)
      * @see cutting_plane_optim */
     auto assess_optim(const Vec& x, double& t) -> std::tuple<Cut, bool> {
-        static_assert(netoptim_detail::OracleOptim<OptScalingOracle<Graph, Mapping, Fn>, Vec, double>,
-                      "OptScalingOracle must model the optimality-oracle contract");
+        static_assert(
+            netoptim_detail::OracleOptim<OptScalingOracle<Graph, Mapping, Fn>, Vec, double>,
+            "OptScalingOracle must model the optimality-oracle contract");
         const auto cut = this->_network.assess_feas(x);
         if (cut) {
             return {*cut, false};

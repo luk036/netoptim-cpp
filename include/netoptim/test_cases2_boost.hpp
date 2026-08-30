@@ -100,8 +100,8 @@ namespace netoptim {
 }  // namespace netoptim
 
 // Backward-compatible aliases at global scope (public API preserved)
-using netoptim::graph_t;
-using netoptim::Vertex;
-using netoptim::edge_t;
 using netoptim::create_test_case1;
 using netoptim::create_test_case_timing;
+using netoptim::edge_t;
+using netoptim::graph_t;
+using netoptim::Vertex;

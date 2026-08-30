@@ -11,8 +11,8 @@
  * implementation detail of the library; the public API is unaffected.
  */
 
-#include <digraphx/neg_cycle.hpp>  // import NegCycleFinder, _get_key / _get_val
 #include <cstddef>
+#include <digraphx/neg_cycle.hpp>  // import NegCycleFinder, _get_key / _get_val
 #include <type_traits>
 #include <utility>
 #include <vector>
