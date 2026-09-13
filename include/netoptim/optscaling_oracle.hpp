@@ -1,6 +1,7 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
+#include <algorithm>
 #include <cassert>
 #include <valarray>
 
@@ -62,6 +63,25 @@ namespace netoptim_detail {
         auto eval(const auto& edge, const Vec& x) const -> double {
             const auto [aij, aji] = this->_get_cost(edge);
             return std::min(x[0] - aji, aij - x[1]);
+        }
+
+        /** @brief Build a weight callable with the iterate bound once.
+         *
+         * Optional fast path consumed by NetworkOracle (see
+         * netoptim_detail::make_get_weight): binds x[0] / x[1] and the cost
+         * function a single time, so the per-edge hot loop avoids re-indexing
+         * the iterate for every edge.
+         *
+         * @param[in] x vector containing (pi, psi) in log scale
+         * @return callable `(edge) -> double` evaluating the ratio constraint */
+        auto make_weight_fn(const Vec& x) const {
+            const auto x0 = x[0];
+            const auto x1 = x[1];
+            auto get_cost = this->_get_cost;
+            return [get_cost, x0, x1](const auto& edge) -> double {
+                const auto [aij, aji] = get_cost(edge);
+                return std::min(x0 - aji, aij - x1);
+            };
         }
 
         /** @brief Compute the gradient of the constraint function

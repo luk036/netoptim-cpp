@@ -120,8 +120,7 @@ class NetworkOracle {
                       "NetworkOracle must model the feasibility-oracle contract");
         using Edge = typename netoptim_detail::graph_traits<Graph>::Edge;
 
-        auto get_weight
-            = [this, &xval](const Edge& edge) -> double { return this->_h.eval(edge, xval); };
+        auto get_weight = netoptim_detail::make_get_weight<Fn, Edge>(this->_h, xval);
 
         for (auto&& C : this->_S.howard(this->_u, get_weight)) {
             auto grad = [&]() -> Arr {
@@ -133,7 +132,7 @@ class NetworkOracle {
             }();
             auto fval = 0.0;
             for (auto&& edge : C) {
-                fval -= this->_h.eval(edge, xval);
+                fval -= get_weight(edge);
                 grad -= this->_h.grad(edge, xval);
             }
             return std::pair{std::move(grad), fval};

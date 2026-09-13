@@ -113,4 +113,41 @@ namespace netoptim_detail {
         { o.assess_optim(x, g) };
     };
 
+    /**
+     * @brief Detect an optional `make_weight_fn(x)` fast path on an edge oracle.
+     *
+     * An oracle may expose `make_weight_fn(x)` returning a callable
+     * `edge -> weight` with the iterate bound once, so the per-edge hot loop of
+     * Howard's method avoids repeatedly re-deriving it.
+     *
+     * @tparam Fn  edge-oracle type
+     * @tparam Arr iterate / point type
+     */
+    template <typename Fn, typename Arr>
+    concept HasMakeWeightFn = requires(Fn& fn, const Arr& x) {
+        { fn.make_weight_fn(x) };
+    };
+
+    /**
+     * @brief Build the per-edge weight callable used by Howard's method.
+     *
+     * Uses `fn.make_weight_fn(x)` when the oracle provides it; otherwise
+     * returns a lambda forwarding to `fn.eval(edge, x)`.
+     *
+     * @tparam Fn   edge-oracle type
+     * @tparam Edge graph edge type
+     * @tparam Arr  iterate / point type
+     * @param[in] fn   edge oracle
+     * @param[in] xval current iterate
+     * @return callable `(const Edge&) -> double`
+     */
+    template <typename Fn, typename Edge, typename Arr>
+    auto make_get_weight(Fn& fn, const Arr& xval) {
+        if constexpr (HasMakeWeightFn<Fn, Arr>) {
+            return fn.make_weight_fn(xval);
+        } else {
+            return [&fn, &xval](const Edge& edge) -> double { return fn.eval(edge, xval); };
+        }
+    }
+
 }  // namespace netoptim_detail
