@@ -19,10 +19,12 @@
 
 /** @brief Default convergence tolerance used by the solver facades.
  *
- * Looser than ellalgo's built-in 1e-20, which is far below machine precision
- * relative to typical objective magnitudes and only inflates the iteration
- * count. Pass an explicit Options to override. */
-inline constexpr double kDefaultTolerance = 1e-8;
+ * Benchmarked with `bench_optscaling` on the project's fixed graph: the
+ * objective error scales as sqrt(tolerance), so 1e-10 yields ~1e-5 error at
+ * ~28% more runtime than 1e-8 (~1e-4 error). ellalgo's built-in 1e-20 is
+ * unreachable at double precision for most scales and only inflates the
+ * iteration count. Pass an explicit Options to override. */
+inline constexpr double kDefaultTolerance = 1e-10;
 
 /** @brief Build an Options using the library's default tolerance. */
 inline auto default_options() -> Options { return Options{2000, kDefaultTolerance}; }

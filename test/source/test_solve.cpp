@@ -168,7 +168,7 @@ TEST_CASE("solve_opt_scaling facade forwards Options") {
     const auto tight = Options{2000, 1e-20};
     const auto [x_tight, niter_tight] = run(tight);
 
-    CHECK_EQ(kDefaultTolerance, doctest::Approx(1e-8));
+    CHECK_EQ(kDefaultTolerance, doctest::Approx(1e-10));
     CHECK_NE(x_default.size(), 0U);
     CHECK_NE(x_tight.size(), 0U);
     CHECK_LE(niter_default, niter_tight);
