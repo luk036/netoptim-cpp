@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   NetOptim
-  VERSION 1.2.6
+  VERSION 1.2.7
   LANGUAGES CXX
 )
 
@@ -28,8 +28,8 @@ function(target_enable_warnings TARGET)
 endfunction()
 
 # Abseil headers emit warnings that -Werror escalates to errors. Suppress on targets that include
-# abseil headers. GCC coroutine frames also mis-link at -O2 (pre-existing test issue), so the
-# tests build at -O0.
+# abseil headers. GCC coroutine frames also mis-link at -O2 (pre-existing test issue), so the tests
+# build at -O0.
 function(target_enable_abseil_suppressions TARGET)
   if(MSVC)
     target_compile_options(${TARGET} PRIVATE /wd4100 /wd4324)
@@ -55,20 +55,25 @@ option(NETOPTIM_ENABLE_COVERAGE "Enable coverage reporting" OFF)
 # Dependencies
 # ---------------------------------------------------------------------------
 
-# Download CPM.cmake for reproducible dependency management
-# see https://github.com/cpm-cmake/CPM.cmake for more info
+# Download CPM.cmake for reproducible dependency management see
+# https://github.com/cpm-cmake/CPM.cmake for more info
 set(CPM_DOWNLOAD_VERSION 0.38.5)
 set(CPM_HASH_SUM "192aa0ccdc57dfe75bd9e4b176bf7fb5692fd2b3e3f7b09c74856fc39572b31c")
 set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
 if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
   message(STATUS "Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
-  file(
-    DOWNLOAD https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
-             ${CPM_DOWNLOAD_LOCATION}
-    EXPECTED_HASH SHA256=${CPM_HASH_SUM}
+  file(DOWNLOAD
+       https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
+       ${CPM_DOWNLOAD_LOCATION} EXPECTED_HASH SHA256=${CPM_HASH_SUM}
   )
 endif()
 include(${CPM_DOWNLOAD_LOCATION})
+
+# Always build dependencies from source. DiGraphX declares spdlog itself via FetchContent and
+# assumes the source-built spdlog targets; the system-package opt-in (CPM_USE_LOCAL_PACKAGES) would
+# swap in an imported spdlog::spdlog and break that assumption, so spdlog needs no special handling
+# here.
+set(CPM_USE_LOCAL_PACKAGES OFF)
 
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
@@ -77,12 +82,19 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 # fmt is a transitive dependency of the graph libraries; prefer a system-installed fmt when
-# available.
-find_package(fmt CONFIG QUIET)
-if(fmt_FOUND)
-  message(STATUS "Found system fmt: ${fmt_DIR}")
-  set(CPM_fmt_ADDED YES)
-else()
+# available. On MSVC, skip prebuilt system packages (e.g. conda): they are Release-only shared
+# libraries whose std::string ABI (_ITERATOR_DEBUG_LEVEL=0) mismatches Debug builds
+# (_ITERATOR_DEBUG_LEVEL=2), corrupting std::strings returned by fmt::format. Build fmt from source
+# on MSVC so the ABI always matches (same as CI's windows-latest runner).
+if(NOT MSVC)
+  find_package(fmt CONFIG QUIET)
+  if(fmt_FOUND)
+    message(STATUS "Found system fmt: ${fmt_DIR}")
+    set(CPM_fmt_ADDED YES)
+  endif()
+endif()
+
+if(NOT fmt_FOUND)
   CPMAddPackage(
     NAME fmt
     GIT_TAG 12.1.0
@@ -93,7 +105,7 @@ endif()
 
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG v1.6.4
+  GIT_TAG v1.6.6
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "INSTALL_ONLY ON" "PY2CPP_BUILD_TESTS OFF"
 )
@@ -105,7 +117,7 @@ endif()
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG v1.7.7
+  GIT_TAG v1.7.9
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" "XNETWORK_BUILD_TESTS OFF"
 )
@@ -113,50 +125,46 @@ CPMAddPackage(
 # Patch xnetwork testcases.hpp for MSVC v14.51+ strict anonymous enum type traits (error C2139:
 # 'create_test_case1::nodes': an undefined class is not allowed as an argument to compiler intrinsic
 # type trait '__is_constructible')
-if(MSVC AND xnetwork_SOURCE_DIR)
-  set(_tc_file "${xnetwork_SOURCE_DIR}/include/xnetwork/generators/testcases.hpp")
-  if(EXISTS "${_tc_file}")
-    file(READ "${_tc_file}" _tc_content)
-    string(REPLACE "enum nodes { A, B, C, D, E };"
-                   "constexpr uint32_t A = 0, B = 1, C = 2, D = 3, E = 4;" _tc_content
-                   "${_tc_content}"
-    )
-    string(REPLACE "enum nodes { A, B, C };" "constexpr uint32_t A = 0, B = 1, C = 2;" _tc_content
-                   "${_tc_content}"
-    )
-    file(WRITE "${_tc_file}" "${_tc_content}")
-    message(STATUS "Patched xnetwork testcases.hpp for MSVC C2139 compatibility")
-    unset(_tc_file)
-    unset(_tc_content)
+function(netoptim_patch_xnetwork_testcases xnetwork_src_dir)
+  if(NOT MSVC OR NOT EXISTS "${xnetwork_src_dir}/include/xnetwork/generators/testcases.hpp")
+    return()
   endif()
-endif()
-
-# spdlog must be added before DiGraphX (which also adds spdlog) to ensure SPDLOG_FMT_EXTERNAL is
-# set, avoiding linker conflicts with fmt when local fmt package is a shared library Try
-# system-installed spdlog first (Ubuntu: libspdlog-dev, macOS: brew install spdlog, Termux: spdlog)
-find_package(spdlog CONFIG QUIET)
-if(spdlog_FOUND)
-  message(STATUS "Found system spdlog: ${spdlog_DIR}")
-  set(CPM_spdlog_ADDED YES)
-else()
-  CPMAddPackage(
-    NAME spdlog
-    GIT_TAG v1.17.0
-    GITHUB_REPOSITORY gabime/spdlog
-    OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
+  set(_tc_file "${xnetwork_src_dir}/include/xnetwork/generators/testcases.hpp")
+  file(READ "${_tc_file}" _tc_content)
+  string(REPLACE "enum nodes { A, B, C, D, E };"
+                 "constexpr uint32_t A = 0, B = 1, C = 2, D = 3, E = 4;" _tc_content
+                 "${_tc_content}"
   )
-endif()
+  string(REPLACE "enum nodes { A, B, C };" "constexpr uint32_t A = 0, B = 1, C = 2;" _tc_content
+                 "${_tc_content}"
+  )
+  file(WRITE "${_tc_file}" "${_tc_content}")
+  message(STATUS "Patched xnetwork testcases.hpp for MSVC C2139 compatibility")
+endfunction()
+netoptim_patch_xnetwork_testcases("${xnetwork_SOURCE_DIR}")
+
+# spdlog is used by the dependencies' logger sources. SPDLOG_FMT_EXTERNAL is always set so spdlog
+# uses the external fmt and avoids duplicate symbols.
+CPMAddPackage(
+  NAME spdlog
+  GIT_TAG v1.17.0
+  GITHUB_REPOSITORY gabime/spdlog
+  OPTIONS "SPDLOG_INSTALL YES" "SPDLOG_FMT_EXTERNAL YES"
+)
 
 CPMAddPackage(
   NAME DiGraphX
-  GIT_TAG v1.1.7
+  GIT_TAG v1.1.9
   GITHUB_REPOSITORY luk036/digraphx-cpp
   OPTIONS "INSTALL_ONLY ON" "DIGRAPHX_BUILD_TESTS OFF"
 )
 
+# EllAlgo provides the cutting-plane driver (cutting_plane_optim) that drives this repo's oracles
+# (Strategy instances). netoptim oracles use valarray-based cuts compatible with
+# Ell<valarray<double>>.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.9
+  GIT_TAG v1.6.15
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" "ELLALGO_BUILD_TESTS OFF"
 )
@@ -184,8 +192,8 @@ else()
   endif()
 endif()
 
-set(SPECIFIC_LIBS
-    EllAlgo::EllAlgo DiGraphX::DiGraphX XNetwork::XNetwork Py2Cpp::Py2Cpp Threads::Threads fmt::fmt
+set(SPECIFIC_LIBS EllAlgo::EllAlgo DiGraphX::DiGraphX XNetwork::XNetwork Py2Cpp::Py2Cpp
+                  Threads::Threads fmt::fmt
 )
 
 # ellalgo v1.6.9+ compiles spdlog headers in its library but does not link fmt. With
@@ -201,8 +209,7 @@ endif()
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files
 # automatically. Keep that in mind when changing files, or explicitly mention them here.
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS
-     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
+file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
      "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp"
 )
 
@@ -242,21 +249,27 @@ packageProject(
 # ---------------------------------------------------------------------------
 
 if(NETOPTIM_BUILD_STANDALONE)
-  # cxxopts is a header-only CLI parser used by the standalone example
-  CPMAddPackage(
-    GITHUB_REPOSITORY jarro2783/cxxopts
-    VERSION 3.2.1
-    OPTIONS "CXXOPTS_BUILD_EXAMPLES NO" "CXXOPTS_BUILD_TESTS NO" "CXXOPTS_ENABLE_INSTALL NO"
-  )
+  # cxxopts is a header-only CLI parser used by the standalone example. Prefer a consumer- or
+  # system-provided cxxopts; only fall back to CPM when no cxxopts target is available.
+  find_package(cxxopts CONFIG QUIET)
+  if(NOT cxxopts_FOUND AND NOT TARGET cxxopts::cxxopts)
+    CPMAddPackage(
+      GITHUB_REPOSITORY jarro2783/cxxopts
+      VERSION 3.2.1
+      OPTIONS "CXXOPTS_BUILD_EXAMPLES NO" "CXXOPTS_BUILD_TESTS NO" "CXXOPTS_ENABLE_INSTALL NO"
+    )
+  endif()
   # keep third-party headers out of our -Werror scope
-  get_target_property(CXXOPTS_INCLUDE_DIRS cxxopts::cxxopts INTERFACE_INCLUDE_DIRECTORIES)
+  if(TARGET cxxopts::cxxopts)
+    get_target_property(CXXOPTS_INCLUDE_DIRS cxxopts::cxxopts INTERFACE_INCLUDE_DIRECTORIES)
+  endif()
 
   file(GLOB NETOPTIM_STANDALONE_SOURCES CONFIGURE_DEPENDS "standalone/source/*.cpp")
   add_executable(NetOptimStandalone ${NETOPTIM_STANDALONE_SOURCES})
   set_target_properties(NetOptimStandalone PROPERTIES OUTPUT_NAME "NetOptim" CXX_STANDARD 20)
   target_include_directories(NetOptimStandalone SYSTEM PRIVATE ${CXXOPTS_INCLUDE_DIRS})
-  target_link_libraries(NetOptimStandalone PRIVATE NetOptim::NetOptim cxxopts::cxxopts
-                                                 ${SPECIFIC_LIBS}
+  target_link_libraries(
+    NetOptimStandalone PRIVATE NetOptim::NetOptim cxxopts::cxxopts ${SPECIFIC_LIBS}
   )
   target_enable_warnings(NetOptimStandalone)
   target_enable_abseil_suppressions(NetOptimStandalone)
@@ -287,8 +300,9 @@ if(NETOPTIM_BUILD_TESTS)
 
   file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS "test/source/*.cpp")
   add_executable(NetOptimTests ${TEST_SOURCES})
-  target_link_libraries(NetOptimTests PRIVATE doctest::doctest NetOptim::NetOptim ${SPECIFIC_LIBS}
-                                              ${SPECIFIC_ABSEIL_LIBS}
+  target_link_libraries(
+    NetOptimTests PRIVATE doctest::doctest NetOptim::NetOptim ${SPECIFIC_LIBS}
+                          ${SPECIFIC_ABSEIL_LIBS}
   )
   set_target_properties(NetOptimTests PROPERTIES CXX_STANDARD 20)
   target_enable_warnings(NetOptimTests)
@@ -301,6 +315,28 @@ endif()
 # ---------------------------------------------------------------------------
 
 if(NETOPTIM_BUILD_BENCHMARKS)
+  # nanobench is a header-only benchmarking library
+  set(NANOBENCH_VERSION 4.3.11)
+  set(NANOBENCH_DIR "${CMAKE_BINARY_DIR}/_deps/nanobench")
+  set(NANOBENCH_HEADER "${NANOBENCH_DIR}/nanobench.h")
+
+  if(NOT EXISTS "${NANOBENCH_HEADER}")
+    file(MAKE_DIRECTORY "${NANOBENCH_DIR}")
+    file(
+      DOWNLOAD
+      "https://raw.githubusercontent.com/martinus/nanobench/v${NANOBENCH_VERSION}/src/include/nanobench.h"
+      "${NANOBENCH_HEADER}"
+      STATUS download_status
+    )
+    list(GET download_status 0 status_code)
+    if(NOT status_code EQUAL 0)
+      message(FATAL_ERROR "Failed to download nanobench (status ${status_code})")
+    endif()
+  endif()
+
+  add_library(nanobench INTERFACE)
+  target_include_directories(nanobench SYSTEM INTERFACE "${NANOBENCH_DIR}")
+
   file(GLOB_RECURSE ALL_BENCH_CPP CONFIGURE_DEPENDS "benchmark/source/*.cpp")
   foreach(ONE_BENCH_CPP ${ALL_BENCH_CPP})
     get_filename_component(ONE_BENCH_EXEC ${ONE_BENCH_CPP} NAME_WE)
@@ -308,12 +344,13 @@ if(NETOPTIM_BUILD_BENCHMARKS)
 
     add_executable(${TARGET_NAME} ${ONE_BENCH_CPP})
     set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME ${ONE_BENCH_EXEC} CXX_STANDARD 20)
-    target_link_libraries(${TARGET_NAME} PRIVATE NetOptim::NetOptim ${SPECIFIC_LIBS}
-                                                ${SPECIFIC_ABSEIL_LIBS}
+    target_link_libraries(
+      ${TARGET_NAME} PRIVATE nanobench NetOptim::NetOptim ${SPECIFIC_LIBS} ${SPECIFIC_ABSEIL_LIBS}
     )
     target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     target_enable_warnings(${TARGET_NAME})
     target_enable_abseil_suppressions(${TARGET_NAME})
+    add_test(NAME ${ONE_BENCH_EXEC} COMMAND ${TARGET_NAME})
   endforeach()
 endif()
 
@@ -326,8 +363,7 @@ if(NETOPTIM_ENABLE_CLANG_TIDY)
   if(CLANG_TIDY)
     add_custom_target(
       clang-tidy
-      COMMAND ${CLANG_TIDY} --extra-arg=-std=c++20
-              --extra-arg=-I${CMAKE_CURRENT_SOURCE_DIR}/include
+      COMMAND ${CLANG_TIDY} --extra-arg=-std=c++20 --extra-arg=-I${CMAKE_CURRENT_SOURCE_DIR}/include
               ${CMAKE_CURRENT_SOURCE_DIR}/include/netoptim/*.hpp
       COMMENT "Running clang-tidy static analysis"
     )
@@ -396,13 +432,15 @@ if(NETOPTIM_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleCl
       coverage
       COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
       COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/coverage
-      COMMAND ${GCOVR_PATH} --root ${PROJECT_SOURCE_DIR} --html-details
-              ${CMAKE_BINARY_DIR}/coverage/index.html --exclude test/ --exclude build/
-              ${extra_gcovr_args}
+      COMMAND
+        ${GCOVR_PATH} --root ${PROJECT_SOURCE_DIR} --html-details
+        ${CMAKE_BINARY_DIR}/coverage/index.html --exclude test/ --exclude build/ ${extra_gcovr_args}
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
       COMMENT "Generating coverage report in ${CMAKE_BINARY_DIR}/coverage/index.html"
     )
   else()
-    message(WARNING "gcovr not found - coverage target unavailable. Install with: pip install gcovr")
+    message(
+      WARNING "gcovr not found - coverage target unavailable. Install with: pip install gcovr"
+    )
   endif()
 endif()
