@@ -17,9 +17,9 @@ using std::pair;
 using BenchGraph = flat_hash_map<uint32_t, list<pair<uint32_t, double>>>;
 
 struct MockOracle {
-    auto eval(double edge, double) const -> double { return edge; }
-    auto grad(double, double) const -> double { return 0.0; }
-    void update(double) {}
+    auto eval(double edge, double /*unused*/) const -> double { return edge; }
+    auto grad(double /*unused*/, double /*unused*/) const -> double { return 0.0; }
+    void update(double /*unused*/) {}
 };
 
 static auto build_graph(size_t n_nodes, int k = 3) -> BenchGraph {
@@ -28,7 +28,7 @@ static auto build_graph(size_t n_nodes, int k = 3) -> BenchGraph {
         list<pair<uint32_t, double>> nbrs;
         for (int d = 1; d <= k; ++d) {
             auto j = static_cast<uint32_t>((i + d) % n_nodes);
-            double w = static_cast<double>(((i + 1) * 7 + (j + 1) * 13) % 100 + 1);
+            auto w = static_cast<double>(((i + 1) * 7 + (j + 1) * 13) % 100 + 1);
             nbrs.emplace_back(j, w);
         }
         g[i] = std::move(nbrs);
