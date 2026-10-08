@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   NetOptim
-  VERSION 1.2.6
+  VERSION 1.2.7
   LANGUAGES CXX
 )
 
@@ -105,7 +105,7 @@ endif()
 
 CPMAddPackage(
   NAME Py2Cpp
-  GIT_TAG v1.6.4
+  GIT_TAG v1.6.6
   GITHUB_REPOSITORY luk036/py2cpp
   OPTIONS "INSTALL_ONLY ON" "PY2CPP_BUILD_TESTS OFF"
 )
@@ -117,7 +117,7 @@ endif()
 
 CPMAddPackage(
   NAME XNetwork
-  GIT_TAG v1.7.7
+  GIT_TAG v1.7.9
   GITHUB_REPOSITORY luk036/xnetwork-cpp
   OPTIONS "INSTALL_ONLY ON" "XNETWORK_BUILD_TESTS OFF"
 )
@@ -154,7 +154,7 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME DiGraphX
-  GIT_TAG v1.1.7
+  GIT_TAG v1.1.9
   GITHUB_REPOSITORY luk036/digraphx-cpp
   OPTIONS "INSTALL_ONLY ON" "DIGRAPHX_BUILD_TESTS OFF"
 )
@@ -164,7 +164,7 @@ CPMAddPackage(
 # Ell<valarray<double>>.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.14
+  GIT_TAG v1.6.15
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" "ELLALGO_BUILD_TESTS OFF"
 )
