@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7eoptscalingoracle_0',['~OptScalingOracle',['../classOptScalingOracle.html#add1097d136586571f6d8f9b973a2466f',1,'OptScalingOracle']]],
-  ['_7ethreadpool_1',['~ThreadPool',['../classThreadPool.html#a44d3d2ab618970605e684efc216655eb',1,'ThreadPool']]]
+  ['parametric_5fsearch_0',['parametric_search',['../namespacenetoptim__detail.html#a793924fe101fe1b69d2a1468ab90a468',1,'netoptim_detail']]]
 ];

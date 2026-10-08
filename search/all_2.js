@@ -1,14 +1,7 @@
 var searchData=
 [
-  ['about_0',['About',['../about.html',1,'']]],
-  ['about_2edox_1',['about.dox',['../about_8dox.html',1,'']]],
-  ['additional_20tools_2',['Additional tools',['../index.html#autotoc_md8',1,'']]],
-  ['adjust_20the_20template_20to_20your_20needs_3',['Adjust the template to your needs',['../index.html#autotoc_md3',1,'']]],
-  ['alternatives_4',['Related projects and alternatives',['../index.html#autotoc_md12',1,'']]],
-  ['analyzers_5',['Static Analyzers',['../index.html#autotoc_md10',1,'']]],
-  ['and_20alternatives_6',['Related projects and alternatives',['../index.html#autotoc_md12',1,'']]],
-  ['and_20run_20test_20suite_7',['Build and run test suite',['../index.html#autotoc_md5',1,'']]],
-  ['and_20run_20the_20standalone_20target_8',['Build and run the standalone target',['../index.html#autotoc_md4',1,'']]],
-  ['assess_5ffeas_9',['assess_feas',['../classNetworkOracle.html#a0efba23d3188af7c1f35f4161795ff2e',1,'NetworkOracle']]],
-  ['assess_5foptim_10',['assess_optim',['../classOptScalingOracle.html#a03e169844c57ece3417aeab5ce1ddd12',1,'OptScalingOracle']]]
+  ['clang_20format_0',['Run clang-format',['../index.html#autotoc_md6',1,'']]],
+  ['create_5ftest_5fcase1_1',['create_test_case1',['../namespacenetoptim.html#a102dff756137023cfbc155872b7a1c20',1,'netoptim']]],
+  ['create_5ftest_5fcase_5ftiming_2',['create_test_case_timing',['../namespacenetoptim.html#a36cb22785a9cd1d49b6eedbd52306c85',1,'netoptim']]],
+  ['cycle_3',['Cycle',['../structnetoptim__detail_1_1graph__traits.html#adce6448016326440ed21de9258409f73',1,'netoptim_detail::graph_traits']]]
 ];

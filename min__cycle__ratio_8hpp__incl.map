@@ -1,15 +1,25 @@
 <map id="netoptim/min_cycle_ratio.hpp" name="netoptim/min_cycle_ratio.hpp">
-<area shape="rect" id="Node000001" title="Minimum cost&#45;to&#45;time cycle ratio problem solver." alt="" coords="114,5,265,45"/>
+<area shape="rect" id="Node000001" title="Minimum cost&#45;to&#45;time cycle ratio problem solver." alt="" coords="135,5,286,45"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,93,91,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,48,82,89,80,84,154,43"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="115,93,263,119"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,46,192,79,187,79,187,46"/>
-<area shape="rect" id="Node000004" href="$parametric_8hpp.html" title="Maximum parametric problem solver for network optimization." alt="" coords="287,93,409,119"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,43,314,85,311,90,226,48"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="101,167,277,192"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="324,121,229,163,227,159,321,116"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="302,167,394,192"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="351,119,351,153,345,153,345,119"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="418,167,481,192"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="366,116,423,156,420,161,363,121"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,48,85,90,83,85,171,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="66,240,126,265"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,47,111,229,106,226,199,44"/>
+<area shape="rect" id="Node000004" href="$netoptim__detail_8hpp.html" title="Internal implementation helpers shared by the netoptim algorithms." alt="" coords="217,167,370,192"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="223,45,283,153,278,156,219,47"/>
+<area shape="rect" id="Node000009" href="$parametric_8hpp.html" title="Maximum parametric problem solver for network optimization." alt="" coords="298,93,419,119"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="247,43,326,84,323,89,245,48"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="263,195,140,238,138,233,261,190"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="150,240,221,265"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="277,194,216,235,213,230,275,190"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="245,240,421,265"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="302,191,322,227,318,229,298,194"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="446,240,538,265"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="326,190,447,233,446,238,324,195"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="562,240,625,265"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="346,190,549,237,548,242,345,195"/>
+<area shape="poly" id="edge12_Node000009_Node000003" title=" " alt="" coords="321,121,265,141,205,169,159,200,120,232,117,228,156,196,203,164,263,136,319,116"/>
+<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="350,121,315,158,311,155,346,117"/>
+<area shape="poly" id="edge10_Node000009_Node000006" title=" " alt="" coords="369,118,383,151,387,172,384,193,373,214,359,231,355,228,369,211,379,191,381,172,378,153,364,120"/>
+<area shape="poly" id="edge11_Node000009_Node000007" title=" " alt="" coords="372,117,474,228,470,231,368,121"/>
+<area shape="poly" id="edge13_Node000009_Node000008" title=" " alt="" coords="379,117,564,230,562,235,376,121"/>
 </map>

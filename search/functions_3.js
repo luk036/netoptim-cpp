@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['enqueue_0',['enqueue',['../classThreadPool.html#a8f628893c030552d9714c25f68656adc',1,'ThreadPool']]]
+  ['default_5foptions_0',['default_options',['../solve_8hpp.html#a0e050a7a522bc8fbfeae3ca5e4717bcb',1,'solve.hpp']]]
 ];

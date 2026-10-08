@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.6</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.7</span>
    </div>
   </td>
  </tr>
@@ -81,6 +81,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">test_cases_boost.hpp File Reference</div></div>
@@ -101,177 +102,33 @@ Include dependency graph for test_cases_boost.hpp:</div>
 </div>
 <p><a href="test__cases__boost_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacenetoptim" id="r_namespacenetoptim"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenetoptim.html">netoptim</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:aca8697ee7fb774b3b254fdb7db1263ce" id="r_aca8697ee7fb774b3b254fdb7db1263ce"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test__cases__boost_8hpp.html#aca8697ee7fb774b3b254fdb7db1263ce">graph_t</a> = boost::adjacency_list&lt; boost::listS, boost::vecS, boost::directedS, boost::no_property, boost::property&lt; boost::edge_weight_t, int, boost::property&lt; boost::edge_index_t, int &gt; &gt; &gt;</td></tr>
-<tr class="memdesc:aca8697ee7fb774b3b254fdb7db1263ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for Boost adjacency list with edge weights and indices.  <br /></td></tr>
-<tr class="separator:aca8697ee7fb774b3b254fdb7db1263ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af537cbdd6abfdf0f0a8093eae4ac4ecd" id="r_af537cbdd6abfdf0f0a8093eae4ac4ecd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test__cases__boost_8hpp.html#af537cbdd6abfdf0f0a8093eae4ac4ecd">Vertex</a> = boost::graph_traits&lt; <a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a> &gt;::vertex_descriptor</td></tr>
-<tr class="memdesc:af537cbdd6abfdf0f0a8093eae4ac4ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for vertex descriptor.  <br /></td></tr>
-<tr class="separator:af537cbdd6abfdf0f0a8093eae4ac4ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36193b949be065b52cb69e474ad4f32c" id="r_a36193b949be065b52cb69e474ad4f32c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test__cases__boost_8hpp.html#a36193b949be065b52cb69e474ad4f32c">Edge_it</a> = boost::graph_traits&lt; <a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a> &gt;::edge_iterator</td></tr>
-<tr class="memdesc:a36193b949be065b52cb69e474ad4f32c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for edge iterator.  <br /></td></tr>
-<tr class="separator:a36193b949be065b52cb69e474ad4f32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae76e218e9491dd0cd88277b5fd8b3708" id="r_ae76e218e9491dd0cd88277b5fd8b3708"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenetoptim.html#ae76e218e9491dd0cd88277b5fd8b3708">netoptim::Edge_it</a> = boost::graph_traits&lt; <a class="el" href="namespacenetoptim.html#aa4409f2ccb3fd356646ba3b6fcf11abf">graph_t</a> &gt;::edge_iterator</td></tr>
+<tr class="memdesc:ae76e218e9491dd0cd88277b5fd8b3708"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for edge iterator.  <br /></td></tr>
+<tr class="separator:ae76e218e9491dd0cd88277b5fd8b3708"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a621b32ecd79ba7f2372daa9c657fa222" id="r_a621b32ecd79ba7f2372daa9c657fa222"><td class="memTemplParams" colspan="2">template&lt;typename Mapping &gt; </td></tr>
-<tr class="memitem:a621b32ecd79ba7f2372daa9c657fa222"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="test__cases__boost_8hpp.html#a621b32ecd79ba7f2372daa9c657fa222">create_test_case1</a> (const Mapping &amp;weights) -&gt; py::GraphAdaptor&lt; <a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a> &gt;</td></tr>
-<tr class="memdesc:a621b32ecd79ba7f2372daa9c657fa222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a simple 5-node cycle test graph.  <br /></td></tr>
-<tr class="separator:a621b32ecd79ba7f2372daa9c657fa222"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc94c791a40902f7e2d7a6ba36190c81" id="r_adc94c791a40902f7e2d7a6ba36190c81"><td class="memTemplParams" colspan="2">template&lt;typename Mapping &gt; </td></tr>
-<tr class="memitem:adc94c791a40902f7e2d7a6ba36190c81"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="test__cases__boost_8hpp.html#adc94c791a40902f7e2d7a6ba36190c81">create_test_case_timing</a> (const Mapping &amp;weights) -&gt; py::GraphAdaptor&lt; <a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a> &gt;</td></tr>
-<tr class="memdesc:adc94c791a40902f7e2d7a6ba36190c81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 3-node timing test graph with parallel edges.  <br /></td></tr>
-<tr class="separator:adc94c791a40902f7e2d7a6ba36190c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a102dff756137023cfbc155872b7a1c20" id="r_a102dff756137023cfbc155872b7a1c20"><td class="memTemplParams" colspan="2">template&lt;typename Mapping &gt; </td></tr>
+<tr class="memitem:a102dff756137023cfbc155872b7a1c20"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacenetoptim.html#a102dff756137023cfbc155872b7a1c20">netoptim::create_test_case1</a> (const Mapping &amp;weights) -&gt; py::GraphAdaptor&lt; <a class="el" href="namespacenetoptim.html#aa4409f2ccb3fd356646ba3b6fcf11abf">graph_t</a> &gt;</td></tr>
+<tr class="memdesc:a102dff756137023cfbc155872b7a1c20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a simple 5-node cycle test graph with edge IDs.  <br /></td></tr>
+<tr class="separator:a102dff756137023cfbc155872b7a1c20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36cb22785a9cd1d49b6eedbd52306c85" id="r_a36cb22785a9cd1d49b6eedbd52306c85"><td class="memTemplParams" colspan="2">template&lt;typename Mapping &gt; </td></tr>
+<tr class="memitem:a36cb22785a9cd1d49b6eedbd52306c85"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacenetoptim.html#a36cb22785a9cd1d49b6eedbd52306c85">netoptim::create_test_case_timing</a> (const Mapping &amp;weights) -&gt; py::GraphAdaptor&lt; <a class="el" href="namespacenetoptim.html#aa4409f2ccb3fd356646ba3b6fcf11abf">graph_t</a> &gt;</td></tr>
+<tr class="memdesc:a36cb22785a9cd1d49b6eedbd52306c85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 3-node timing test graph with parallel edges and edge IDs.  <br /></td></tr>
+<tr class="separator:a36cb22785a9cd1d49b6eedbd52306c85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Test case generators using Boost Graph Library. </p>
 <p>This module provides factory functions for creating test graphs using the Boost Graph Library (BGL) adjacency list implementation. These test cases are designed for testing network optimization algorithms.</p>
 <p>The graphs created are wrapped in py::GraphAdaptor for compatibility with the network optimization algorithms. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="a36193b949be065b52cb69e474ad4f32c" name="a36193b949be065b52cb69e474ad4f32c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36193b949be065b52cb69e474ad4f32c">&#9670;&#160;</a></span>Edge_it</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="test__cases__boost_8hpp.html#a36193b949be065b52cb69e474ad4f32c">Edge_it</a> =  boost::graph_traits&lt;<a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a>&gt;::edge_iterator</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for edge iterator. </p>
-
-</div>
-</div>
-<a id="aca8697ee7fb774b3b254fdb7db1263ce" name="aca8697ee7fb774b3b254fdb7db1263ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca8697ee7fb774b3b254fdb7db1263ce">&#9670;&#160;</a></span>graph_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a> =  boost::adjacency_list&lt; boost::listS, boost::vecS, boost::directedS, boost::no_property, boost::property&lt;boost::edge_weight_t, int, boost::property&lt;boost::edge_index_t, int&gt; &gt;&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for Boost adjacency list with edge weights and indices. </p>
-
-</div>
-</div>
-<a id="af537cbdd6abfdf0f0a8093eae4ac4ecd" name="af537cbdd6abfdf0f0a8093eae4ac4ecd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af537cbdd6abfdf0f0a8093eae4ac4ecd">&#9670;&#160;</a></span>Vertex</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="test__cases2__boost_8hpp.html#ae4cee34238421c7a4b951bc39177c8e2">Vertex</a> =  boost::graph_traits&lt;<a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a>&gt;::vertex_descriptor</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Type alias for vertex descriptor. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a621b32ecd79ba7f2372daa9c657fa222" name="a621b32ecd79ba7f2372daa9c657fa222"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a621b32ecd79ba7f2372daa9c657fa222">&#9670;&#160;</a></span>create_test_case1()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Mapping &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto create_test_case1 </td>
-          <td>(</td>
-          <td class="paramtype">const Mapping &amp;&#160;</td>
-          <td class="paramname"><em>weights</em></td><td>)</td>
-          <td> -&gt; py::GraphAdaptor&lt;<a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a>&gt; </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a simple 5-node cycle test graph. </p>
-<p>This function creates a simple directed cycle with 5 vertices. The graph structure is: A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; A This is useful for testing basic cycle detection and ratio algorithms.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Mapping</td><td>Type of weight mapping (edge -&gt; weight) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">weights</td><td>weights for the edges in order of creation </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>py::GraphAdaptor&lt;graph_t&gt; wrapped Boost graph </dd></dl>
-
-</div>
-</div>
-<a id="adc94c791a40902f7e2d7a6ba36190c81" name="adc94c791a40902f7e2d7a6ba36190c81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc94c791a40902f7e2d7a6ba36190c81">&#9670;&#160;</a></span>create_test_case_timing()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Mapping &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto create_test_case_timing </td>
-          <td>(</td>
-          <td class="paramtype">const Mapping &amp;&#160;</td>
-          <td class="paramname"><em>weights</em></td><td>)</td>
-          <td> -&gt; py::GraphAdaptor&lt;<a class="el" href="test__cases2__boost_8hpp.html#a180690b463e3586c798c19fa46232909">graph_t</a>&gt; </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a 3-node timing test graph with parallel edges. </p>
-<p>This function creates a more complex graph with 3 vertices and multiple parallel edges between each pair. This is useful for testing algorithms that need to handle graphs with parallel edges and more complex cycle structures.</p>
-<p>The graph includes:</p><ul>
-<li>Bidirectional edges between A and B</li>
-<li>Multiple parallel edges between B and C</li>
-<li>Bidirectional edges between C and A</li>
-</ul>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Mapping</td><td>Type of weight mapping (edge -&gt; weight) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">weights</td><td>weights for the edges in order of creation </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>py::GraphAdaptor&lt;graph_t&gt; wrapped Boost graph </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

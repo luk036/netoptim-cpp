@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['documentation_0',['documentation',['../index.html#autotoc_md7',1,'Build the documentation'],['../about.html#doc',1,'ModernCppStarter Documentation']]]
+  ['features_0',['✨ Features',['../index.html#autotoc_md1',1,'']]],
+  ['format_1',['Run clang-format',['../index.html#autotoc_md6',1,'']]]
 ];

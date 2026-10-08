@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.6</span>
+   <div id="projectname">NetOptim<span id="projectnumber">&#160;1.2.7</span>
    </div>
   </td>
  </tr>
@@ -93,46 +93,23 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;digraphx/neg_cycle.hpp&gt;</span>  <span class="comment">// import NegCycleFinder</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Graph, <span class="keyword">typename</span> T, <span class="keyword">typename</span> Fn1, <span class="keyword">typename</span> Fn2, <span class="keyword">typename</span> Mapping&gt;</div>
-<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="parametric_8hpp.html#a18c6aaeb92a4a215cfb890efae77fedc">   71</a></span><span class="keyword">auto</span> <a class="code hl_function" href="parametric_8hpp.html#a18c6aaeb92a4a215cfb890efae77fedc">max_parametric</a>(<span class="keyword">const</span> Graph&amp; gra, T&amp; r_opt, Fn1&amp;&amp; distrance, Fn2&amp;&amp; zero_cancel, Mapping&amp;&amp; dist,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                    <span class="keywordtype">size_t</span> max_iters = 1000) {</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="comment">// ponytail: deduce Edge type using the same helpers as NegCycleFinder</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keyword">using </span>Elem = <span class="keyword">decltype</span>(*std::declval&lt;const Graph&amp;&gt;().begin());</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keyword">using </span>Nbrs = std::remove_cv_t&lt;std::remove_reference_t&lt;<span class="keyword">decltype</span>(_get_val(</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        std::declval&lt;Elem&gt;(), std::declval&lt;const Graph&amp;&gt;()))&gt;&gt;;</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keyword">using </span>NbrElem = <span class="keyword">decltype</span>(*std::declval&lt;const Nbrs&amp;&gt;().begin());</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keyword">using </span>Edge = std::remove_cv_t&lt;std::remove_reference_t&lt;<span class="keyword">decltype</span>(_get_val(</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        std::declval&lt;NbrElem&gt;(), std::declval&lt;const Nbrs&amp;&gt;()))&gt;&gt;;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keyword">using </span>Cycle = std::vector&lt;Edge&gt;;</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">auto</span> get_weight = [&amp;distrance, &amp;r_opt](<span class="keyword">const</span> Edge&amp; edge) -&gt; T {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(distrance(r_opt, edge));</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    };</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">auto</span> ncf = NegCycleFinder&lt;Graph&gt;(gra);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keyword">auto</span> r_min = r_opt;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keyword">auto</span> c_min = Cycle{};</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">auto</span> c_opt = Cycle{};</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> niter = 0U; niter != max_iters; ++niter) {</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; ci : ncf.howard(dist, get_weight)) {</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="keyword">auto</span> ri = <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(zero_cancel(ci));</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">if</span> (r_min &gt; ri) {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                r_min = ri;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                c_min = std::move(ci);</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            }</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        }</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordflow">if</span> (r_min &gt;= r_opt) <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        c_opt = std::move(c_min);</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        r_opt = r_min;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">return</span> c_opt;</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="netoptim__detail_8hpp.html">netoptim_detail.hpp</a>&quot;</span>  <span class="comment">// import netoptim_detail helpers</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Graph, <span class="keyword">typename</span> T, <span class="keyword">typename</span> Fn1, <span class="keyword">typename</span> Fn2, <span class="keyword">typename</span> Mapping&gt;</div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="parametric_8hpp.html#a18c6aaeb92a4a215cfb890efae77fedc">   74</a></span><span class="keyword">auto</span> <a class="code hl_function" href="parametric_8hpp.html#a18c6aaeb92a4a215cfb890efae77fedc">max_parametric</a>(<span class="keyword">const</span> Graph&amp; gra, T&amp; r_opt, Fn1&amp;&amp; distrance, Fn2&amp;&amp; zero_cancel, Mapping&amp;&amp; dist,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                    <span class="keywordtype">size_t</span> max_iters = 1000) {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacenetoptim__detail.html#a793924fe101fe1b69d2a1468ab90a468">netoptim_detail::parametric_search</a>(gra, r_opt, std::forward&lt;Fn1&gt;(distrance),</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                                              std::forward&lt;Fn2&gt;(zero_cancel),</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                                              std::forward&lt;Mapping&gt;(dist), max_iters);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
 </div>
-<div class="ttc" id="aparametric_8hpp_html_a18c6aaeb92a4a215cfb890efae77fedc"><div class="ttname"><a href="parametric_8hpp.html#a18c6aaeb92a4a215cfb890efae77fedc">max_parametric</a></div><div class="ttdeci">auto max_parametric(const Graph &amp;gra, T &amp;r_opt, Fn1 &amp;&amp;distrance, Fn2 &amp;&amp;zero_cancel, Mapping &amp;&amp;dist, size_t max_iters=1000)</div><div class="ttdoc">Solve the maximum parametric problem.</div><div class="ttdef"><b>Definition</b> parametric.hpp:71</div></div>
+<div class="ttc" id="anamespacenetoptim__detail_html_a793924fe101fe1b69d2a1468ab90a468"><div class="ttname"><a href="namespacenetoptim__detail.html#a793924fe101fe1b69d2a1468ab90a468">netoptim_detail::parametric_search</a></div><div class="ttdeci">auto parametric_search(const Graph &amp;gra, T &amp;r_opt, Fn1 &amp;&amp;distrance, Fn2 &amp;&amp;zero_cancel, Mapping &amp;&amp;dist, size_t max_iters)</div><div class="ttdoc">Template Method: parametric max-problem search skeleton.</div><div class="ttdef"><b>Definition</b> netoptim_detail.hpp:62</div></div>
+<div class="ttc" id="anetoptim__detail_8hpp_html"><div class="ttname"><a href="netoptim__detail_8hpp.html">netoptim_detail.hpp</a></div><div class="ttdoc">Internal implementation helpers shared by the netoptim algorithms.</div></div>
+<div class="ttc" id="aparametric_8hpp_html_a18c6aaeb92a4a215cfb890efae77fedc"><div class="ttname"><a href="parametric_8hpp.html#a18c6aaeb92a4a215cfb890efae77fedc">max_parametric</a></div><div class="ttdeci">auto max_parametric(const Graph &amp;gra, T &amp;r_opt, Fn1 &amp;&amp;distrance, Fn2 &amp;&amp;zero_cancel, Mapping &amp;&amp;dist, size_t max_iters=1000)</div><div class="ttdoc">Solve the maximum parametric problem.</div><div class="ttdef"><b>Definition</b> parametric.hpp:74</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
