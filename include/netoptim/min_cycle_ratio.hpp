@@ -2,6 +2,7 @@
 #pragma once
 
 #include <algorithm>
+#include <stdexcept>
 #include <utility>
 
 #include "netoptim_detail.hpp"  // import netoptim_detail helpers
@@ -92,7 +93,10 @@ auto min_cycle_ratio(const Graph& gra, T& r0, Fn1&& get_cost, Fn2&& get_time, Ma
             total_cost += get_cost(edge);
             total_time += get_time(edge);
         }
-        return T(total_cost) / total_time;
+        if (total_time == time_T(0)) {
+            throw std::domain_error("min_cycle_ratio: cycle has zero total time");
+        }
+        return T(total_cost) / T(total_time);
     };
 
     auto calc_weight = [&](const T& r, const edge_t& edge) -> T {

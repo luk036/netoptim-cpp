@@ -7,26 +7,32 @@ This file provides context and coding guidelines for AI agents working in this r
 - **Name**: NetOptim (Network Optimization)
 - **Type**: Header-only C++ library for network optimization algorithms
 - **Language**: C++20
-- **Build System**: CMake (ModernCppStarter template)
+- **Build System**: CMake (ModernCppStarter template) and xmake
 - **Test Framework**: doctest
-- **Version**: 1.2.2
+- **Version**: 1.2.7
 
 ## Directory Structure
 
 ```
 netoptim-cpp/
-├── include/
-│   ├── netoptim/          # Public headers (.hpp)
-│   └── ThreadPool.h       # Single legacy header
-├── test/
-│   └── source/           # Test files (.cpp)
-├── cmake/                # CMake helper modules
-├── .github/workflows/   # CI configurations
-├── CMakeLists.txt       # Root build file
-└── AGENTS.md           # This file
+├── include/netoptim/     # Public headers (.hpp)
+├── test/source/          # Test files (.cpp)
+├── benchmark/source/     # nanobench benchmarks
+├── .github/workflows/    # CI configurations
+├── CMakeLists.txt        # Root build file
+├── xmake.lua             # xmake build file
+└── AGENTS.md             # This file
 ```
 
 ## Build Commands
+
+### Full Build with xmake
+
+```bash
+xmake f -y -m release
+xmake build -y
+xmake test -y
+```
 
 ### Full Build (all targets)
 
@@ -192,10 +198,8 @@ Managed via CPM.cmake:
 ## GitHub Actions CI
 
 Workflows in `.github/workflows/`:
-- `macos.yml` - macOS build and test
-- `ubuntu.yml` - Ubuntu build and test
-- `windows.yml` - Windows build and test
-- `install.yml` - Installation verification
+- `ci.yml` - matrix build/test (Ubuntu/macOS/Windows), coverage, clang-format check
+- `install.yml` - installation + consumer verification
 - `documentation.yaml` - Doxygen generation
 
 ## Important Notes

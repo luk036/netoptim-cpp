@@ -2,7 +2,7 @@
 #pragma once
 
 #include <algorithm>
-#include <cassert>
+#include <stdexcept>
 #include <valarray>
 
 #include "netoptim_detail.hpp"  // import netoptim_detail helpers
@@ -61,6 +61,9 @@ namespace netoptim_detail {
          * @param[in] x vector containing (pi, psi) in log scale
          * @return constraint value (positive if satisfied) */
         auto eval(const auto& edge, const Vec& x) const -> double {
+            if (x.size() < 2) {
+                throw std::invalid_argument("OptScalingOracle: x must have at least 2 entries");
+            }
             const auto [aij, aji] = this->_get_cost(edge);
             return std::min(x[0] - aji, aij - x[1]);
         }
@@ -75,6 +78,9 @@ namespace netoptim_detail {
          * @param[in] x vector containing (pi, psi) in log scale
          * @return callable `(edge) -> double` evaluating the ratio constraint */
         auto make_weight_fn(const Vec& x) const {
+            if (x.size() < 2) {
+                throw std::invalid_argument("OptScalingOracle: x must have at least 2 entries");
+            }
             const auto x0 = x[0];
             const auto x1 = x[1];
             auto get_cost = this->_get_cost;
@@ -93,6 +99,9 @@ namespace netoptim_detail {
          * @param[in] x vector containing (pi, psi) in log scale
          * @return gradient vector [d/d(pi), d/d(psi)] */
         auto grad(const auto& edge, const Vec& x) const -> Vec {
+            if (x.size() < 2) {
+                throw std::invalid_argument("OptScalingOracle: x must have at least 2 entries");
+            }
             const auto [aij, aji] = this->_get_cost(edge);
             return (x[0] - aji < aij - x[1]) ? Vec{1., 0.} : Vec{0., -1.};
         }
@@ -182,6 +191,9 @@ class OptScalingOracle {
      * @return tuple of (cut, whether gamma was updated)
      * @see cutting_plane_optim */
     auto assess_optim(const Vec& x, double& t) -> std::tuple<Cut, bool> {
+        if (x.size() < 2) {
+            throw std::invalid_argument("OptScalingOracle: x must have at least 2 entries");
+        }
         static_assert(
             netoptim_detail::OracleOptim<OptScalingOracle<Graph, Mapping, Fn>, Vec, double>,
             "OptScalingOracle must model the optimality-oracle contract");

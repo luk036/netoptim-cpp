@@ -4,6 +4,7 @@
 #include <digraphx/neg_cycle.hpp>  // import NegCycleFinder
 #include <limits>
 #include <optional>
+#include <stdexcept>
 #include <tuple>
 #include <valarray>
 
@@ -83,6 +84,9 @@ template <typename Graph, typename Mapping> class ClockScheduleOracle {
         }
         if (best) {
             return {std::move(*best), false};
+        }
+        if (beta == 0.0) {
+            throw std::domain_error("ClockScheduleOracle: beta is zero (unbounded ratio)");
         }
         gamma = tcp / beta;
         return {Cut{Vec{1.0, -1.0}, 0.0}, true};

@@ -115,8 +115,8 @@ class NetworkOracle {
      * @param[in] xval input values to be assessed for feasibility
      * @return Empty if feasible, otherwise a pair containing gradient and
      *         function value */
-    template <typename Arr>
-    auto assess_feas(const Arr& xval) -> std::optional<std::pair<Arr, double>> {
+    template <typename Arr> auto assess_feas(const Arr& xval)
+        -> std::optional<std::pair<Arr, double>> {
         static_assert(netoptim_detail::OracleFeas<NetworkOracle<Graph, Mapping, Fn>, Arr>,
                       "NetworkOracle must model the feasibility-oracle contract");
         using Edge = typename netoptim_detail::graph_traits<Graph>::Edge;
@@ -126,6 +126,9 @@ class NetworkOracle {
         auto best = std::optional<std::pair<Arr, double>>{};
         auto best_ratio = std::numeric_limits<double>::infinity();
         for (auto&& C : this->_S.howard(this->_u, get_weight)) {
+            if (C.empty()) {
+                continue;
+            }
             auto weight_sum = 0.0;
             for (auto&& edge : C) {
                 weight_sum += get_weight(edge);
@@ -158,8 +161,8 @@ class NetworkOracle {
      * @tparam Arr Type of the input array/vector
      * @param[in] xvar input variables to be assessed
      * @return Same as assess_feas */
-    template <typename Arr>
-    auto operator()(const Arr& xvar) -> std::optional<std::pair<Arr, double>> {
+    template <typename Arr> auto operator()(const Arr& xvar)
+        -> std::optional<std::pair<Arr, double>> {
         return this->assess_feas(xvar);
     }
 };

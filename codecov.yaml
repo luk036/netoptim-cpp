@@ -1,5 +1,8 @@
 ignore:
-  - "test"
+  - "test/"
+  - "benchmark/"
+  - "standalone/"
+  - "test_installed/"
 
 comment:
   require_changes: true

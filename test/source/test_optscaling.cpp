@@ -8,6 +8,7 @@
 #include <list>
 #include <netoptim/optscaling_oracle.hpp>
 #include <numbers>
+#include <stdexcept>
 #include <utility>   // for pair
 #include <valarray>  // for valarray
 
@@ -36,4 +37,22 @@ TEST_CASE("Test OptScalingOracle assess_optim") {
 
     const auto [cut, shrunk] = omega.assess_optim(x, gamma);
     CHECK(shrunk);
+}
+
+TEST_CASE("Test OptScalingOracle rejects undersized iterate") {
+    using CostGraph
+        = absl::flat_hash_map<uint32_t, std::list<std::pair<uint32_t, std::pair<double, double>>>>;
+
+    CostGraph gra{
+        {0, {{{1, {1.0, 2.0}}}}},
+    };
+    auto get_cost = [](const std::pair<double, double>& edge_data) -> std::pair<double, double> {
+        return edge_data;
+    };
+
+    absl::flat_hash_map<uint32_t, double> dist{{0, 0.0}};
+    auto omega = OptScalingOracle(gra, dist, get_cost);
+    auto gamma = std::numeric_limits<double>::infinity();
+
+    CHECK_THROWS_AS(omega.assess_optim(std::valarray<double>{1.0}, gamma), std::invalid_argument);
 }

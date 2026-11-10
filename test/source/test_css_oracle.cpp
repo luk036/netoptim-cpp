@@ -8,6 +8,7 @@
 #include <limits>
 #include <map>
 #include <netoptim/css_oracle.hpp>
+#include <stdexcept>
 #include <utility>
 #include <valarray>
 
@@ -57,4 +58,15 @@ TEST_CASE("Test ClockScheduleOracle minimize ratio") {
     CHECK_NE(xbest.size(), 0U);
     CHECK_LT(niter, options.max_iters);
     CHECK_EQ(gamma, doctest::Approx(3.040717067415985));
+}
+
+TEST_CASE("Test ClockScheduleOracle rejects zero beta") {
+    auto gra = create_ratio_tcg();
+    auto dist = create_dist();
+    auto omega = ClockScheduleOracle(gra, dist);
+
+    const auto x = std::valarray<double>{100.0, 0.0};
+    auto gamma = std::numeric_limits<double>::infinity();
+
+    CHECK_THROWS_AS(omega.assess_optim(x, gamma), std::domain_error);
 }

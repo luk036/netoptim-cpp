@@ -12,13 +12,16 @@ if is_mode("release") then
 end
 -- require std::optional
 
-if is_mode("coverage") then
+if is_mode("coverage") and not is_plat("windows") then
     add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
+    add_ldflags("-fprofile-arcs", {force = true})
 end
 
-if is_plat("linux") then
+if is_plat("linux") or is_plat("macosx") then
     set_warnings("all", "error")
-    -- add_cxflags("-Wconversion", {force = true})
+    if is_plat("linux") then
+        -- add_cxflags("-Wconversion", {force = true})
+    end
     -- Check if we're on Termux/Android
     local termux_prefix = os.getenv("PREFIX")
     if termux_prefix then
@@ -28,6 +31,7 @@ if is_plat("linux") then
     end
 elseif is_plat("windows") then
     add_cxflags("/EHsc /utf-8 /W4 /WX /wd4702", { force = true })
+    add_defines("_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS")
 end
 
 -- ellalgo-cpp include (cutting-plane driver lives here)
@@ -59,30 +63,27 @@ target("test_netoptim")
 
 target("bench_neg_cycle")
     set_kind("binary")
+    set_default(false)
     set_languages("c++20")
     add_includedirs("../digraphx-cpp/include", {public = true})
     add_includedirs("../py2cpp/include", {public = true})
     add_includedirs("include", {public = true})
     add_files("benchmark/source/bench_neg_cycle.cpp")
     add_packages("abseil", "nanobench", "fmt")
-    if is_plat("windows") then
-        add_cxflags("/EHsc /W4 /wd4702", { force = true })
-    end
 
 target("bench_network_oracle")
     set_kind("binary")
+    set_default(false)
     set_languages("c++20")
     add_includedirs("../digraphx-cpp/include", {public = true})
     add_includedirs("../py2cpp/include", {public = true})
     add_includedirs("include", {public = true})
     add_files("benchmark/source/bench_network_oracle.cpp")
     add_packages("abseil", "nanobench", "fmt")
-    if is_plat("windows") then
-        add_cxflags("/EHsc /W4 /wd4702", { force = true })
-    end
 
 target("bench_optscaling")
     set_kind("binary")
+    set_default(false)
     set_languages("c++20")
     add_deps("EllAlgo")
     add_includedirs("../digraphx-cpp/include", {public = true})
@@ -90,9 +91,6 @@ target("bench_optscaling")
     add_includedirs("include", {public = true})
     add_files("benchmark/source/bench_optscaling.cpp")
     add_packages("abseil", "nanobench")
-    if is_plat("windows") then
-        add_cxflags("/EHsc /W4 /wd4702", { force = true })
-    end
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
