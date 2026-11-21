@@ -1,13 +1,13 @@
 <map id="netoptim/netoptim_detail.hpp" name="netoptim/netoptim_detail.hpp">
-<area shape="rect" id="Node000001" title="Internal implementation helpers shared by the netoptim algorithms." alt="" coords="239,5,455,31"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,76,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,33,90,81,89,76,297,28"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="101,79,277,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="323,33,228,75,226,71,321,28"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="301,79,393,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="350,31,350,65,345,65,345,31"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="417,79,477,104"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="365,29,421,68,418,73,362,33"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="501,79,564,104"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="378,28,491,71,489,76,376,33"/>
+<area shape="rect" id="Node000001" title="Internal implementation helpers shared by the netoptim algorithms." alt="" coords="236,5,452,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,81,75,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,36,90,83,89,78,286,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="99,81,274,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="318,33,229,77,227,72,313,34"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="298,81,390,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="346,32,346,67,342,64,342,35"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="414,81,474,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="363,31,417,72,412,71,361,36"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="498,81,560,109"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="378,31,487,76,481,76,377,36"/>
 </map>

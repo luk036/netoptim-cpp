@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['threadpool_0',['ThreadPool',['../classThreadPool.html',1,'']]]
+  ['ratio_0',['Ratio',['../classnetoptim__detail_1_1Ratio.html',1,'netoptim_detail']]]
 ];

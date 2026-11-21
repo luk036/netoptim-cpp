@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['boost_0',['boost',['../namespaceboost.html',1,'']]]
+  ['netoptim_5fdetail_0',['netoptim_detail',['../namespacenetoptim__detail.html',1,'']]]
 ];

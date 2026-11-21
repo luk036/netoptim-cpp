@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['id_5ftag_0',['id_tag',['../namespaceboost.html#a7aefe4e19588a96bfecbcba19cf27153a663e0af814394590d236db2b54eb0729',1,'boost']]]
+  ['haskeytype_0',['HasKeyType',['../conceptnetoptim__detail_1_1HasKeyType.html',1,'netoptim_detail']]],
+  ['hasmakeweightfn_1',['HasMakeWeightFn',['../conceptnetoptim__detail_1_1HasMakeWeightFn.html',1,'netoptim_detail']]]
 ];

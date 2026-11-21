@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ratio_0',['ratio',['../classnetoptim__detail_1_1Ratio.html#ab030f676f60f3c0c60434e6d4e63fd68',1,'netoptim_detail::Ratio::Ratio(const Graph &amp;gra, Fn get_cost)'],['../classnetoptim__detail_1_1Ratio.html#ac5bc370480539326419dace029713830',1,'netoptim_detail::Ratio::Ratio(const Ratio &amp;)=default']]]
+  ['solve_5fnetwork_5ffeas_0',['solve_network_feas',['../solve_8hpp.html#a7c193d887e2d7ec539188c498b1797d7',1,'solve.hpp']]],
+  ['solve_5fopt_5fscaling_1',['solve_opt_scaling',['../solve_8hpp.html#a4bd84a2fe1298a07f893ea59ae2010a8',1,'solve.hpp']]]
 ];

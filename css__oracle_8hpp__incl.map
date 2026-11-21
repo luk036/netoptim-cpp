@@ -1,0 +1,26 @@
+<map id="netoptim/css_oracle.hpp" name="netoptim/css_oracle.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="158,5,339,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="65,157,240,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,34,71,54,36,67,15,83,9,93,9,103,13,112,21,121,48,137,83,150,78,153,46,142,18,125,9,115,4,104,4,92,11,79,34,62,70,49,160,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="25,81,83,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,36,99,80,96,75,215,31"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="107,81,182,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="232,32,177,74,174,70,228,35"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="206,81,291,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="250,31,251,67,246,64,247,36"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="315,81,369,109"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="266,31,316,71,311,71,265,36"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="394,81,469,109"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="282,31,387,74,382,76,281,36"/>
+<area shape="rect" id="Node000008" href="$netoptim__detail_8hpp.html" title="Internal implementation helpers shared by the netoptim algorithms." alt="" coords="492,81,645,109"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="306,31,499,76,494,78,306,36"/>
+<area shape="poly" id="edge9_Node000008_Node000002" title=" " alt="" coords="495,112,243,156,242,151,493,107"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="379,157,449,184"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="544,109,456,152,454,147,538,110"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="472,157,564,184"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="562,108,537,146,534,141,557,110"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="588,157,648,184"/>
+<area shape="poly" id="edge11_Node000008_Node000011" title=" " alt="" coords="579,107,603,145,598,143,576,112"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="672,157,734,184"/>
+<area shape="poly" id="edge12_Node000008_Node000012" title=" " alt="" coords="593,107,669,150,664,149,592,112"/>
+</map>

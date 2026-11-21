@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['min_5fcycle_5fratio_2ehpp_0',['min_cycle_ratio.hpp',['../min__cycle__ratio_8hpp.html',1,'']]]
+  ['css_5foracle_2ehpp_0',['css_oracle.hpp',['../css__oracle_8hpp.html',1,'']]]
 ];

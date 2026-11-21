@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['threadpool_0',['ThreadPool',['../classThreadPool.html#ac291710e33dbbed96ee20711080d506d',1,'ThreadPool']]]
+  ['_7eoptscalingoracle_0',['~OptScalingOracle',['../classOptScalingOracle.html#add1097d136586571f6d8f9b973a2466f',1,'OptScalingOracle']]]
 ];

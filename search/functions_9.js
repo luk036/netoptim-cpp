@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parametric_5fsearch_0',['parametric_search',['../namespacenetoptim__detail.html#a793924fe101fe1b69d2a1468ab90a468',1,'netoptim_detail']]]
+  ['ratio_0',['Ratio',['../classnetoptim__detail_1_1Ratio.html#ab030f676f60f3c0c60434e6d4e63fd68',1,'netoptim_detail::Ratio::Ratio(const Graph &amp;gra, Fn get_cost)'],['../classnetoptim__detail_1_1Ratio.html#ac5bc370480539326419dace029713830',1,'netoptim_detail::Ratio::Ratio(const Ratio &amp;)=default']]]
 ];

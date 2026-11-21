@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['nbrelem_0',['NbrElem',['../structnetoptim__detail_1_1graph__traits.html#a034de8e0ec85c7a044eacfa791515cc8',1,'netoptim_detail::graph_traits']]],
-  ['nbrs_1',['Nbrs',['../structnetoptim__detail_1_1graph__traits.html#aab564c2db976a1e5b7f9348d43993ce0',1,'netoptim_detail::graph_traits']]]
+  ['vec_0',['Vec',['../classnetoptim__detail_1_1Ratio.html#af0192cd20d3adddc47bb380bbe068a02',1,'netoptim_detail::Ratio']]]
 ];

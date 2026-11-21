@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['parametric_2ehpp_0',['parametric.hpp',['../parametric_8hpp.html',1,'']]],
-  ['primal_5fdual_2ehpp_1',['primal_dual.hpp',['../primal__dual_8hpp.html',1,'']]]
+  ['optscaling_5foracle_2ehpp_0',['optscaling_oracle.hpp',['../optscaling__oracle_8hpp.html',1,'']]]
 ];
