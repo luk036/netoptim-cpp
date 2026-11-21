@@ -3,10 +3,11 @@
 
 #include <array>  // for array
 #include <iostream>
-#include <netoptim/min_cycle_ratio.hpp>       // for min_cycle_ratio
-#include <py2cpp/dict.hpp>                    // for dict
-#include <py2cpp/enumerate.hpp>               // for iterable_wrapper
-#include <py2cpp/fractions.hpp>               // for Fraction, operator-
+#include <netoptim/min_cycle_ratio.hpp>  // for min_cycle_ratio
+#include <py2cpp/dict.hpp>               // for dict
+#include <py2cpp/enumerate.hpp>          // for iterable_wrapper
+#include <py2cpp/fractions.hpp>          // for Fraction, operator-
+#include <stdexcept>
 #include <vector>                             // for vector
 #include <xnetwork/classes/digraphs.hpp>      // for DiGraphS
 #include <xnetwork/generators/testcases.hpp>  // for create_test_case1,
@@ -45,4 +46,34 @@ TEST_CASE("Test Cycle Ratio of Timing Graph") {
     CHECK_FALSE(c.empty());
     CHECK_EQ(r, fun::Fraction<int>(1, 1));
     CHECK_EQ(c.size(), 3);
+}
+
+TEST_CASE("Test Cycle Ratio rejects zero total time") {
+    const auto indices = std::array<uint32_t, 5>{0, 1, 2, 3, 4};
+    auto gra = create_test_case1(indices);
+
+    const auto cost = std::array<int, 5>{-1, -1, -1, -1, -1};
+    const auto get_cost = [&](int edge_idx) -> int { return cost[edge_idx]; };
+    const auto get_time = [](int /*edge_idx*/) -> int { return 0; };
+
+    auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
+    auto r = fun::Fraction<int>(0);
+
+    CHECK_THROWS_AS(min_cycle_ratio(gra, r, get_cost, get_time, dist), std::domain_error);
+}
+
+TEST_CASE("Test Cycle Ratio zero max_iters returns no cycle") {
+    const auto indices = std::array<uint32_t, 5>{0, 1, 2, 3, 4};
+    auto gra = create_test_case1(indices);
+
+    const auto cost = std::array<int, 5>{5, 1, 1, 1, 1};
+    const auto get_cost = [&](int edge_idx) -> int { return cost[edge_idx]; };
+    const auto get_time = [](int /*edge_idx*/) -> int { return 1; };
+
+    auto dist = std::vector<fun::Fraction<int>>(gra.number_of_nodes(), fun::Fraction<int>(0));
+    auto r = fun::Fraction<int>(5);
+
+    const auto c = min_cycle_ratio(gra, r, get_cost, get_time, dist, 0);
+    CHECK(c.empty());
+    CHECK_EQ(r, fun::Fraction<int>(5));
 }

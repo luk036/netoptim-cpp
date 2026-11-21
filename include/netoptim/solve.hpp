@@ -59,7 +59,7 @@ inline auto solve_network_feas(O& omega, S& space, const Options& options = defa
  */
 template <typename O, typename S, typename N>
 inline auto solve_opt_scaling(O& omega, S& space, N& gamma,
-                              const Options& options = default_options())
-    -> std::tuple<CuttingPlaneArrayType<S>, size_t> {
+                              const Options& options
+                              = default_options()) -> std::tuple<CuttingPlaneArrayType<S>, size_t> {
     return cutting_plane_optim(omega, space, gamma, options);
 }

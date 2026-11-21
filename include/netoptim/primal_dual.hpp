@@ -2,7 +2,7 @@
 #pragma once
 
 #include <algorithm>
-#include <cassert>
+#include <stdexcept>
 #include <utility>
 
 /**
@@ -83,8 +83,14 @@ auto min_vertex_cover_pd(const Graph& gra, C1& cover, const C2& weight) {
         gap[vtx] = T(0);
     }
 
-    assert(total_dual_cost <= total_primal_cost);
-    assert(total_primal_cost <= 2 * total_dual_cost);
+    if (total_dual_cost > total_primal_cost) {
+        throw std::logic_error(
+            "min_vertex_cover_pd: dual cost exceeds primal cost (invalid weights?)");
+    }
+    if (total_primal_cost > 2 * total_dual_cost) {
+        throw std::logic_error(
+            "min_vertex_cover_pd: 2-approximation guarantee violated (invalid weights?)");
+    }
     return total_primal_cost;
 }
 
@@ -141,6 +147,10 @@ template <typename Graph, typename C1, typename C2>
 auto min_maximal_independant_set_pd(const Graph& gra, C1& indset, C1& dep, const C2& weight) {
     using T = typename C2::value_type;
 
+    if (&indset == &dep) {
+        throw std::invalid_argument("min_maximal_independant_set_pd: indset and dep must differ");
+    }
+
     auto cover = [&](const auto& utx) {
         dep[utx] = true;
         for (auto&& vtx : gra[utx]) {
@@ -149,7 +159,6 @@ auto min_maximal_independant_set_pd(const Graph& gra, C1& indset, C1& dep, const
     };
 
     auto gap = weight;
-    [[maybe_unused]] auto total_dual_cost = T(0);
     auto total_primal_cost = T(0);
     for (auto&& utx : gra) {
         if (dep[utx]) {
@@ -173,7 +182,6 @@ auto min_maximal_independant_set_pd(const Graph& gra, C1& indset, C1& dep, const
         cover(min_vtx);
         indset[min_vtx] = true;
         total_primal_cost += weight[min_vtx];
-        total_dual_cost += min_val;
         if (min_vtx == utx) {
             continue;
         }

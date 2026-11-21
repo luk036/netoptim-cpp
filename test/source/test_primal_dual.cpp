@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdint>
 #include <netoptim/primal_dual.hpp>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -230,4 +231,12 @@ TEST_CASE("Test Min Maximal Independent Set - Star Graph") {
     }
 
     CHECK_GT(cost, 0);
+}
+
+TEST_CASE("Test Min Maximal Independent Set - Rejects Aliased Sets") {
+    auto gra = PdGraph(2, {{0, 1}});
+    auto sets = std::vector<bool>(2, false);
+    auto weight = std::vector<int>{1, 1};
+
+    CHECK_THROWS_AS(min_maximal_independant_set_pd(gra, sets, sets, weight), std::invalid_argument);
 }
