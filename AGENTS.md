@@ -83,7 +83,8 @@ cmake --build build --target GenerateDocs
 
 ### Enable Sanitizers
 
-Configure CMake with `-DUSE_SANITIZER=<Address | Memory | Undefined | Thread | Leak | 'Address;Undefined'>`
+No CMake option; pass the flags yourself, e.g.
+`-DCMAKE_CXX_FLAGS="-fsanitize=address,undefined" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined"`.
 
 ### Enable Static Analyzers
 
